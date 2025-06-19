@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { PeriodSelector } from './PeriodSelector'
 import { FinancialScoreCard } from './FinancialScoreCard'
@@ -27,7 +27,7 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
   const [isLoading, setIsLoading] = useState(true)
   const [currentFilter, setCurrentFilter] = useState<PeriodFilter>({ type: 'custom' })
 
-  const loadAdvancedData = async () => {
+  const loadAdvancedData = useCallback(async () => {
     setIsLoading(true)
     try {
       
@@ -45,11 +45,11 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [userId, currentFilter])
 
   useEffect(() => {
     loadAdvancedData()
-  }, [userId, currentFilter, loadAdvancedData])
+  }, [loadAdvancedData])
 
   const handlePeriodChange = (filter: PeriodFilter) => {
     setCurrentFilter(filter)

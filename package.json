@@ -17,7 +17,9 @@
     "test:generate": "bun run scripts/generate-tests.ts",
     "db:test-sync": "tsx scripts/test-user-sync.ts",
     "prepare": "husky",
-    "pre-commit": "bunx lint-staged"
+    "pre-commit": "bunx lint-staged",
+    "verify": "bun run lint && bun run type-check && bun run test",
+    "verify:quick": "bun run lint && bun run type-check"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

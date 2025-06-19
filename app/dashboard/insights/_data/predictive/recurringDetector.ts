@@ -61,7 +61,7 @@ export default function detectRecurringTransactions(transactions: any[]): Recurr
     groupedByValue.get(key)!.push(t)
   })
   
-  groupedByValue.forEach((group, key) => {
+  groupedByValue.forEach((group) => {
     if (group.length < 2) {return} // Apenas 2 ocorrÃªncias jÃ¡ Ã© suficiente
     
     group.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())

@@ -1,1 +1,26 @@
+#!/usr/bin/env sh
+
+echo "🔍 Executando verificações antes do commit..."
+
+echo "🧹 Executando linter..."
+bun run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Linter falhou! Corrija os erros antes de fazer commit."
+  exit 1
+fi
+
+echo "🧪 Executando testes..."
+bun run test
+if [ $? -ne 0 ]; then
+  echo "❌ Testes falharam! Corrija os testes antes de fazer commit."
+  exit 1
+fi
+
+echo "🎨 Executando lint-staged..."
 bun run pre-commit
+if [ $? -ne 0 ]; then
+  echo "❌ Lint-staged falhou! Corrija os problemas antes de fazer commit."
+  exit 1
+fi
+
+echo "✅ Todas as verificações passaram! Prosseguindo com o commit..."

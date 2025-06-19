@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef, useCallback } from "react";
 import { JSX } from "react";
 
 class Pixel {
@@ -197,7 +197,7 @@ export default function PixelCard({
   const finalColors = colors ?? variantCfg.colors;
   const finalNoFocus = noFocus ?? variantCfg.noFocus;
 
-  const initPixels = () => {
+  const initPixels = useCallback(() => {
     if (!containerRef.current || !canvasRef.current) {return;}
 
     const rect = containerRef.current.getBoundingClientRect();
@@ -236,7 +236,7 @@ export default function PixelCard({
       }
     }
     pixelsRef.current = pxs;
-  };
+  }, [finalGap, finalSpeed, finalColors, reducedMotion]);
 
   const doAnimate = (fnName: keyof Pixel) => {
     animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
@@ -298,7 +298,7 @@ export default function PixelCard({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [finalGap, finalSpeed, finalColors, finalNoFocus, initPixels]);
+  }, [initPixels]);
 
   return (
     <div

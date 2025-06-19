@@ -73,7 +73,7 @@ export const transformToCategoryData = (categoryMap: Map<string, any>): Category
   const totalExpenses = Array.from(categoryMap.values()).reduce((sum, data) => sum + data.total, 0)
   
   return Array.from(categoryMap.entries())
-    .map(([key, data]) => ({
+    .map(([_, data]) => ({
       label: data.name,
       value: data.total,
       color: data.color,

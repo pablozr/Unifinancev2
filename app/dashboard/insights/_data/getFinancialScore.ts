@@ -17,7 +17,7 @@ export interface FinancialScore {
 
 export async function getFinancialScore(
   userId: string, 
-  _filter: PeriodFilter = { type: 'custom' }
+  _: PeriodFilter = { type: 'custom' }
 ): Promise<FinancialScore> {
   const supabase = await createClient()
   
