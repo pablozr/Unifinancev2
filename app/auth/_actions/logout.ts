@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -15,10 +15,8 @@ export default async function logout() {
 
     const { error } = await supabase.auth.signOut()
     if (error) {
-      console.error('Logout error:', error.message)
     }
   } catch (error) {
-    console.error('Unexpected logout error:', error)
   }
 
   redirect('/login')

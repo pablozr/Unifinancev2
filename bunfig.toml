@@ -1,0 +1,15 @@
+[test]
+# Padrão para arquivos de teste: *.test.ts, *.test.tsx
+testNamePattern = "**/*.test.{ts,tsx,js,jsx}"
+
+# Timeout para testes (30 segundos)
+timeout = 30000
+
+# Detectar memory leaks
+detectLeaks = true
+
+# Cobertura de código
+coverage = true
+
+# Rodar testes em paralelo
+concurrent = true 

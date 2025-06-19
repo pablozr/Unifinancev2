@@ -1,4 +1,4 @@
-import { categorizeTransactions, applyAdvancedRules, mapCategoriesToIds } from './categorizationRefactored'
+﻿import { categorizeTransactions, applyAdvancedRules, mapCategoriesToIds } from './categorizationRefactored'
 import { ensureDefaultCategories } from '../_data/getDefaultCategories'
 import { ProcessedTransaction } from '../_types/types'
 import { v4 as uuidv4 } from 'uuid'
@@ -15,22 +15,17 @@ export default async function processAutoCategorization(
   userId: string
 ): Promise<CategorizationResult> {
   try {
-    console.log('🤖 Iniciando categorização automática...')
     
-    // Garantir que as categorias padrão existem para o usuário
     const userCategories = await ensureDefaultCategories(userId)
-    console.log(`📂 Categorias disponíveis: ${userCategories.length}`)
     
-    // Aplicar categorização automática
     let categorizedTransactions = categorizeTransactions(validatedTransactions)
     categorizedTransactions = applyAdvancedRules(categorizedTransactions)
     categorizedTransactions = mapCategoriesToIds(categorizedTransactions, userCategories)
     
-    // Converter para ProcessedTransaction
     const processedTransactions: ProcessedTransaction[] = categorizedTransactions.map(transaction => {
       const parsedDate = parseDateBR(transaction.date)
       if (!parsedDate) {
-        throw new Error(`Data inválida: ${transaction.date}`)
+        throw new Error(`Data invÃ¡lida: ${transaction.date}`)
       }
       
       return {
@@ -55,7 +50,7 @@ export default async function processAutoCategorization(
   } catch (error) {
     return {
       success: false,
-      error: `Erro na categorização: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
+      error: `Erro na categorizaÃ§Ã£o: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
     }
   }
 } 

@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 import { cache } from 'react'
 import { getDatabase } from '@/lib/supabase/database'
 import type { PeriodFilter } from '../../_data/types'
@@ -16,7 +16,7 @@ export interface InsightMetrics {
 
 /**
  * @function getInsightMetrics
- * @description Calcula métricas avançadas para insights
+ * @description Calcula mÃ©tricas avanÃ§adas para insights
  */
 export const getInsightMetrics = cache(async (
   userId: string,
@@ -24,7 +24,6 @@ export const getInsightMetrics = cache(async (
 ): Promise<InsightMetrics> => {
   const database = getDatabase()
   
-  // Definir range de datas
   const dateRange = filter 
     ? getDateRangeFromFilter(filter)
     : { 
@@ -33,7 +32,7 @@ export const getInsightMetrics = cache(async (
       }
 
   if (!dateRange) {
-    throw new Error('Range de datas inválido')
+    throw new Error('Range de datas invÃ¡lido')
   }
 
   const transactions = await database.findManyTransactions({
@@ -42,7 +41,6 @@ export const getInsightMetrics = cache(async (
     includeCategories: true
   })
 
-  // Calcular métricas mensais
   const monthlyData = new Map<string, { income: number; expenses: number }>()
   const categorySpending = new Map<string, number>()
 
@@ -62,7 +60,6 @@ export const getInsightMetrics = cache(async (
     } else {
       monthData.expenses += amount
       
-      // Rastrear gastos por categoria
       const categoryName = transaction.categories?.name || 'Outros'
       categorySpending.set(categoryName, (categorySpending.get(categoryName) || 0) + amount)
     }
@@ -70,26 +67,21 @@ export const getInsightMetrics = cache(async (
 
   const months = Array.from(monthlyData.values())
   
-  // Calcular médias
   const avgMonthlyIncome = months.reduce((sum, m) => sum + m.income, 0) / months.length || 0
   const avgMonthlyExpenses = months.reduce((sum, m) => sum + m.expenses, 0) / months.length || 0
   
-  // Taxa de poupança
   const savingsRate = avgMonthlyIncome > 0 
     ? ((avgMonthlyIncome - avgMonthlyExpenses) / avgMonthlyIncome) * 100 
     : 0
 
-  // Categoria com mais gastos
   const topSpendingCategory = Array.from(categorySpending.entries())
     .sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A'
 
-  // Crescimento de gastos (últimos 2 meses)
   const recentMonths = months.slice(-2)
   const expenseGrowth = recentMonths.length === 2
     ? calculatePercentageChange(recentMonths[1].expenses, recentMonths[0].expenses)
     : 0
 
-  // Estabilidade da renda (desvio padrão)
   const incomeVariance = months.reduce((sum, m) => {
     return sum + Math.pow(m.income - avgMonthlyIncome, 2)
   }, 0) / months.length || 0

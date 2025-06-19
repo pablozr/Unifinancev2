@@ -1,4 +1,4 @@
-import normalizeText from './textNormalizer'
+﻿import normalizeText from './textNormalizer'
 
 export interface FallbackMatch {
   category: string
@@ -7,34 +7,33 @@ export interface FallbackMatch {
 }
 
 /**
- * Categorização fallback baseada em padrões simples
+ * CategorizaÃ§Ã£o fallback baseada em padrÃµes simples
  */
 export default function fallbackCategorization(description: string): FallbackMatch | null {
   const desc = normalizeText(description)
   
-  // Padrões comuns em extratos brasileiros
   if (desc.includes('compra') || desc.includes('debito')) {
     if (desc.includes('posto') || desc.includes('gas') || desc.includes('combustivel')) {
       return {
         category: 'Transporte',
         confidence: 15,
-        reason: 'Padrão de combustível detectado'
+        reason: 'PadrÃ£o de combustÃ­vel detectado'
       }
     } 
     
     if (desc.includes('farmacia') || desc.includes('drog')) {
       return {
-        category: 'Saúde',
+        category: 'SaÃºde',
         confidence: 15,
-        reason: 'Padrão de farmácia detectado'
+        reason: 'PadrÃ£o de farmÃ¡cia detectado'
       }
     } 
     
     if (desc.includes('mercado') || desc.includes('super')) {
       return {
-        category: 'Alimentação',
+        category: 'AlimentaÃ§Ã£o',
         confidence: 15,
-        reason: 'Padrão de supermercado detectado'
+        reason: 'PadrÃ£o de supermercado detectado'
       }
     }
   }
@@ -43,7 +42,7 @@ export default function fallbackCategorization(description: string): FallbackMat
     return {
       category: 'Outros',
       confidence: 12,
-      reason: 'Transferência detectada'
+      reason: 'TransferÃªncia detectada'
     }
   }
   

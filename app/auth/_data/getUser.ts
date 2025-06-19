@@ -6,12 +6,11 @@ export default cache(async () => {
     const supabase = await createClient()
     const { data: { user }, error } = await supabase.auth.getUser()
     if (error) {
-      console.log('Error getting user:', error)
       return null
     }
     return user
   } catch (error) {
-    console.log('Exception getting user:', error)
+    // ... existing code ...
     return null
   }
 }) 

@@ -1,15 +1,15 @@
-/**
- * @fileoverview Utilitários específicos para insights
- * @description Funções auxiliares específicas para cálculos e transformações de insights
+﻿/**
+ * @fileoverview UtilitÃ¡rios especÃ­ficos para insights
+ * @description FunÃ§Ãµes auxiliares especÃ­ficas para cÃ¡lculos e transformaÃ§Ãµes de insights
  */
 
 import type { MonthlyData, CategoryData } from '../types'
 
 /**
  * @function generateMonthLabel
- * @description Gera label formatado do mês em português
+ * @description Gera label formatado do mÃªs em portuguÃªs
  * @param {Date} date - Data para gerar o label
- * @returns {string} Label do mês formatado
+ * @returns {string} Label do mÃªs formatado
  */
 export const generateMonthLabel = (date: Date): string => {
   const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
@@ -19,7 +19,7 @@ export const generateMonthLabel = (date: Date): string => {
 
 /**
  * @function generateMonthKey
- * @description Gera chave única para agrupamento mensal
+ * @description Gera chave Ãºnica para agrupamento mensal
  * @param {Date} date - Data para gerar a chave
  * @returns {string} Chave no formato "YYYY-M"
  */
@@ -29,9 +29,9 @@ export const generateMonthKey = (date: Date): string => {
 
 /**
  * @function calculateAvgTicket
- * @description Calcula ticket médio das transações
- * @param {any[]} transactions - Array de transações
- * @returns {number} Valor do ticket médio
+ * @description Calcula ticket mÃ©dio das transaÃ§Ãµes
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
+ * @returns {number} Valor do ticket mÃ©dio
  */
 export const calculateAvgTicket = (transactions: any[]): number => {
   if (transactions.length === 0) return 0
@@ -41,9 +41,9 @@ export const calculateAvgTicket = (transactions: any[]): number => {
 
 /**
  * @function filterMonthlyData
- * @description Filtra dados mensais baseado no filtro de período
+ * @description Filtra dados mensais baseado no filtro de perÃ­odo
  * @param {Map<string, any>} monthlyGroups - Grupos mensais
- * @param {any} filter - Filtro de período
+ * @param {any} filter - Filtro de perÃ­odo
  * @returns {Array} Entradas filtradas
  */
 export const filterMonthlyData = (monthlyGroups: Map<string, any>, filter?: any) => {
@@ -57,7 +57,6 @@ export const filterMonthlyData = (monthlyGroups: Map<string, any>, filter?: any)
       sortedEntries = sortedEntries.filter(([key]) => key === targetKey)
     }
   } else {
-    // Padrão: últimos 6 meses
     sortedEntries = sortedEntries.slice(-6)
   }
   
@@ -86,8 +85,8 @@ export const transformToCategoryData = (categoryMap: Map<string, any>): Category
 
 /**
  * @function buildCategoryMap
- * @description Constrói mapa de categorias a partir das transações
- * @param {any[]} transactions - Array de transações
+ * @description ConstrÃ³i mapa de categorias a partir das transaÃ§Ãµes
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
  * @returns {Map<string, any>} Mapa de categorias
  */
 export const buildCategoryMap = (transactions: any[]): Map<string, any> => {

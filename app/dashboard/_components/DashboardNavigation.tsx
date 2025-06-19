@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { User } from '@supabase/supabase-js'
 import Link from 'next/link'
@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import logout from '@/app/auth/_actions/logout'
 
-// Ícones customizados para seguir o padrão do projeto
 const HomeIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -60,7 +59,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   {
-    name: 'Visão Geral',
+    name: 'VisÃ£o Geral',
     href: '/dashboard',
     icon: HomeIcon,
     description: 'Dashboard principal'
@@ -69,13 +68,13 @@ const navigation: NavigationItem[] = [
     name: 'Insights',
     href: '/dashboard/insights',
     icon: ChartBarIcon,
-    description: 'Gráficos e análises'
+    description: 'GrÃ¡ficos e anÃ¡lises'
   },
   {
     name: 'Importador CSV',
     href: '/dashboard/csv-importer',
     icon: DocumentArrowUpIcon,
-    description: 'Importar transações'
+    description: 'Importar transaÃ§Ãµes'
   }
 ]
 
@@ -155,9 +154,9 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
         <p className="text-sm text-gray-400 mt-1">Dashboard Premium</p>
       </div>
 
-      {/* Ações de Transação */}
+      {/* AÃ§Ãµes de TransaÃ§Ã£o */}
       <div className="p-4 border-b border-gray-700 space-y-3">
-        {/* Botão Adicionar */}
+        {/* BotÃ£o Adicionar */}
         <motion.button
           onClick={handleAddTransaction}
           initial={{ opacity: 0, y: 10 }}
@@ -169,10 +168,10 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           <div className="p-1 bg-white/20 rounded-lg mr-2 flex-shrink-0">
             <PlusIcon />
           </div>
-          <span className="whitespace-nowrap">Adicionar Transação</span>
+          <span className="whitespace-nowrap">Adicionar TransaÃ§Ã£o</span>
         </motion.button>
 
-        {/* Botão Excluir */}
+        {/* BotÃ£o Excluir */}
         <motion.button
           onClick={() => {
             const params = new URLSearchParams(searchParams.toString())
@@ -190,7 +189,7 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           <div className="p-1 bg-white/20 rounded-lg mr-2 flex-shrink-0">
             <TrashIcon />
           </div>
-          <span className="whitespace-nowrap">Excluir Transação</span>
+          <span className="whitespace-nowrap">Excluir TransaÃ§Ã£o</span>
         </motion.button>
       </div>
 

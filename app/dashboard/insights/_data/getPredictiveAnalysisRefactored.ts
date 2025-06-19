@@ -1,9 +1,8 @@
-'use server'
+﻿'use server'
 import { createClient } from '@/lib/supabase/server'
 import { getDateRangeFromFilter } from '../../_data/utils/dateUtils'
 import type { PeriodFilter } from '../../_data/types'
 
-// Importar módulos refatorados
 import {
   detectRecurringTransactions,
   projectCashFlow,
@@ -40,7 +39,6 @@ export async function getPredictiveAnalysisRefactored(
 ): Promise<PredictiveAnalysis> {
   const supabase = await createClient()
   
-  // 1. Configurar range de dados (pelo menos 12 meses para análise robusta)
   let dateRange = getDateRangeFromFilter(filter)
   
   if (!dateRange || filter.type === 'custom') {
@@ -51,7 +49,6 @@ export async function getPredictiveAnalysisRefactored(
       end: new Date()
     }
   } else {
-    // Expandir range para incluir pelo menos 6 meses de dados históricos
     const expandedStart = new Date(dateRange.start)
     expandedStart.setMonth(expandedStart.getMonth() - 6)
     dateRange = {
@@ -60,13 +57,11 @@ export async function getPredictiveAnalysisRefactored(
     }
   }
   
-  console.log('🔮 Advanced predictive analysis using date range:', {
     start: dateRange.start.toISOString(),
     end: dateRange.end.toISOString(),
     filterType: filter.type
   })
   
-  // 2. Buscar transações
   const { data: transactions, error } = await supabase
     .from('transactions')
     .select(`
@@ -82,18 +77,16 @@ export async function getPredictiveAnalysisRefactored(
     .order('date', { ascending: true })
     
   if (error) {
-    console.error('❌ Error fetching transactions for prediction:', error)
     return {
       nextMonthExpenses: 0,
       nextMonthIncome: 0,
       nextMonthBalance: 0,
       confidence: 0,
       trend: 'stable',
-      recommendation: 'Dados insuficientes para análise preditiva avançada'
+      recommendation: 'Dados insuficientes para anÃ¡lise preditiva avanÃ§ada'
     }
   }
 
-  // 3. Agrupar dados por mês
   const monthlyData = groupTransactionsByMonth(transactions)
   
   if (monthlyData.length < 3) {
@@ -103,18 +96,16 @@ export async function getPredictiveAnalysisRefactored(
       nextMonthBalance: monthlyData[0]?.balance || 0,
       confidence: 25,
       trend: 'stable',
-      recommendation: 'Precisa de pelo menos 3 meses de dados para análise preditiva robusta'
+      recommendation: 'Precisa de pelo menos 3 meses de dados para anÃ¡lise preditiva robusta'
     }
   }
 
-  // 4. Executar análises especializadas
   const recurringTransactions = detectRecurringTransactions(transactions)
   const seasonality = detectSeasonality(monthlyData)
   const volatilityScore = calculateVolatility(monthlyData)
   const cyclicalPattern = detectCyclicalPatterns(monthlyData)
   const trendAnalysis = analyzeTrendsWithMovingAverage(monthlyData)
 
-  // 5. Calcular regressões lineares
   const nextMonthIndex = monthlyData.length
   const incomePoints = monthlyData.map((data, index) => ({ x: index, y: data.income }))
   const expensePoints = monthlyData.map((data, index) => ({ x: index, y: data.expenses }))
@@ -124,7 +115,6 @@ export async function getPredictiveAnalysisRefactored(
   const expenseRegression = linearRegression(expensePoints)
   const balanceRegression = linearRegression(balancePoints)
 
-  // 6. Predições inteligentes baseadas em múltiplos fatores
   const predictions = calculateSmartPredictions({
     monthlyData,
     recurringTransactions,
@@ -139,7 +129,6 @@ export async function getPredictiveAnalysisRefactored(
     nextMonthIndex
   })
 
-  // 7. Calcular confiança do modelo
   const confidence = calculateModelConfidence({
     monthlyData,
     recurringTransactions,
@@ -148,17 +137,13 @@ export async function getPredictiveAnalysisRefactored(
     regressions: { income: incomeRegression, expense: expenseRegression }
   })
 
-  // 8. Determinar tendência
   const trend = determineTrend(balanceRegression, trendAnalysis)
 
-  // 9. Gerar insights automáticos
   const automaticInsights = generateAutomaticInsights(transactions, recurringTransactions, monthlyData)
 
-  // 10. Projetar fluxo de caixa
   const currentBalance = monthlyData[monthlyData.length - 1]?.balance || 0
   const cashFlowProjection = projectCashFlow(recurringTransactions, currentBalance)
 
-  // 11. Gerar recomendação inteligente
   const recommendation = generateSmartRecommendation({
     trend,
     confidence,
@@ -167,7 +152,6 @@ export async function getPredictiveAnalysisRefactored(
     cashFlowProjection
   })
 
-  console.log('🔮 Advanced prediction results:', {
     confidence: confidence.toFixed(1),
     trend,
     recurringTransactions: recurringTransactions.length,
@@ -192,7 +176,6 @@ export async function getPredictiveAnalysisRefactored(
   }
 }
 
-// === FUNÇÕES AUXILIARES ===
 
 function groupTransactionsByMonth(transactions: any[]): MonthlyDataPoint[] {
   const monthlyData = new Map<string, MonthlyDataPoint>()
@@ -238,7 +221,6 @@ function calculateSmartPredictions(params: {
 }) {
   const { monthlyData, recurringTransactions, seasonality, regressions, nextMonthIndex } = params
   
-  // Calcular recorrências mensais
   const allRecurringIncome = recurringTransactions
     .filter(rt => rt.type === 'income')
     .reduce((sum, rt) => {
@@ -257,16 +239,13 @@ function calculateSmartPredictions(params: {
       return sum + monthlyEquivalent
     }, 0)
   
-  // Médias recentes (últimos 3 meses)
   const recentMonths = monthlyData.slice(-3)
   const recentAvgIncome = recentMonths.reduce((sum, m) => sum + m.income, 0) / recentMonths.length
   const recentAvgExpenses = recentMonths.reduce((sum, m) => sum + m.expenses, 0) / recentMonths.length
   
-  // Predições baseadas em regressão
   let regressionIncome = regressions.income.slope * nextMonthIndex + regressions.income.intercept
   let regressionExpenses = regressions.expense.slope * nextMonthIndex + regressions.expense.intercept
   
-  // Pesos adaptativos baseados na qualidade dos dados
   const regressionQuality = (regressions.income.r2 + regressions.expense.r2) / 2
   const recurringQuality = recurringTransactions.length > 0 ? 
     recurringTransactions.reduce((sum, rt) => sum + rt.confidence, 0) / recurringTransactions.length / 100 : 0
@@ -275,7 +254,6 @@ function calculateSmartPredictions(params: {
   const weightRegression = Math.min(0.35, regressionQuality * 0.5)
   const weightRecent = 1 - weightRecurring - weightRegression
   
-  // Combinar predições
   let predictedIncome = 
     (allRecurringIncome * weightRecurring) +
     (regressionIncome * weightRegression) +
@@ -286,16 +264,14 @@ function calculateSmartPredictions(params: {
     (regressionExpenses * weightRegression) +
     (recentAvgExpenses * weightRecent)
   
-  // Aplicar fator sazonal se detectado
   if (seasonality.confidence > 20) {
     const seasonalFactor = 1 + (seasonality.factor - 1) * (seasonality.confidence / 100)
     predictedIncome *= seasonalFactor
     predictedExpenses *= seasonalFactor
   }
   
-  // Garantir valores realistas
   const lastMonth = monthlyData[monthlyData.length - 1]
-  const maxChange = 0.25 // Máximo 25% de variação
+  const maxChange = 0.25 // MÃ¡ximo 25% de variaÃ§Ã£o
   
   predictedIncome = Math.max(0, Math.min(
     lastMonth.income * (1 + maxChange),
@@ -325,22 +301,17 @@ function calculateModelConfidence(params: {
   
   let confidence = 40 // Base conservadora
   
-  // Confiança baseada na quantidade de dados
   confidence += Math.min(25, monthlyData.length * 2.5)
   
-  // Confiança baseada na qualidade da regressão
   const regressionBoost = (regressions.income.r2 + regressions.expense.r2) * 20
   confidence += regressionBoost
   
-  // Confiança baseada em recorrências detectadas
   const recurringBoost = Math.min(25, recurringTransactions.length * 2.5)
   confidence += recurringBoost
   
-  // Reduzir confiança baseada na volatilidade
   const volatilityPenalty = volatilityScore * 30
   confidence -= volatilityPenalty
   
-  // Adicionar confiança se há sazonalidade detectada
   if (seasonality.confidence > 20) {
     const seasonalBoost = Math.min(15, seasonality.confidence / 4)
     confidence += seasonalBoost
@@ -369,24 +340,24 @@ function generateSmartRecommendation(params: {
   const { trend, confidence, volatilityScore, recurringTransactions, cashFlowProjection } = params
   
   if (cashFlowProjection.alertDays.length > 0) {
-    return `⚠️ Alerta: Saldo pode ficar negativo em ${cashFlowProjection.alertDays[0]} dias. Revise gastos recorrentes de R$ ${cashFlowProjection.recurringExpenses.toFixed(2)}.`
+    return `âš ï¸ Alerta: Saldo pode ficar negativo em ${cashFlowProjection.alertDays[0]} dias. Revise gastos recorrentes de R$ ${cashFlowProjection.recurringExpenses.toFixed(2)}.`
   }
   
   if (trend === 'up' && confidence > 70) {
-    return `📈 Tendência positiva detectada com ${recurringTransactions.length} padrões recorrentes identificados. Continue otimizando gastos fixos.`
+    return `ðŸ“ˆ TendÃªncia positiva detectada com ${recurringTransactions.length} padrÃµes recorrentes identificados. Continue otimizando gastos fixos.`
   }
   
   if (trend === 'down' && confidence > 60) {
-    return `📉 Tendência de queda com alta confiança. Foque em reduzir as ${recurringTransactions.filter(rt => rt.type === 'expense').length} despesas recorrentes detectadas.`
+    return `ðŸ“‰ TendÃªncia de queda com alta confianÃ§a. Foque em reduzir as ${recurringTransactions.filter(rt => rt.type === 'expense').length} despesas recorrentes detectadas.`
   }
   
   if (volatilityScore > 0.5) {
-    return `🎢 Alta volatilidade (${(volatilityScore * 100).toFixed(1)}%). Considere automatizar mais receitas e despesas para maior previsibilidade.`
+    return `ðŸŽ¢ Alta volatilidade (${(volatilityScore * 100).toFixed(1)}%). Considere automatizar mais receitas e despesas para maior previsibilidade.`
   }
   
   if (recurringTransactions.length > 5) {
-    return `🔄 Padrão financeiro bem estruturado com ${recurringTransactions.length} transações recorrentes. Foque em otimizar os valores.`
+    return `ðŸ”„ PadrÃ£o financeiro bem estruturado com ${recurringTransactions.length} transaÃ§Ãµes recorrentes. Foque em otimizar os valores.`
   }
   
-  return `💡 Finanças estáveis. Considere criar mais receitas recorrentes e controlar melhor gastos variáveis.`
+  return `ðŸ’¡ FinanÃ§as estÃ¡veis. Considere criar mais receitas recorrentes e controlar melhor gastos variÃ¡veis.`
 } 

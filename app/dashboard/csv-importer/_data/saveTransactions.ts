@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+﻿import { createClient } from '@/lib/supabase/server'
 import { ProcessedTransaction } from '../_types/types'
 import { formatDateForDB } from '@/lib/utils/validDate'
 
@@ -16,7 +16,6 @@ export default async function saveTransactions(
   try {
     const supabase = await createClient()
     
-    console.log('💾 Salvando transações no banco...')
     
     const transactionsToInsert = transactions.map(transaction => ({
       id: transaction.id,
@@ -38,9 +37,7 @@ export default async function saveTransactions(
       .insert(transactionsToInsert)
 
     if (transactionError) {
-      console.error('❌ Erro ao salvar transações:', transactionError)
       
-      // Limpar registro de import se falhou
       await supabase
         .from('csv_imports')
         .delete()
@@ -48,17 +45,15 @@ export default async function saveTransactions(
       
       return { 
         success: false, 
-        error: `Erro ao salvar transações: ${transactionError.message}` 
+        error: `Erro ao salvar transaÃ§Ãµes: ${transactionError.message}` 
       }
     }
 
-    // Atualizar status do import para concluído
     await supabase
       .from('csv_imports')
       .update({ status: 'completed' })
       .eq('id', importId)
 
-    console.log('📊 Transações salvas:', transactionsToInsert.length)
 
     return {
       success: true,
@@ -67,7 +62,7 @@ export default async function saveTransactions(
   } catch (error) {
     return {
       success: false,
-      error: `Erro ao salvar transações: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
+      error: `Erro ao salvar transaÃ§Ãµes: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
     }
   }
 } 

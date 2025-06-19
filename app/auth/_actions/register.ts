@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { registerFormSchemaBasic, formatZodError, type AuthResult } from '@/lib/validations/auth'
@@ -12,7 +12,7 @@ export default async function register(_: AuthResult, formData: FormData): Promi
   }
 
   if (!rawData.email || !rawData.password || !rawData.confirmPassword) {
-    return { success: false, error: 'Todos os campos são obrigatórios' }
+    return { success: false, error: 'Todos os campos sÃ£o obrigatÃ³rios' }
   }
 
   const result = registerFormSchemaBasic.safeParse(rawData)
@@ -39,7 +39,6 @@ export default async function register(_: AuthResult, formData: FormData): Promi
       error: 'Conta criada com sucesso! Verifique seu email para confirmar sua conta.'
     }
   } catch (error) {
-    console.error('Register error:', error)
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 

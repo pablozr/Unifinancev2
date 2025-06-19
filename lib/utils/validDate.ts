@@ -12,36 +12,30 @@ export function isValidDate(dateString: string): boolean {
     return false
   }
 
-  // Remove espaços em branco
   const cleanDate = dateString.trim()
   
-  // Regex para formatos comuns de data brasileira
   const dateFormats = [
-    /^\d{1,2}\/\d{1,2}\/\d{4}$/,     // DD/MM/YYYY ou D/M/YYYY
-    /^\d{1,2}\/\d{1,2}\/\d{2}$/,     // DD/MM/YY ou D/M/YY
-    /^\d{1,2}-\d{1,2}-\d{4}$/,       // DD-MM-YYYY ou D-M-YYYY
-    /^\d{1,2}-\d{1,2}-\d{2}$/,       // DD-MM-YY ou D-M-YY
-    /^\d{1,2}\.\d{1,2}\.\d{4}$/,     // DD.MM.YYYY ou D.M.YYYY
-    /^\d{4}-\d{1,2}-\d{1,2}$/,       // YYYY-MM-DD (ISO format - apenas quando explícito)
+    /^\d{1,2}\/\d{1,2}\/\d{4}$/,
+    /^\d{1,2}\/\d{1,2}\/\d{2}$/,
+    /^\d{1,2}-\d{1,2}-\d{4}$/,
+    /^\d{1,2}-\d{1,2}-\d{2}$/,
+    /^\d{1,2}\.\d{1,2}\.\d{4}$/,
+    /^\d{4}-\d{1,2}-\d{1,2}$/,
   ]
 
-  // Verifica se o formato está correto
   const hasValidFormat = dateFormats.some(format => format.test(cleanDate))
   if (!hasValidFormat) {
     return false
   }
 
-  // Tenta criar um objeto Date usando parsing brasileiro
   const date = parseDateBR(cleanDate)
   if (!date) {
     return false
   }
 
-  // Verifica se a data não é muito antiga ou muito futura
   const currentYear = new Date().getFullYear()
   const dateYear = date.getFullYear()
   
-  // Aceita datas entre 1900 e 10 anos no futuro
   if (dateYear < 1900 || dateYear > currentYear + 10) {
     return false
   }
@@ -60,20 +54,17 @@ export function parseDateBR(dateString: string): Date | null {
 
   const cleaned = dateString.trim()
   
-  // Tentar formato ISO explícito YYYY-MM-DD primeiro (apenas quando tem 4 dígitos no início)
   const isoFormat = cleaned.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)
   if (isoFormat) {
     const year = parseInt(isoFormat[1])
-    const month = parseInt(isoFormat[2]) - 1 // Date usa 0-11 para meses
+    const month = parseInt(isoFormat[2]) - 1
     const day = parseInt(isoFormat[3])
     
-    // Validar valores
     if (month < 0 || month > 11 || day < 1 || day > 31) {
       return null
     }
     
     const date = new Date(year, month, day)
-    // Verificar se a data é válida (não houve overflow)
     if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
       return null
     }
@@ -81,7 +72,6 @@ export function parseDateBR(dateString: string): Date | null {
     return date
   }
 
-  // Formatos brasileiros (DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY)
   const separators = ['/', '-', '.']
   
   for (const separator of separators) {
@@ -93,20 +83,16 @@ export function parseDateBR(dateString: string): Date | null {
         const month = parseInt(parts[1])
         let year = parseInt(parts[2])
         
-        // Ajustar ano de 2 dígitos (assumir 20XX para anos < 50, 19XX para >= 50)
         if (year < 100) {
           year = year < 50 ? 2000 + year : 1900 + year
         }
         
-        // Validar valores básicos
         if (month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > 2100) {
           continue
         }
         
-        // Criar data (mês em JavaScript é 0-11)
         const date = new Date(year, month - 1, day)
         
-        // Verificar se a data é válida (não houve overflow)
         if (date.getFullYear() !== year || date.getMonth() !== (month - 1) || date.getDate() !== day) {
           continue
         }
@@ -116,7 +102,6 @@ export function parseDateBR(dateString: string): Date | null {
     }
   }
   
-  console.warn(`Formato de data não reconhecido: ${dateString}`)
   return null
 }
 

@@ -1,4 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
+﻿import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
@@ -27,7 +27,6 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired - with error handling
   let user = null
   try {
     const { data, error } = await supabase.auth.getUser()
@@ -35,11 +34,8 @@ export async function middleware(request: NextRequest) {
       user = data.user
     }
   } catch (error) {
-    console.log('Middleware auth error:', error)
-    // Continue without user - will redirect to login if needed
   }
 
-  // Protected routes
   const protectedRoutes = ['/dashboard', '/profile', '/settings']
   const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password']
   
@@ -50,14 +46,12 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Skip middleware for root path and static assets
   if (request.nextUrl.pathname === '/' || 
       request.nextUrl.pathname.startsWith('/_next') ||
       request.nextUrl.pathname.startsWith('/api')) {
     return supabaseResponse
   }
 
-  // Redirect to login if accessing protected route without auth
   if (isProtectedRoute && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
@@ -65,9 +59,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Redirect to dashboard if accessing auth routes while authenticated
   if (isAuthRoute && user) {
-    // Check if there's a redirect parameter to avoid loops
     const redirectTo = request.nextUrl.searchParams.get('redirectTo')
     if (redirectTo && redirectTo !== '/dashboard') {
       const url = request.nextUrl.clone()

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { motion } from 'framer-motion'
 import { useState, useEffect, useCallback } from 'react'
@@ -15,7 +15,6 @@ interface TransactionsModalProps {
   currentFilter: PeriodFilter
 }
 
-// Ícones simples em SVG
 const TrendingUpIcon = () => (
   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
     <path fillRule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
@@ -29,7 +28,6 @@ const TrendingDownIcon = () => (
 )
 
 export function TransactionsModal({ userId, currentFilter }: TransactionsModalProps) {
-  // Usar nuqs para controlar estado do modal na URL
   const [isOpen, setIsOpen] = useQueryState('transacoes', {
     defaultValue: '',
     serialize: (value) => value === 'todas' ? 'todas' : '',
@@ -47,13 +45,11 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
 
   const isModalOpen = isOpen === 'todas'
 
-  // Função para abrir o modal
   const openModal = useCallback(() => {
     setIsOpen('todas')
     setCurrentPage(1)
   }, [setIsOpen, setCurrentPage])
 
-  // Função para fechar o modal
   const closeModal = useCallback(() => {
     setIsOpen('')
     setCurrentPage(1)
@@ -65,13 +61,12 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
       const data = await getAllTransactions(userId, currentPage, 10, currentFilter)
       setPaginatedData(data)
     } catch (error) {
-      console.error('❌ Error loading transactions:', error)
+      // ... existing code ...
     } finally {
       setIsLoading(false)
     }
   }, [userId, currentPage, currentFilter])
 
-  // Carregar dados quando o modal abrir ou página/filtro mudar
   useEffect(() => {
     if (isModalOpen) {
       loadTransactions()
@@ -82,15 +77,14 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
     setCurrentPage(page)
   }
 
-  // Criar subtítulo dinâmico
   const getSubtitle = () => {
-    const count = paginatedData ? `${paginatedData.totalCount} transações encontradas` : 'Carregando...'
+    const count = paginatedData ? `${paginatedData.totalCount} transaÃ§Ãµes encontradas` : 'Carregando...'
     const filterLabel = currentFilter && currentFilter.type !== 'custom' ? (
       currentFilter.type === 'monthly' && currentFilter.year && currentFilter.month !== undefined
-        ? ` • ${['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'][currentFilter.month]} ${currentFilter.year}`
+        ? ` â€¢ ${['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'][currentFilter.month]} ${currentFilter.year}`
         : currentFilter.type === 'yearly' && currentFilter.year
-        ? ` • Ano ${currentFilter.year}`
-        : ' • Últimos 6 meses'
+        ? ` â€¢ Ano ${currentFilter.year}`
+        : ' â€¢ Ãšltimos 6 meses'
     ) : ''
     
     return count + filterLabel
@@ -98,7 +92,7 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
 
   return (
     <>
-      {/* Botão para abrir o modal */}
+      {/* BotÃ£o para abrir o modal */}
       <button 
         onClick={openModal}
         className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors duration-200"
@@ -110,7 +104,7 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
       <BaseModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title="Todas as Transações"
+        title="Todas as TransaÃ§Ãµes"
         subtitle={getSubtitle()}
         size="xl"
       >
@@ -118,12 +112,12 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-              <p className="text-gray-400">Carregando transações...</p>
+              <p className="text-gray-400">Carregando transaÃ§Ãµes...</p>
             </div>
           </div>
         ) : paginatedData && paginatedData.transactions.length > 0 ? (
           <>
-            {/* Lista de Transações */}
+            {/* Lista de TransaÃ§Ãµes */}
             <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
               {paginatedData.transactions.map((transaction, index) => (
                 <motion.div
@@ -179,11 +173,11 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
               ))}
             </div>
 
-            {/* Paginação */}
+            {/* PaginaÃ§Ã£o */}
             {paginatedData.totalPages > 1 && (
               <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-800/50">
                 <div className="text-sm text-gray-400">
-                  Página {paginatedData.currentPage} de {paginatedData.totalPages}
+                  PÃ¡gina {paginatedData.currentPage} de {paginatedData.totalPages}
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
@@ -230,8 +224,8 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Nenhuma transação encontrada</h3>
-              <p className="text-gray-400">Não há transações para o período selecionado.</p>
+              <h3 className="text-lg font-semibold text-white mb-2">Nenhuma transaÃ§Ã£o encontrada</h3>
+              <p className="text-gray-400">NÃ£o hÃ¡ transaÃ§Ãµes para o perÃ­odo selecionado.</p>
             </div>
           </div>
         )}

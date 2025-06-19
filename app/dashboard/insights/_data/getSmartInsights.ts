@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 import { createActionClient, createClient } from '@/lib/supabase/server'
 import { getDateRangeFromFilter } from '../../_data/utils/dateUtils'
 import type { PeriodFilter } from '../../_data/types'
@@ -29,10 +29,8 @@ export async function getSmartInsights(
 ): Promise<SmartInsight[]> {
   const supabase = await createClient()
   
-  // Aplicar filtro de período se fornecido
   let dateRange = getDateRangeFromFilter(filter)
   
-  // Se não há range específico ou é um filtro custom, usar os últimos 3 meses para insights
   if (!dateRange || filter.type === 'custom') {
     const threeMonthsAgo = new Date()
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
@@ -42,11 +40,7 @@ export async function getSmartInsights(
     }
   }
   
-  console.log('🧠 Smart insights using date range:', {
-    start: dateRange.start.toISOString(),
-    end: dateRange.end.toISOString(),
-    filterType: filter.type
-  })
+
   
   const { data: transactions, error } = await supabase
     .from('transactions')
@@ -63,16 +57,13 @@ export async function getSmartInsights(
     .order('date', { ascending: true })
     
   if (error || !transactions.length) {
-    console.log('🧠 No transactions found for insights analysis')
     return []
   }
 
   const insights: SmartInsight[] = []
   
-  // Análise 1: Gastos Incomuns - Adaptado para o período filtrado
   const periodDays = Math.ceil((dateRange.end.getTime() - dateRange.start.getTime()) / (1000 * 60 * 60 * 24))
   
-  // Se o período for maior que 60 dias, comparar metades do período
   if (periodDays > 60) {
     const midPoint = new Date(dateRange.start.getTime() + (dateRange.end.getTime() - dateRange.start.getTime()) / 2)
     
@@ -97,27 +88,26 @@ export async function getSmartInsights(
       if (expenseChange > 20) {
         insights.push({
           type: 'alert',
-          title: 'Gastos Aumentaram no Período',
-          description: `Seus gastos na segunda metade do período estão ${expenseChange.toFixed(1)}% acima da primeira metade`,
+          title: 'Gastos Aumentaram no PerÃ­odo',
+          description: `Seus gastos na segunda metade do perÃ­odo estÃ£o ${expenseChange.toFixed(1)}% acima da primeira metade`,
           impact: 'high',
           value: secondHalfExpenses - firstHalfExpenses,
-          suggestion: 'Revise suas despesas recentes e identifique gastos desnecessários',
-          icon: '⚠️'
+          suggestion: 'Revise suas despesas recentes e identifique gastos desnecessÃ¡rios',
+          icon: 'âš ï¸'
         })
       } else if (expenseChange < -15) {
         insights.push({
           type: 'achievement',
-          title: 'Ótimo Controle de Gastos!',
-          description: `Você economizou ${Math.abs(expenseChange).toFixed(1)}% na segunda metade do período`,
+          title: 'Ã“timo Controle de Gastos!',
+          description: `VocÃª economizou ${Math.abs(expenseChange).toFixed(1)}% na segunda metade do perÃ­odo`,
           impact: 'high',
           value: firstHalfExpenses - secondHalfExpenses,
           suggestion: 'Continue com esse excelente controle financeiro!',
-          icon: '🎉'
+          icon: 'ðŸŽ‰'
         })
       }
     }
   } else {
-    // Para períodos menores, usar comparação com período anterior
     const previousRange = {
       start: new Date(dateRange.start.getTime() - periodDays * 24 * 60 * 60 * 1000),
       end: dateRange.start
@@ -146,28 +136,27 @@ export async function getSmartInsights(
           insights.push({
             type: 'alert',
             title: 'Gastos Acima do Normal',
-            description: `Seus gastos no período estão ${expenseChange.toFixed(1)}% acima do período anterior`,
+            description: `Seus gastos no perÃ­odo estÃ£o ${expenseChange.toFixed(1)}% acima do perÃ­odo anterior`,
             impact: 'high',
             value: currentExpenses - previousExpenses,
-            suggestion: 'Revise suas despesas recentes e identifique gastos desnecessários',
-            icon: '⚠️'
+            suggestion: 'Revise suas despesas recentes e identifique gastos desnecessÃ¡rios',
+            icon: 'âš ï¸'
           })
         } else if (expenseChange < -15) {
           insights.push({
             type: 'achievement',
-            title: 'Ótimo Controle de Gastos!',
-            description: `Você economizou ${Math.abs(expenseChange).toFixed(1)}% em relação ao período anterior`,
+            title: 'Ã“timo Controle de Gastos!',
+            description: `VocÃª economizou ${Math.abs(expenseChange).toFixed(1)}% em relaÃ§Ã£o ao perÃ­odo anterior`,
             impact: 'high',
             value: previousExpenses - currentExpenses,
             suggestion: 'Continue com esse excelente controle financeiro!',
-            icon: '🎉'
+            icon: 'ðŸŽ‰'
           })
         }
       }
     }
   }
   
-  // Análise 2: Categoria com Maior Crescimento (adaptado para período filtrado)
   const categoryExpenses = new Map<string, number>()
   
   transactions.filter(t => t.type === 'debit').forEach(t => {
@@ -175,12 +164,10 @@ export async function getSmartInsights(
     categoryExpenses.set(categoryName, (categoryExpenses.get(categoryName) || 0) + Math.abs(t.amount))
   })
   
-  // Oportunidades de Economia baseadas no período filtrado
   const totalExpenses = transactions
     .filter(t => t.type === 'debit')
     .reduce((sum, t) => sum + Math.abs(t.amount), 0)
   
-  // Identificar categoria com maior gasto no período
   let maxCategory = ''
   let maxCategoryValue = 0
   categoryExpenses.forEach((value, category) => {
@@ -194,16 +181,15 @@ export async function getSmartInsights(
     insights.push({
       type: 'opportunity',
       title: `Oportunidade em ${maxCategory}`,
-      description: `${maxCategory} representa ${((maxCategoryValue / totalExpenses) * 100).toFixed(1)}% dos seus gastos no período`,
+      description: `${maxCategory} representa ${((maxCategoryValue / totalExpenses) * 100).toFixed(1)}% dos seus gastos no perÃ­odo`,
       impact: 'medium',
       category: maxCategory,
       value: maxCategoryValue,
-      suggestion: `Uma redução de 10% em ${maxCategory} resultaria em uma economia significativa`,
-      icon: '💡'
+      suggestion: `Uma reduÃ§Ã£o de 10% em ${maxCategory} resultaria em uma economia significativa`,
+      icon: 'ðŸ’¡'
     })
   }
   
-  // Análise 3: Padrões de Gastos Recorrentes no período filtrado
   const recurringTransactions = new Map<string, { count: number; total: number; dates: Date[] }>()
   
   transactions.filter(t => t.type === 'debit').forEach(t => {
@@ -217,13 +203,11 @@ export async function getSmartInsights(
     recurring.dates.push(new Date(t.date))
   })
   
-  // Encontrar transações que ocorrem múltiplas vezes no período
   recurringTransactions.forEach((data, key) => {
-    if (data.count >= 2 && periodDays >= 30) { // Pelo menos 2 ocorrências em período de 30+ dias
+    if (data.count >= 2 && periodDays >= 30) { // Pelo menos 2 ocorrÃªncias em perÃ­odo de 30+ dias
       const [description] = key.split('-')
       const avgAmount = data.total / data.count
       
-      // Verificar intervalos entre transações
       data.dates.sort((a, b) => a.getTime() - b.getTime())
       const intervals = []
       for (let i = 1; i < data.dates.length; i++) {
@@ -237,17 +221,16 @@ export async function getSmartInsights(
         insights.push({
           type: 'pattern',
           title: 'Gasto Recorrente Identificado',
-          description: `${description} acontece regularmente no período analisado`,
+          description: `${description} acontece regularmente no perÃ­odo analisado`,
           impact: 'low',
           value: avgAmount,
-          suggestion: 'Considere criar um orçamento específico para este gasto recorrente',
-          icon: '🔄'
+          suggestion: 'Considere criar um orÃ§amento especÃ­fico para este gasto recorrente',
+          icon: 'ðŸ”„'
         })
       }
     }
   })
   
-  // Análise 4: Taxa de Poupança no período filtrado
   const totalIncome = transactions
     .filter(t => t.type === 'credit')
     .reduce((sum, t) => sum + t.amount, 0)
@@ -257,28 +240,26 @@ export async function getSmartInsights(
   if (savingsRate > 20) {
     insights.push({
       type: 'achievement',
-      title: 'Excelente Taxa de Poupança!',
-      description: `Você está poupando ${savingsRate.toFixed(1)}% da sua renda no período`,
+      title: 'Excelente Taxa de PoupanÃ§a!',
+      description: `VocÃª estÃ¡ poupando ${savingsRate.toFixed(1)}% da sua renda no perÃ­odo`,
       impact: 'high',
       suggestion: 'Continue mantendo essa disciplina financeira!',
-      icon: '💰'
+      icon: 'ðŸ’°'
     })
   } else if (savingsRate < 5 && totalIncome > 0) {
     insights.push({
       type: 'alert',
-      title: 'Taxa de Poupança Baixa',
-      description: `Você está poupando apenas ${savingsRate.toFixed(1)}% da sua renda no período`,
+      title: 'Taxa de PoupanÃ§a Baixa',
+      description: `VocÃª estÃ¡ poupando apenas ${savingsRate.toFixed(1)}% da sua renda no perÃ­odo`,
       impact: 'medium',
-      suggestion: 'Considere revisar seus gastos para aumentar sua capacidade de poupança',
-      icon: '📉'
+      suggestion: 'Considere revisar seus gastos para aumentar sua capacidade de poupanÃ§a',
+      icon: 'ðŸ“‰'
     })
   }
   
-  // Ordenar insights por impacto
   const impactOrder = { high: 3, medium: 2, low: 1 }
   insights.sort((a, b) => impactOrder[b.impact] - impactOrder[a.impact])
   
-  console.log('🧠 Smart insights generated:', insights.length, 'insights for period')
   
   return insights.slice(0, 6) // Limitar a 6 insights mais relevantes
 }
@@ -289,7 +270,6 @@ export async function getSpendingPatterns(
 ): Promise<SpendingPattern[]> {
   const supabase = createActionClient()
   
-  // Aplicar filtro de período
   let dateRange = getDateRangeFromFilter(filter)
   
   if (!dateRange || filter.type === 'custom') {
@@ -322,7 +302,6 @@ export async function getSpendingPatterns(
 
   const patterns: SpendingPattern[] = []
   
-  // Análise por dia da semana no período filtrado
   const weekdayExpenses = new Array(7).fill(0)
   const weekdayCount = new Array(7).fill(0)
   
@@ -333,7 +312,7 @@ export async function getSpendingPatterns(
     weekdayCount[weekday]++
   })
   
-  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+  const weekdays = ['Domingo', 'Segunda', 'TerÃ§a', 'Quarta', 'Quinta', 'Sexta', 'SÃ¡bado']
   let maxWeekdayIndex = 0
   let maxWeekdayAmount = 0
   
@@ -346,8 +325,8 @@ export async function getSpendingPatterns(
   
   if (maxWeekdayAmount > 0) {
     patterns.push({
-      pattern: `Mais gastos às ${weekdays[maxWeekdayIndex]}s`,
-      description: `Você tende a gastar mais às ${weekdays[maxWeekdayIndex]}s no período analisado`,
+      pattern: `Mais gastos Ã s ${weekdays[maxWeekdayIndex]}s`,
+      description: `VocÃª tende a gastar mais Ã s ${weekdays[maxWeekdayIndex]}s no perÃ­odo analisado`,
       frequency: 'weekly',
       amount: maxWeekdayAmount,
       category: 'Geral',

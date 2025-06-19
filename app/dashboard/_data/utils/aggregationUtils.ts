@@ -1,6 +1,6 @@
-/**
- * @fileoverview Utilitários para agregações e agrupamentos
- * @description Funções para processar e agrupar dados de transações
+﻿/**
+ * @fileoverview UtilitÃ¡rios para agregaÃ§Ãµes e agrupamentos
+ * @description FunÃ§Ãµes para processar e agrupar dados de transaÃ§Ãµes
  */
 
 import { generateMonthKey, generateMonthLabel } from './insightUtils'
@@ -30,8 +30,8 @@ interface CategoryGroup {
 
 /**
  * @function groupTransactionsByMonth
- * @description Agrupa transações por mês
- * @param {any[]} transactions - Array de transações
+ * @description Agrupa transaÃ§Ãµes por mÃªs
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
  * @returns {Map<string, MonthlyGroup>} Mapa de grupos mensais
  */
 export const groupTransactionsByMonth = (transactions: any[]): Map<string, MonthlyGroup> => {
@@ -55,7 +55,6 @@ export const groupTransactionsByMonth = (transactions: any[]): Map<string, Month
     const amount = Number(transaction.amount)
     
     if (transaction.type === 'credit') {
-      // Excluir estornos das receitas
       if (!isRefundTransaction(transaction)) {
         group.income += amount
       }
@@ -71,8 +70,8 @@ export const groupTransactionsByMonth = (transactions: any[]): Map<string, Month
 
 /**
  * @function groupTransactionsByCategory
- * @description Agrupa transações por categoria
- * @param {any[]} transactions - Array de transações
+ * @description Agrupa transaÃ§Ãµes por categoria
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
  * @returns {Map<string, CategoryGroup>} Mapa de grupos por categoria
  */
 export const groupTransactionsByCategory = (transactions: any[]): Map<string, CategoryGroup> => {
@@ -103,8 +102,8 @@ export const groupTransactionsByCategory = (transactions: any[]): Map<string, Ca
 
 /**
  * @function aggregateTransactionsByType
- * @description Agrega transações por tipo
- * @param {any[]} transactions - Array de transações
+ * @description Agrega transaÃ§Ãµes por tipo
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
  * @returns {object} Objeto com totais por tipo
  */
 export const aggregateTransactionsByType = (transactions: any[]) => {
@@ -112,7 +111,6 @@ export const aggregateTransactionsByType = (transactions: any[]) => {
     const amount = Number(transaction.amount)
     
     if (transaction.type === 'credit') {
-      // Excluir estornos das receitas
       if (!isRefundTransaction(transaction)) {
         acc.income += amount
         acc.incomeCount += 1
@@ -138,15 +136,14 @@ export const aggregateTransactionsByType = (transactions: any[]) => {
 
 /**
  * @function filterTransactionsByType
- * @description Filtra e agrega transações por tipo específico
- * @param {any[]} transactions - Array de transações
- * @param {'credit' | 'debit'} type - Tipo de transação
+ * @description Filtra e agrega transaÃ§Ãµes por tipo especÃ­fico
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
+ * @param {'credit' | 'debit'} type - Tipo de transaÃ§Ã£o
  * @returns {object} Dados agregados do tipo
  */
 export const filterTransactionsByType = (transactions: any[], type: 'credit' | 'debit') => {
   const filteredTransactions = transactions.filter(t => {
     if (t.type !== type) return false
-    // Se for receita, excluir estornos
     if (type === 'credit') {
       return !isRefundTransaction(t)
     }
@@ -164,8 +161,8 @@ export const filterTransactionsByType = (transactions: any[], type: 'credit' | '
 
 /**
  * @function calculateRunningBalance
- * @description Calcula saldo acumulado de transações
- * @param {any[]} transactions - Array de transações ordenadas por data
+ * @description Calcula saldo acumulado de transaÃ§Ãµes
+ * @param {any[]} transactions - Array de transaÃ§Ãµes ordenadas por data
  * @param {number} initialBalance - Saldo inicial
  * @returns {object[]} Array com saldo acumulado
  */
@@ -176,7 +173,6 @@ export const calculateRunningBalance = (transactions: any[], initialBalance = 0)
     const amount = Number(transaction.amount)
     
     if (transaction.type === 'credit') {
-      // Excluir estornos das receitas
       if (!isRefundTransaction(transaction)) {
         runningBalance += amount
       }
@@ -193,11 +189,11 @@ export const calculateRunningBalance = (transactions: any[], initialBalance = 0)
 
 /**
  * @function generateEmptyPeriods
- * @description Gera períodos vazios para preencher gaps nos dados
+ * @description Gera perÃ­odos vazios para preencher gaps nos dados
  * @param {Date} startDate - Data inicial
  * @param {Date} endDate - Data final
  * @param {'month' | 'day'} interval - Intervalo
- * @returns {Array} Array de períodos vazios
+ * @returns {Array} Array de perÃ­odos vazios
  */
 export const generateEmptyPeriods = (
   startDate: Date,

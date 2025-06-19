@@ -1,16 +1,15 @@
-/**
- * @fileoverview Utilitários para auditoria de transações
- * @description Funções para identificar e corrigir inconsistências nos dados financeiros
+﻿/**
+ * @fileoverview UtilitÃ¡rios para auditoria de transaÃ§Ãµes
+ * @description FunÃ§Ãµes para identificar e corrigir inconsistÃªncias nos dados financeiros
  */
 
 import { isRefundTransaction } from './calculationUtils'
 
-// Usar any[] por enquanto, pode ser tipado melhor depois
 type Transaction = any
 
 /**
  * @interface DuplicateGroup
- * @description Grupo de transações potencialmente duplicadas
+ * @description Grupo de transaÃ§Ãµes potencialmente duplicadas
  */
 export interface DuplicateGroup {
   key: string
@@ -23,7 +22,7 @@ export interface DuplicateGroup {
 
 /**
  * @interface AuditReport
- * @description Relatório completo de auditoria
+ * @description RelatÃ³rio completo de auditoria
  */
 export interface AuditReport {
   totalTransactions: number
@@ -38,14 +37,13 @@ export interface AuditReport {
 
 /**
  * @function findDuplicateTransactions
- * @description Encontra grupos de transações potencialmente duplicadas
- * @param {Transaction[]} transactions - Array de transações
+ * @description Encontra grupos de transaÃ§Ãµes potencialmente duplicadas
+ * @param {Transaction[]} transactions - Array de transaÃ§Ãµes
  * @returns {DuplicateGroup[]} Grupos de duplicatas
  */
 export const findDuplicateTransactions = (transactions: Transaction[]): DuplicateGroup[] => {
   const groups = new Map<string, Transaction[]>()
   
-  // Agrupar por valor e tipo
   transactions.forEach(transaction => {
     const key = `${transaction.type}-${transaction.amount}`
     if (!groups.has(key)) {
@@ -54,7 +52,6 @@ export const findDuplicateTransactions = (transactions: Transaction[]): Duplicat
     groups.get(key)!.push(transaction)
   })
   
-  // Filtrar apenas grupos com múltiplas transações
   return Array.from(groups.entries())
     .filter(([_, transactions]) => transactions.length > 1)
     .map(([key, transactions]) => {
@@ -75,10 +72,10 @@ export const findDuplicateTransactions = (transactions: Transaction[]): Duplicat
 
 /**
  * @function generateAuditReport
- * @description Gera um relatório completo de auditoria
- * @param {Transaction[]} transactions - Array de transações
+ * @description Gera um relatÃ³rio completo de auditoria
+ * @param {Transaction[]} transactions - Array de transaÃ§Ãµes
  * @param {number} expectedBalance - Saldo esperado/real
- * @returns {AuditReport} Relatório de auditoria
+ * @returns {AuditReport} RelatÃ³rio de auditoria
  */
 export const generateAuditReport = (
   transactions: Transaction[], 
@@ -86,7 +83,6 @@ export const generateAuditReport = (
 ): AuditReport => {
   const calculatedBalance = transactions.reduce((sum, t) => {
     if (t.type === 'credit') {
-      // Excluir estornos das receitas
       return isRefundTransaction(t) ? sum : sum + Number(t.amount)
     } else {
       return sum - Number(t.amount)
@@ -109,20 +105,20 @@ export const generateAuditReport = (
   const recommendations: string[] = []
   
   if (duplicateGroups.length > 0) {
-    recommendations.push(`Encontradas ${duplicateGroups.length} grupos de possíveis duplicatas`)
+    recommendations.push(`Encontradas ${duplicateGroups.length} grupos de possÃ­veis duplicatas`)
     
     const majorDuplicate = duplicateGroups[0]
     if (majorDuplicate.totalImpact > Math.abs(difference) * 0.5) {
-      recommendations.push(`A duplicata de R$ ${majorDuplicate.amount} pode explicar grande parte da diferença`)
+      recommendations.push(`A duplicata de R$ ${majorDuplicate.amount} pode explicar grande parte da diferenÃ§a`)
     }
   }
   
   if (Math.abs(difference) > 100) {
-    recommendations.push(`Diferença significativa de R$ ${Math.abs(difference).toFixed(2)} identificada`)
+    recommendations.push(`DiferenÃ§a significativa de R$ ${Math.abs(difference).toFixed(2)} identificada`)
   }
   
   if (suspiciousTransactions.length > 0) {
-    recommendations.push(`${suspiciousTransactions.length} transações com valores suspeitos encontradas`)
+    recommendations.push(`${suspiciousTransactions.length} transaÃ§Ãµes com valores suspeitos encontradas`)
   }
   
   return {
@@ -139,14 +135,13 @@ export const generateAuditReport = (
 
 /**
  * @function suggestCorrections
- * @description Sugere correções baseadas no relatório de auditoria
- * @param {AuditReport} report - Relatório de auditoria
- * @returns {string[]} Lista de correções sugeridas
+ * @description Sugere correÃ§Ãµes baseadas no relatÃ³rio de auditoria
+ * @param {AuditReport} report - RelatÃ³rio de auditoria
+ * @returns {string[]} Lista de correÃ§Ãµes sugeridas
  */
 export const suggestCorrections = (report: AuditReport): string[] => {
   const corrections: string[] = []
   
-  // Sugestões para duplicatas
   if (report.duplicateGroups.length > 0) {
     const topDuplicate = report.duplicateGroups[0]
     corrections.push(
@@ -154,11 +149,10 @@ export const suggestCorrections = (report: AuditReport): string[] => {
     )
   }
   
-  // Sugestões baseadas na diferença
   if (report.difference > 0) {
     corrections.push(`Sistema tem R$ ${report.difference.toFixed(2)} a mais - verificar receitas duplicadas`)
   } else if (report.difference < 0) {
-    corrections.push(`Sistema tem R$ ${Math.abs(report.difference).toFixed(2)} a menos - verificar despesas não registradas`)
+    corrections.push(`Sistema tem R$ ${Math.abs(report.difference).toFixed(2)} a menos - verificar despesas nÃ£o registradas`)
   }
   
   return corrections

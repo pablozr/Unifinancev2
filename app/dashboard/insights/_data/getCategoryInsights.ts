@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 import { cache } from 'react'
 import { getDatabase } from '@/lib/supabase/database'
 import type { PeriodFilter } from '../../_data/types'
@@ -23,7 +23,6 @@ export const getCategoryInsights = cache(async (
 ): Promise<CategoryInsight[]> => {
   const database = getDatabase()
   
-  // Definir range de datas
   const dateRange = filter 
     ? getDateRangeFromFilter(filter)
     : undefined
@@ -40,7 +39,6 @@ export const getCategoryInsights = cache(async (
 
   const transactions = await database.findManyTransactions(queryConfig)
 
-  // Agrupar por categoria
   const categoryData = new Map<string, {
     totalSpent: number
     count: number
@@ -69,7 +67,6 @@ export const getCategoryInsights = cache(async (
     data.count += 1
   })
 
-  // Converter para array de insights
   const insights: CategoryInsight[] = Array.from(categoryData.entries())
     .map(([categoryName, data]) => ({
       categoryName,

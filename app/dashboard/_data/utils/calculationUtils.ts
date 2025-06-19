@@ -1,14 +1,14 @@
-/**
- * @fileoverview Utilitários para cálculos financeiros
- * @description Funções auxiliares para cálculos de percentuais, transformações e agregações
+﻿/**
+ * @fileoverview UtilitÃ¡rios para cÃ¡lculos financeiros
+ * @description FunÃ§Ãµes auxiliares para cÃ¡lculos de percentuais, transformaÃ§Ãµes e agregaÃ§Ãµes
  */
 
 import type { TransactionType, RecentTransaction, CategorySpending } from '../types'
 
 /**
  * @function isRefundTransaction
- * @description Identifica se uma transação é um estorno/reembolso
- * @param {any} transaction - Transação a ser verificada
+ * @description Identifica se uma transaÃ§Ã£o Ã© um estorno/reembolso
+ * @param {any} transaction - TransaÃ§Ã£o a ser verificada
  * @returns {boolean} True se for estorno
  */
 export const isRefundTransaction = (transaction: any): boolean => {
@@ -18,16 +18,16 @@ export const isRefundTransaction = (transaction: any): boolean => {
          desc.includes('chargeback') || 
          desc.includes('reversal') ||
          desc.includes('cancelamento') ||
-         desc.includes('devolução') ||
+         desc.includes('devoluÃ§Ã£o') ||
          desc.includes('reembolso')
 }
 
 /**
  * @function calculatePercentageChange
- * @description Calcula mudança percentual entre dois valores
+ * @description Calcula mudanÃ§a percentual entre dois valores
  * @param {number} current - Valor atual
  * @param {number} previous - Valor anterior
- * @returns {number} Percentual de mudança
+ * @returns {number} Percentual de mudanÃ§a
  */
 export const calculatePercentageChange = (current: number, previous: number): number => {
   if (previous === 0) return current > 0 ? 100 : 0
@@ -36,17 +36,15 @@ export const calculatePercentageChange = (current: number, previous: number): nu
 
 /**
  * @function sumTransactionsByType
- * @description Soma transações por tipo
- * @param {any[]} transactions - Array de transações
- * @param {TransactionType} type - Tipo da transação
+ * @description Soma transaÃ§Ãµes por tipo
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
+ * @param {TransactionType} type - Tipo da transaÃ§Ã£o
  * @returns {number} Soma total
  */
 export const sumTransactionsByType = (transactions: any[], type: TransactionType): number => {
   const filtered = transactions.filter(t => {
-    // Filtrar por tipo
     if (t.type !== type) return false
     
-    // Se for receita (credit), excluir estornos
     if (type === 'credit') {
       return !isRefundTransaction(t)
     }
@@ -63,13 +61,12 @@ export const sumTransactionsByType = (transactions: any[], type: TransactionType
 /**
  * @function calculateTotalBalance
  * @description Calcula saldo total (receitas - despesas)
- * @param {any[]} transactions - Array de transações
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
  * @returns {number} Saldo total
  */
 export const calculateTotalBalance = (transactions: any[]): number => {
   return transactions.reduce((sum, t) => {
     if (t.type === 'credit') {
-      // Excluir estornos das receitas
       return isRefundTransaction(t) ? sum : sum + Number(t.amount)
     } else {
       return sum - Number(t.amount)
@@ -79,9 +76,9 @@ export const calculateTotalBalance = (transactions: any[]): number => {
 
 /**
  * @function transformTransaction
- * @description Transforma transação do Prisma para formato do frontend
- * @param {any} transaction - Transação do Prisma
- * @returns {RecentTransaction} Transação formatada
+ * @description Transforma transaÃ§Ã£o do Prisma para formato do frontend
+ * @param {any} transaction - TransaÃ§Ã£o do Prisma
+ * @returns {RecentTransaction} TransaÃ§Ã£o formatada
  */
 export const transformTransaction = (transaction: any): RecentTransaction => ({
   id: transaction.id,
@@ -110,14 +107,13 @@ export const calculateCategoryPercentages = (categories: any[]) => {
 
 /**
  * @function groupTransactionsByCategory
- * @description Agrupa e processa transações por categoria
- * @param {any[]} transactions - Array de transações com categorias
+ * @description Agrupa e processa transaÃ§Ãµes por categoria
+ * @param {any[]} transactions - Array de transaÃ§Ãµes com categorias
  * @returns {CategorySpending[]} Array de gastos por categoria
  */
 export const groupTransactionsByCategory = (transactions: any[]): CategorySpending[] => {
   if (transactions.length === 0) return []
 
-  // Agrupar por categoria
   const categoryMap = new Map<string, {
     name: string
     total: number
@@ -144,7 +140,6 @@ export const groupTransactionsByCategory = (transactions: any[]): CategorySpendi
     category.count += 1
   })
 
-  // Converter para array e calcular percentuais
   const categories = Array.from(categoryMap.values())
   const categoriesWithPercentages = calculateCategoryPercentages(categories)
 
@@ -161,10 +156,10 @@ export const groupTransactionsByCategory = (transactions: any[]): CategorySpendi
 
 /**
  * @function auditBalance
- * @description Função de auditoria para identificar problemas no saldo
- * @param {any[]} transactions - Array de transações
+ * @description FunÃ§Ã£o de auditoria para identificar problemas no saldo
+ * @param {any[]} transactions - Array de transaÃ§Ãµes
  * @param {number} expectedBalance - Saldo esperado
- * @returns {object} Relatório de auditoria
+ * @returns {object} RelatÃ³rio de auditoria
  */
 export const auditBalance = (transactions: any[], expectedBalance: number) => {
   const credits = transactions.filter(t => t.type === 'credit' && !isRefundTransaction(t))

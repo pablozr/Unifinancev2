@@ -1,7 +1,6 @@
-/**
+﻿/**
  * @fileoverview Auth Data Module
- * @description Exporta todas as funções de dados de autenticação
+ * @description Exporta todas as funÃ§Ãµes de dados de autenticaÃ§Ã£o
  */
 
-// === FUNÇÕES DE USUÁRIO ===
 export { default as getUser } from './getUser' 

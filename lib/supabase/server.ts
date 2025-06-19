@@ -1,8 +1,6 @@
-import { createServerClient } from '@supabase/ssr'
+﻿import { createServerClient } from '@supabase/ssr'
 
-// Função principal para server components
 export async function createClient() {
-  // Importação dinâmica para evitar problemas
   const { cookies } = await import('next/headers')
   const cookieStore = await cookies()
 
@@ -20,9 +18,6 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             )
           } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
           }
         },
       },
@@ -30,7 +25,6 @@ export async function createClient() {
   )
 }
 
-// Versão simplificada para server actions que não precisa de cookies
 export function createActionClient() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -41,7 +35,6 @@ export function createActionClient() {
           return []
         },
         setAll() {
-          // Server actions não precisam gerenciar cookies
         },
       },
     }

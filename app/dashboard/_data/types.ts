@@ -1,11 +1,11 @@
-/**
+﻿/**
  * @fileoverview Tipos e interfaces para dados do dashboard
  * @description Define todas as estruturas de dados utilizadas no dashboard financeiro
  */
 
 /** 
  * @interface DashboardStats
- * @description Estatísticas principais do dashboard
+ * @description EstatÃ­sticas principais do dashboard
  */
 export interface DashboardStats {
   totalBalance: number
@@ -20,7 +20,7 @@ export interface DashboardStats {
 
 /** 
  * @interface RecentTransaction
- * @description Estrutura de uma transação recente
+ * @description Estrutura de uma transaÃ§Ã£o recente
  */
 export interface RecentTransaction {
   id: string
@@ -57,7 +57,7 @@ export interface CashFlowMonth {
 
 /** 
  * @interface PeriodFilter
- * @description Filtro de período para queries
+ * @description Filtro de perÃ­odo para queries
  */
 export interface PeriodFilter {
   type: 'monthly' | 'yearly' | 'custom'
@@ -69,7 +69,7 @@ export interface PeriodFilter {
 
 /** 
  * @interface PaginatedTransactions
- * @description Transações paginadas
+ * @description TransaÃ§Ãµes paginadas
  */
 export interface PaginatedTransactions {
   transactions: RecentTransaction[]
@@ -82,7 +82,7 @@ export interface PaginatedTransactions {
 
 /** 
  * @type TransactionType
- * @description Tipos de transação do Prisma
+ * @description Tipos de transaÃ§Ã£o do Prisma
  */
 export type TransactionType = 'credit' | 'debit'
 
@@ -95,7 +95,6 @@ export interface DateRange {
   end: Date
 }
 
-// === TIPOS ESPECÍFICOS PARA INSIGHTS ===
 
 /**
  * @interface MonthlyData
@@ -124,7 +123,7 @@ export interface CategoryData {
 
 /**
  * @interface InsightMetrics
- * @description Métricas avançadas para insights
+ * @description MÃ©tricas avanÃ§adas para insights
  */
 export interface InsightMetrics {
   monthlySavings: number

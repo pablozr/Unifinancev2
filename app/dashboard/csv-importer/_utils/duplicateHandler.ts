@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+﻿import { createClient } from '@/lib/supabase/server'
 
 export interface DuplicateCheckResult {
   isDuplicate: boolean
@@ -13,8 +13,6 @@ export default async function checkDuplicates(
   try {
     const supabase = await createClient()
     
-    console.log('🔍 Hash calculado:', fileHash)
-    console.log('👤 User ID:', userId)
     
     const { data: existingImports, error: searchError } = await supabase
       .from('csv_imports')
@@ -22,18 +20,15 @@ export default async function checkDuplicates(
       .eq('user_id', userId)
       .eq('file_hash', fileHash)
 
-    console.log('📊 Busca na csv_imports - Erro:', searchError)
-    console.log('📊 Busca na csv_imports - Resultados:', existingImports?.length || 0)
 
     if (searchError) {
       return { isDuplicate: false, error: searchError.message }
     }
 
     if (existingImports && existingImports.length > 0) {
-      console.log('🔍 Hash do arquivo duplicado encontrado na csv_imports:', fileHash)
       return {
         isDuplicate: true,
-        error: `Este arquivo já foi importado anteriormente (encontrado na csv_imports).\n\nHash: ${fileHash.substring(0, 16)}...\n\nUse a função "Limpar Registros de Import" no dashboard para resolver.`,
+        error: `Este arquivo jÃ¡ foi importado anteriormente (encontrado na csv_imports).\n\nHash: ${fileHash.substring(0, 16)}...\n\nUse a funÃ§Ã£o "Limpar Registros de Import" no dashboard para resolver.`,
         existingImports
       }
     }

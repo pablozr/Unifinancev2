@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -6,15 +6,13 @@ import { resetPasswordFormSchema, formatZodError, type AuthResult } from '@/lib/
 import { getErrorMessage } from '@/lib/supabase/config'
 
 export default async function resetPasswordAction(_: AuthResult, formData: FormData): Promise<AuthResult> {
-  // Validate FormData with robust validation
   const rawData = {
     password: formData.get('password'),
     confirmPassword: formData.get('confirmPassword'),
   }
 
-  // Check for null/undefined values
   if (!rawData.password || !rawData.confirmPassword) {
-    return { success: false, error: 'Senha e confirmação são obrigatórias' }
+    return { success: false, error: 'Senha e confirmaÃ§Ã£o sÃ£o obrigatÃ³rias' }
   }
 
   const result = resetPasswordFormSchema.safeParse(rawData)
@@ -25,12 +23,11 @@ export default async function resetPasswordAction(_: AuthResult, formData: FormD
   try {
     const supabase = await createClient()
 
-    // Verify user has a valid session (came from email link)
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     if (userError || !user) {
       return {
         success: false,
-        error: 'Sessão inválida. Solicite um novo link de recuperação de senha.'
+        error: 'SessÃ£o invÃ¡lida. Solicite um novo link de recuperaÃ§Ã£o de senha.'
       }
     }
 
@@ -39,10 +36,8 @@ export default async function resetPasswordAction(_: AuthResult, formData: FormD
     })
 
     if (error) {
-      // Use centralized error handling with Supabase native rate limiting
       let errorMessage = getErrorMessage(error)
 
-      // Special case for password reset specific errors
       if (error.message.includes('New password should be different')) {
         errorMessage = 'A nova senha deve ser diferente da atual'
       }
@@ -52,7 +47,6 @@ export default async function resetPasswordAction(_: AuthResult, formData: FormD
 
     redirect('/dashboard')
   } catch (error) {
-    console.error('Reset password error:', error)
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 

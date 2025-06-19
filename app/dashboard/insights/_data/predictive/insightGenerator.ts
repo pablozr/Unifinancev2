@@ -1,4 +1,4 @@
-import type { RecurringTransaction } from './recurringDetector'
+﻿import type { RecurringTransaction } from './recurringDetector'
 import type { MonthlyDataPoint } from './mathematicalAnalysis'
 
 export default function generateAutomaticInsights(
@@ -9,13 +9,12 @@ export default function generateAutomaticInsights(
   const insights: string[] = []
   
   if (monthlyData.length < 2) {
-    return ['Dados insuficientes para gerar insights automáticos.']
+    return ['Dados insuficientes para gerar insights automÃ¡ticos.']
   }
   
   const lastMonth = monthlyData[monthlyData.length - 1]
   const previousMonth = monthlyData[monthlyData.length - 2]
   
-  // 1. Análise de gastos por categoria
   const categoryTotals = new Map<string, number>()
   transactions
     .filter(t => t.type === 'debit')
@@ -34,11 +33,10 @@ export default function generateAutomaticInsights(
     const percentage = totalExpenses > 0 ? (topAmount / totalExpenses) * 100 : 0
     
     if (percentage > 30) {
-      insights.push(`💰 ${topCategory} representa ${percentage.toFixed(1)}% dos seus gastos totais (R$ ${topAmount.toFixed(2)})`)
+      insights.push(`ðŸ’° ${topCategory} representa ${percentage.toFixed(1)}% dos seus gastos totais (R$ ${topAmount.toFixed(2)})`)
     }
   }
   
-  // 2. Análise de transações recorrentes
   const highConfidenceRecurring = recurringTransactions.filter(rt => rt.confidence > 70)
   if (highConfidenceRecurring.length > 0) {
     const totalRecurringExpenses = highConfidenceRecurring
@@ -46,55 +44,50 @@ export default function generateAutomaticInsights(
       .reduce((sum, rt) => sum + rt.averageAmount, 0)
     
     if (totalRecurringExpenses > 0) {
-      insights.push(`🔄 Você tem ${highConfidenceRecurring.length} padrões recorrentes detectados, totalizando R$ ${totalRecurringExpenses.toFixed(2)}/mês`)
+      insights.push(`ðŸ”„ VocÃª tem ${highConfidenceRecurring.length} padrÃµes recorrentes detectados, totalizando R$ ${totalRecurringExpenses.toFixed(2)}/mÃªs`)
     }
   }
   
-  // 3. Comparação mês anterior
   if (lastMonth && previousMonth) {
     const expenseChange = ((lastMonth.expenses - previousMonth.expenses) / previousMonth.expenses) * 100
     const incomeChange = ((lastMonth.income - previousMonth.income) / previousMonth.income) * 100
     
     if (Math.abs(expenseChange) > 15) {
-      const direction = expenseChange > 0 ? 'aumentaram' : 'diminuíram'
-      insights.push(`📊 Suas despesas ${direction} ${Math.abs(expenseChange).toFixed(1)}% comparado ao mês anterior`)
+      const direction = expenseChange > 0 ? 'aumentaram' : 'diminuÃ­ram'
+      insights.push(`ðŸ“Š Suas despesas ${direction} ${Math.abs(expenseChange).toFixed(1)}% comparado ao mÃªs anterior`)
     }
     
     if (Math.abs(incomeChange) > 15) {
       const direction = incomeChange > 0 ? 'aumentou' : 'diminuiu'
-      insights.push(`💹 Sua receita ${direction} ${Math.abs(incomeChange).toFixed(1)}% comparado ao mês anterior`)
+      insights.push(`ðŸ’¹ Sua receita ${direction} ${Math.abs(incomeChange).toFixed(1)}% comparado ao mÃªs anterior`)
     }
   }
   
-  // 4. Análise de anomalias de gastos
   const spendingAnomalies = detectSpendingAnomalies(transactions)
-  insights.push(...spendingAnomalies.slice(0, 2)) // Máximo 2 anomalias
+  insights.push(...spendingAnomalies.slice(0, 2)) // MÃ¡ximo 2 anomalias
   
-  // 5. Padrões de dias da semana
   const weekdayPatterns = analyzeWeekdayPatterns(transactions)
   if (weekdayPatterns.length > 0) {
     insights.push(weekdayPatterns[0]) // Apenas o mais relevante
   }
   
-  // 6. Análise de tendência
   if (monthlyData.length >= 3) {
     const last3Months = monthlyData.slice(-3)
     const avgBalance = last3Months.reduce((sum, m) => sum + m.balance, 0) / 3
     
     if (avgBalance > 0) {
-      insights.push(`✅ Saldo médio positivo nos últimos 3 meses: R$ ${avgBalance.toFixed(2)}`)
+      insights.push(`âœ… Saldo mÃ©dio positivo nos Ãºltimos 3 meses: R$ ${avgBalance.toFixed(2)}`)
     } else {
-      insights.push(`⚠️ Saldo médio negativo nos últimos 3 meses: R$ ${avgBalance.toFixed(2)}`)
+      insights.push(`âš ï¸ Saldo mÃ©dio negativo nos Ãºltimos 3 meses: R$ ${avgBalance.toFixed(2)}`)
     }
   }
   
-  return insights.filter(insight => insight.length > 0).slice(0, 6) // Máximo 6 insights
+  return insights.filter(insight => insight.length > 0).slice(0, 6) // MÃ¡ximo 6 insights
 }
 
 function detectSpendingAnomalies(transactions: any[]): string[] {
   const insights: string[] = []
   
-  // Agrupar por categoria e calcular médias
   const categoryAverages = new Map<string, { total: number; count: number }>()
   
   transactions
@@ -112,32 +105,31 @@ function detectSpendingAnomalies(transactions: any[]): string[] {
       data.count += 1
     })
   
-  // Detectar gastos muito acima da média
   categoryAverages.forEach((data, category) => {
-    if (data.count < 3) return // Precisa de pelo menos 3 transações
+    if (data.count < 3) return // Precisa de pelo menos 3 transaÃ§Ãµes
     
     const average = data.total / data.count
     const highSpendingTransactions = transactions
       .filter(t => t.type === 'debit' && (t.categories?.name || 'Outros') === category)
-      .filter(t => Math.abs(t.amount) > average * 2) // Gasto 2x acima da média
+      .filter(t => Math.abs(t.amount) > average * 2) // Gasto 2x acima da mÃ©dia
     
     if (highSpendingTransactions.length > 0) {
       const maxTransaction = highSpendingTransactions.reduce((max, t) => 
         Math.abs(t.amount) > Math.abs(max.amount) ? t : max
       )
       
-      insights.push(`🚨 Gasto atípico em ${category}: R$ ${Math.abs(maxTransaction.amount).toFixed(2)} (${((Math.abs(maxTransaction.amount) / average - 1) * 100).toFixed(0)}% acima da média)`)
+      insights.push(`ðŸš¨ Gasto atÃ­pico em ${category}: R$ ${Math.abs(maxTransaction.amount).toFixed(2)} (${((Math.abs(maxTransaction.amount) / average - 1) * 100).toFixed(0)}% acima da mÃ©dia)`)
     }
   })
   
-  return insights.slice(0, 3) // Máximo 3 anomalias
+  return insights.slice(0, 3) // MÃ¡ximo 3 anomalias
 }
 
 function analyzeWeekdayPatterns(transactions: any[]): string[] {
   const insights: string[] = []
   
   const weekdayTotals = new Map<string, number>()
-  const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+  const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'SÃ¡b']
   
   transactions
     .filter(t => t.type === 'debit')
@@ -156,7 +148,7 @@ function analyzeWeekdayPatterns(transactions: any[]): string[] {
     const percentage = (topAmount / totalSpending) * 100
     
     if (percentage > 25) { // Mais de 25% dos gastos em um dia
-      insights.push(`📅 ${topDay} é seu dia de maior gasto (${percentage.toFixed(1)}% do total - R$ ${topAmount.toFixed(2)})`)
+      insights.push(`ðŸ“… ${topDay} Ã© seu dia de maior gasto (${percentage.toFixed(1)}% do total - R$ ${topAmount.toFixed(2)})`)
     }
   }
   

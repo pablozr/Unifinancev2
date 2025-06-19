@@ -1,16 +1,13 @@
-import normalizeText from './textNormalizer'
+﻿import normalizeText from './textNormalizer'
 
 /**
- * Detecta se uma transação é uma receita e não deve ser categorizada
+ * Detecta se uma transaÃ§Ã£o Ã© uma receita e nÃ£o deve ser categorizada
  */
 export default function isIncomeTransaction(description: string, type: string): boolean {
-  // FILTRO PRINCIPAL: Não categorizar receitas/créditos automaticamente
   if (type === 'credit') {
-    console.log(`💰 Pulando categorização de receita: "${description}" (tipo: ${type})`)
     return true
   }
   
-  // FILTRO ADICIONAL: Detectar receitas por padrões na descrição
   const desc = normalizeText(description)
   const receitaPatterns = [
     'salario', 'ordenado', 'vencimentos', 'folha',
@@ -23,7 +20,6 @@ export default function isIncomeTransaction(description: string, type: string): 
   
   for (const pattern of receitaPatterns) {
     if (desc.includes(pattern)) {
-      console.log(`💰 Detectado padrão de receita: "${pattern}" em "${description}"`)
       return true
     }
   }

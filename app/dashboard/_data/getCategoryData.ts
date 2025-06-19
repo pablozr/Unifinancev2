@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 import { cache } from 'react'
 import { getDatabase } from '@/lib/supabase/database'
 import type { PeriodFilter } from './types'
@@ -25,7 +25,7 @@ export const getCategoryData = cache(async (
   const queryConfig: any = {
     userId,
     includeCategories: true,
-    transactionType: 'debit' // Apenas gastos para análise de categoria
+    transactionType: 'debit' // Apenas gastos para anÃ¡lise de categoria
   }
 
   if (filter) {
@@ -37,7 +37,6 @@ export const getCategoryData = cache(async (
 
   const transactions = await database.findManyTransactions(queryConfig)
 
-  // Agrupar por categoria
   const categoryMap = new Map<string, {
     totalAmount: number
     count: number
@@ -66,7 +65,6 @@ export const getCategoryData = cache(async (
     categoryData.count += 1
   })
 
-  // Converter para array e calcular percentuais
   const result: CategoryData[] = Array.from(categoryMap.entries())
     .map(([categoryName, data]) => ({
       categoryName,

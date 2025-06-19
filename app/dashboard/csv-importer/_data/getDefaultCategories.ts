@@ -1,15 +1,14 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { DEFAULT_CATEGORIES } from './defaultCategories'
 
 /**
- * Busca ou cria categorias padrão para o usuário
+ * Busca ou cria categorias padrÃ£o para o usuÃ¡rio
  */
 export async function ensureDefaultCategories(userId: string) {
   const supabase = await createClient()
   
-  // Verificar categorias existentes
   const { data: existingCategories } = await supabase
     .from('categories')
     .select('name')
@@ -17,7 +16,6 @@ export async function ensureDefaultCategories(userId: string) {
   
   const existingNames = existingCategories?.map(cat => cat.name) || []
   
-  // Criar categorias que não existem
   const categoriesToCreate = DEFAULT_CATEGORIES.filter(
     cat => !existingNames.includes(cat.name)
   )
@@ -35,14 +33,11 @@ export async function ensureDefaultCategories(userId: string) {
       )
     
     if (error) {
-      console.error('Erro ao criar categorias padrão:', error)
       throw error
     }
     
-    console.log(`✅ Criadas ${categoriesToCreate.length} categorias padrão`)
   }
   
-  // Retornar todas as categorias do usuário
   const { data: allCategories, error } = await supabase
     .from('categories')
     .select('*')

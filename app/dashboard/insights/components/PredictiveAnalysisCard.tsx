@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { motion } from 'framer-motion'
 import { formatCurrency } from '@/lib/utils/currency'
@@ -6,7 +6,6 @@ import type { PredictiveAnalysis } from '../_data'
 import { TrendingUp, TrendingDown, Minus, AlertCircle, BarChart3, Calendar, DollarSign, Clock, CheckCircle, Info } from 'lucide-react'
 import { useMemo } from 'react'
 
-// Componentes UI simples
 const Card = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-lg border ${className || ''}`}>{children}</div>
 )
@@ -54,7 +53,6 @@ interface PredictiveAnalysisCardProps {
   loading: boolean
 }
 
-// Funções auxiliares
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('pt-BR', {
     day: '2-digit',
@@ -102,7 +100,6 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
     const currentMonth = new Date().getMonth()
     
-    // Simular dados históricos baseados na análise preditiva
     const historicalMonths = 6
     const futureMonths = 3
     const totalPoints = historicalMonths + futureMonths
@@ -114,19 +111,15 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
 
     const dataPoints = []
     
-    // Gerar dados históricos com variação realística
     for (let i = -historicalMonths; i < futureMonths; i++) {
       const monthIndex = (currentMonth + i + 12) % 12
       const isHistorical = i < 0
       const isFuture = i >= 0
       
-      // Variação base com tendência
       const trendMultiplier = 1 + (analysis.trendStrength || 0) * i / 10000
       
-      // Aplicar sazonalidade
       const seasonalMultiplier = 1 + Math.sin((monthIndex / 12) * 2 * Math.PI) * (seasonalityFactor - 1) * 0.1
       
-      // Adicionar ruído controlado para dados históricos
       const noiseMultiplier = isHistorical 
         ? 1 + (Math.random() - 0.5) * volatility * 0.5 
         : 1
@@ -134,13 +127,11 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
       let income = baseIncome * trendMultiplier * seasonalMultiplier * noiseMultiplier
       let expenses = baseExpenses * trendMultiplier * seasonalMultiplier * noiseMultiplier
       
-      // Para dados futuros, usar valores mais precisos da predição
       if (i === 0) {
         income = analysis.nextMonthIncome
         expenses = analysis.nextMonthExpenses
       }
       
-      // Garantir valores realistas
       income = Math.max(0, income)
       expenses = Math.max(0, expenses)
       
@@ -155,7 +146,6 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
       })
     }
 
-    // Normalizar valores para o SVG
     const allValues = dataPoints.flatMap(d => [d.income, d.expenses, Math.abs(d.balance)])
     const maxValue = Math.max(...allValues) * 1.1
     const minValue = Math.min(...dataPoints.map(d => d.balance)) * 1.1
@@ -165,12 +155,10 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
       return 180 - ((value - minValue) / range) * 160
     }
 
-    // Calcular pontos das linhas
     const incomePoints = dataPoints.map(d => `${d.x},${normalize(d.income)}`).join(' ')
     const expensePoints = dataPoints.map(d => `${d.x},${normalize(d.expenses)}`).join(' ')
     const balancePoints = dataPoints.map(d => `${d.x},${normalize(d.balance)}`).join(' ')
 
-    // Linha de separação histórico/futuro
     const separationX = (historicalMonths) * (300 / (totalPoints - 1))
 
     return {
@@ -191,7 +179,7 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
         <CardHeader className="pb-3">
           <CardTitle className="text-white flex items-center gap-2">
             <BarChart3 className="h-5 w-5" />
-            Análise Preditiva Avançada
+            AnÃ¡lise Preditiva AvanÃ§ada
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -215,12 +203,12 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
         <CardHeader className="pb-3">
           <CardTitle className="text-white flex items-center gap-2">
             <BarChart3 className="h-5 w-5" />
-            Análise Preditiva Avançada
+            AnÃ¡lise Preditiva AvanÃ§ada
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-gray-400 text-center py-8">
-            Dados insuficientes para análise preditiva
+            Dados insuficientes para anÃ¡lise preditiva
           </div>
         </CardContent>
       </Card>
@@ -233,12 +221,12 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
         <CardTitle className="text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5" />
-            Análise Preditiva Avançada
+            AnÃ¡lise Preditiva AvanÃ§ada
           </div>
           <div className="flex items-center gap-2">
             {getTrendIcon(analysis.trend)}
             <Badge className={getConfidenceBadgeColor(analysis.confidence)}>
-              {analysis.confidence}% confiança
+              {analysis.confidence}% confianÃ§a
             </Badge>
           </div>
         </CardTitle>
@@ -257,10 +245,10 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
           </div>
         )}
 
-        {/* Gráfico de Projeção */}
+        {/* GrÃ¡fico de ProjeÃ§Ã£o */}
         {svgData && (
           <div className="space-y-2">
-            <h4 className="text-white font-medium">Projeção Multi-Linha</h4>
+            <h4 className="text-white font-medium">ProjeÃ§Ã£o Multi-Linha</h4>
             <div className="bg-gray-800/50 p-4 rounded-lg">
               <svg viewBox="0 0 320 200" className="w-full h-48">
                 <defs>
@@ -293,7 +281,7 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
                 </defs>
                 <rect width="300" height="180" fill="url(#grid)" />
                 
-                {/* Linha de separação histórico/futuro */}
+                {/* Linha de separaÃ§Ã£o histÃ³rico/futuro */}
                 <line 
                   x1={svgData.separationX} 
                   y1="0" 
@@ -397,12 +385,12 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
           </div>
         )}
 
-        {/* Métricas de Predição */}
+        {/* MÃ©tricas de PrediÃ§Ã£o */}
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-gray-800/30 p-3 rounded-lg">
             <div className="text-green-400 text-sm font-medium">Receita Prevista</div>
             <div className="text-white text-lg font-bold">{formatCurrency(analysis.nextMonthIncome)}</div>
-            <div className="text-xs text-gray-400">R² {(analysis.historicalAccuracy || 0).toFixed(2)}</div>
+            <div className="text-xs text-gray-400">RÂ² {(analysis.historicalAccuracy || 0).toFixed(2)}</div>
           </div>
           <div className="bg-gray-800/30 p-3 rounded-lg">
             <div className="text-red-400 text-sm font-medium">Despesa Prevista</div>
@@ -414,16 +402,16 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
             <div className={`text-lg font-bold ${analysis.nextMonthBalance >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {formatCurrency(analysis.nextMonthBalance)}
             </div>
-            <div className="text-xs text-gray-400">Tendência {analysis.trend}</div>
+            <div className="text-xs text-gray-400">TendÃªncia {analysis.trend}</div>
           </div>
         </div>
 
-        {/* Projeção de Fluxo de Caixa */}
+        {/* ProjeÃ§Ã£o de Fluxo de Caixa */}
         {analysis.cashFlowProjection && (
           <div className="space-y-3">
             <h4 className="text-white font-medium flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              Projeção de Fluxo de Caixa
+              ProjeÃ§Ã£o de Fluxo de Caixa
             </h4>
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-gray-800/30 p-3 rounded-lg">
@@ -458,12 +446,12 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
           </div>
         )}
 
-        {/* Transações Recorrentes Detectadas */}
+        {/* TransaÃ§Ãµes Recorrentes Detectadas */}
         {analysis.recurringTransactions && analysis.recurringTransactions.length > 0 && (
           <div className="space-y-3">
             <h4 className="text-white font-medium flex items-center gap-2">
               <Clock className="h-4 w-4" />
-              Transações Recorrentes Detectadas ({analysis.recurringTransactions.length})
+              TransaÃ§Ãµes Recorrentes Detectadas ({analysis.recurringTransactions.length})
             </h4>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {analysis.recurringTransactions.slice(0, 6).map((transaction: RecurringTransaction, index: number) => (
@@ -471,7 +459,7 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
                   <div className="flex items-center justify-between mb-1">
                     <div className="font-medium text-white text-sm">{transaction.description}</div>
                     <Badge variant="outline" className="text-xs">
-                      {transaction.confidence.toFixed(0)}% confiança
+                      {transaction.confidence.toFixed(0)}% confianÃ§a
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between text-xs">
@@ -483,7 +471,7 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
                       <span className="text-blue-400">{transaction.category}</span>
                     </div>
                     <div className="text-gray-400">
-                      Próxima: {formatDate(transaction.nextExpectedDate)}
+                      PrÃ³xima: {formatDate(transaction.nextExpectedDate)}
                     </div>
                   </div>
                 </div>
@@ -492,12 +480,12 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
           </div>
         )}
 
-        {/* Insights Automáticos */}
+        {/* Insights AutomÃ¡ticos */}
         {analysis.automaticInsights && analysis.automaticInsights.length > 0 && (
           <div className="space-y-3">
             <h4 className="text-white font-medium flex items-center gap-2">
               <Info className="h-4 w-4" />
-              Insights Automáticos
+              Insights AutomÃ¡ticos
             </h4>
             <div className="space-y-2">
               {analysis.automaticInsights.slice(0, 5).map((insight: string, index: number) => (
@@ -509,12 +497,12 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
           </div>
         )}
 
-        {/* Recomendação Principal */}
+        {/* RecomendaÃ§Ã£o Principal */}
         <div className="bg-gray-800/50 p-4 rounded-lg">
           <div className="flex items-start gap-3">
             <CheckCircle className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
             <div>
-              <h4 className="text-white font-medium mb-1">Recomendação Inteligente</h4>
+              <h4 className="text-white font-medium mb-1">RecomendaÃ§Ã£o Inteligente</h4>
               <p className="text-gray-300 text-sm leading-relaxed">{analysis.recommendation}</p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
@@ -16,7 +16,6 @@ interface PieChartProps {
   title: string
 }
 
-// Gráfico de barras avançado com informações detalhadas
 export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   
@@ -32,8 +31,8 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
           <h3 className="text-lg font-medium text-white mb-4">{title}</h3>
           <div className="flex items-center justify-center h-96 text-white/60">
             <div className="text-center">
-              <span className="text-4xl mb-2 block">📊</span>
-              <p>Nenhum dado disponível</p>
+              <span className="text-4xl mb-2 block">ðŸ“Š</span>
+              <p>Nenhum dado disponÃ­vel</p>
             </div>
           </div>
         </div>
@@ -43,7 +42,6 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
   
   const maxValue = Math.max(...data.map(d => Math.max(d.income, d.expenses)))
   
-  // Melhorar a escala e altura mínima
   const adjustedMaxValue = maxValue > 0 ? maxValue : 1000
   const minBarHeight = 25
   
@@ -79,7 +77,6 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
           
           <div className="flex items-end justify-between h-80 space-x-3 relative z-10">
             {data.map((item, index) => {
-              // Melhorar o cálculo da altura das barras
               const incomeHeight = item.income > 0 
                 ? Math.max(minBarHeight, (item.income / adjustedMaxValue) * 280) 
                 : minBarHeight / 4
@@ -131,11 +128,11 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
                           </span>
                         </div>
                         <div className="flex justify-between text-blue-400">
-                          <span>Transações:</span>
+                          <span>TransaÃ§Ãµes:</span>
                           <span className="font-medium">{item.transactionCount}</span>
                         </div>
                         <div className="flex justify-between text-purple-400">
-                          <span>Ticket Médio:</span>
+                          <span>Ticket MÃ©dio:</span>
                           <span className="font-medium">{formatCurrency(item.avgTicket)}</span>
                         </div>
                       </div>
@@ -173,7 +170,7 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
                     />
                   </div>
                   
-                  {/* Label do mês melhorado */}
+                  {/* Label do mÃªs melhorado */}
                   <div className="mt-4 text-center">
                     <span className="text-xs text-white/60 font-medium px-3 py-1 bg-white/[0.05] rounded-full">
                       {item.month}
@@ -217,13 +214,13 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
             }`}>
               {formatCurrency(data.reduce((sum, d) => sum + d.balance, 0))}
             </div>
-            <div className="text-xs text-white/60 mt-1">Saldo Líquido</div>
+            <div className="text-xs text-white/60 mt-1">Saldo LÃ­quido</div>
           </div>
           <div className="bg-purple-400/10 border border-purple-400/20 rounded-xl p-4 text-center">
             <div className="text-lg font-light text-white">
               {data.reduce((sum, d) => sum + d.transactionCount, 0)}
             </div>
-            <div className="text-xs text-white/60 mt-1">Total Transações</div>
+            <div className="text-xs text-white/60 mt-1">Total TransaÃ§Ãµes</div>
           </div>
         </div>
       </div>
@@ -231,7 +228,6 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
   )
 }
 
-// Gráfico de pizza avançado com percentuais e detalhes
 export function AdvancedPieChart({ data, title }: PieChartProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   
@@ -247,8 +243,8 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
           <h3 className="text-lg font-medium text-white mb-4">{title}</h3>
           <div className="flex items-center justify-center h-96 text-white/60">
             <div className="text-center">
-              <span className="text-4xl mb-2 block">🥧</span>
-              <p>Nenhum dado disponível</p>
+              <span className="text-4xl mb-2 block">ðŸ¥§</span>
+              <p>Nenhum dado disponÃ­vel</p>
             </div>
           </div>
         </div>
@@ -258,7 +254,6 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
   
   const total = data.reduce((sum, item) => sum + item.value, 0)
   
-  // Se total é 0, não renderizar o gráfico
   if (total === 0) {
     return (
       <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6 relative overflow-hidden">
@@ -271,7 +266,7 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
           <h3 className="text-lg font-medium text-white mb-4">{title}</h3>
           <div className="flex items-center justify-center h-96 text-white/60">
             <div className="text-center">
-              <span className="text-4xl mb-2 block">💸</span>
+              <span className="text-4xl mb-2 block">ðŸ’¸</span>
               <p>Nenhuma despesa registrada</p>
             </div>
           </div>
@@ -280,17 +275,14 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
     )
   }
   
-  // Gerar cores se não existirem
   const colors = ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#6366F1', '#F97316']
   
-  // Calcular ângulos para cada fatia
   let startAngle = 0
   const pieSlices = data.map((item, index) => {
     const percentage = (item.value / total) * 100
     const angle = (percentage / 100) * 360
     const endAngle = startAngle + angle
     
-    // Usar raio maior para melhor visualização
     const radius = 120
     const centerX = 140
     const centerY = 140
@@ -331,10 +323,10 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
         <h3 className="text-lg font-medium text-white mb-6">{title}</h3>
         
         <div className="h-96 flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
-          {/* Gráfico de Pizza maior */}
+          {/* GrÃ¡fico de Pizza maior */}
           <div className="relative flex-shrink-0">
             <svg width="280" height="280" viewBox="0 0 280 280" className="drop-shadow-2xl">
-              {/* Sombra do círculo */}
+              {/* Sombra do cÃ­rculo */}
               <circle 
                 cx="140" 
                 cy="140" 
@@ -402,7 +394,7 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
                   />
                   <div>
                     <div className="text-white font-medium text-base">{item.label}</div>
-                    <div className="text-sm text-white/60">{item.transactionCount} transações • {item.percentage.toFixed(1)}%</div>
+                    <div className="text-sm text-white/60">{item.transactionCount} transaÃ§Ãµes â€¢ {item.percentage.toFixed(1)}%</div>
                   </div>
                 </div>
                 <div className="text-right">
@@ -413,7 +405,7 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
           </div>
         </div>
         
-        {/* Estatísticas melhoradas */}
+        {/* EstatÃ­sticas melhoradas */}
         <div className="mt-8 grid grid-cols-3 gap-4">
           <div className="bg-blue-400/10 border border-blue-400/20 rounded-xl p-4 text-center">
             <div className="text-xl font-light text-white">{data.length}</div>
@@ -423,13 +415,13 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
             <div className="text-xl font-light text-white">
               {formatCurrency(data.length > 0 ? total / data.length : 0)}
             </div>
-            <div className="text-sm text-white/60 mt-1">Média por Categoria</div>
+            <div className="text-sm text-white/60 mt-1">MÃ©dia por Categoria</div>
           </div>
           <div className="bg-green-400/10 border border-green-400/20 rounded-xl p-4 text-center">
             <div className="text-xl font-light text-white">
               {data.reduce((sum, item) => sum + item.transactionCount, 0)}
             </div>
-            <div className="text-sm text-white/60 mt-1">Total Transações</div>
+            <div className="text-sm text-white/60 mt-1">Total TransaÃ§Ãµes</div>
           </div>
         </div>
       </div>

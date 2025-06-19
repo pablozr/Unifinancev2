@@ -1,4 +1,4 @@
-export interface MonthlyDataPoint {
+﻿export interface MonthlyDataPoint {
   month: string
   income: number
   expenses: number
@@ -41,7 +41,6 @@ export function linearRegression(points: { x: number; y: number }[]): LinearRegr
   const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX)
   const intercept = (sumY - slope * sumX) / n
 
-  // Calcular R²
   const meanY = sumY / n
   const totalSumSquares = points.reduce((sum, p) => sum + Math.pow(p.y - meanY, 2), 0)
   const residualSumSquares = points.reduce((sum, p) => {
@@ -63,7 +62,6 @@ export function detectSeasonality(data: MonthlyDataPoint[]): SeasonalityResult {
     return { factor: 1, confidence: 0, peak: 0, low: 0 }
   }
 
-  // Analisar padrão sazonal por mês do ano
   const monthlyAverages = new Map<number, number[]>()
   
   data.forEach(point => {
@@ -74,7 +72,6 @@ export function detectSeasonality(data: MonthlyDataPoint[]): SeasonalityResult {
     monthlyAverages.get(month)!.push(Math.abs(point.balance))
   })
 
-  // Calcular médias por mês
   const averages: number[] = []
   for (let month = 1; month <= 12; month++) {
     const values = monthlyAverages.get(month) || []
@@ -88,7 +85,6 @@ export function detectSeasonality(data: MonthlyDataPoint[]): SeasonalityResult {
     return { factor: 1, confidence: 0, peak: 0, low: 0 }
   }
 
-  // Calcular variação sazonal
   const mean = averages.reduce((sum, val) => sum + val, 0) / averages.length
   const maxValue = Math.max(...averages)
   const minValue = Math.min(...averages)
@@ -96,7 +92,6 @@ export function detectSeasonality(data: MonthlyDataPoint[]): SeasonalityResult {
   const seasonalVariation = mean > 0 ? (maxValue - minValue) / mean : 0
   const confidence = Math.min(100, seasonalVariation * 100)
   
-  // Fator sazonal baseado no mês atual
   const currentMonth = new Date().getMonth() + 1
   const currentSeasonalValue = monthlyAverages.get(currentMonth)?.slice(-1)[0] || mean
   const factor = mean > 0 ? currentSeasonalValue / mean : 1
@@ -115,14 +110,12 @@ export function calculateVolatility(data: MonthlyDataPoint[]): number {
   const balances = data.map(d => d.balance)
   const mean = balances.reduce((sum, val) => sum + val, 0) / balances.length
   
-  // Calcular desvio padrão
   const variance = balances.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / balances.length
   const stdDev = Math.sqrt(variance)
   
-  // Normalizar pela média para obter volatilidade relativa
   const volatility = Math.abs(mean) > 0 ? stdDev / Math.abs(mean) : 0
   
-  return Math.min(1, volatility) // Máximo 1 (100% de volatilidade)
+  return Math.min(1, volatility) // MÃ¡ximo 1 (100% de volatilidade)
 }
 
 export function detectCyclicalPatterns(data: MonthlyDataPoint[]): CyclicalPattern {
@@ -130,7 +123,6 @@ export function detectCyclicalPatterns(data: MonthlyDataPoint[]): CyclicalPatter
 
   const balances = data.map(d => d.balance)
   
-  // Detectar ciclos de 3, 4, 6 meses
   const cycleLengths = [3, 4, 6]
   let bestCycle = { length: 0, correlation: 0, amplitude: 0 }
 
@@ -151,7 +143,7 @@ export function detectCyclicalPatterns(data: MonthlyDataPoint[]): CyclicalPatter
     }
 
     if (validComparisons > 0) {
-      const avgCorrelation = 1 - (correlation / validComparisons) // Inverter para que alta correlação = valor alto
+      const avgCorrelation = 1 - (correlation / validComparisons) // Inverter para que alta correlaÃ§Ã£o = valor alto
       const amplitude = Math.max(...balances) - Math.min(...balances)
 
       if (avgCorrelation > bestCycle.correlation) {
@@ -181,7 +173,6 @@ export function analyzeTrendsWithMovingAverage(monthlyData: MonthlyDataPoint[]) 
   
   const movingAverage = recentData.reduce((sum, data) => sum + data.balance, 0) / recentData.length
   
-  // Comparar com média anterior
   const previousData = monthlyData.slice(-windowSize * 2, -windowSize)
   const previousAverage = previousData.length > 0 ? 
     previousData.reduce((sum, data) => sum + data.balance, 0) / previousData.length : 

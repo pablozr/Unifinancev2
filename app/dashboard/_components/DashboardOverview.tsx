@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { motion } from 'framer-motion'
 import { useState, useEffect, useCallback } from 'react'
@@ -23,7 +23,6 @@ import { formatRelativeDateBR } from '@/lib/utils/validDate'
 import { formatCurrency, formatPercentage } from '@/lib/utils/currency'
 
 
-// Ícones simples em SVG
 const TrendingUpIcon = () => (
   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -76,8 +75,6 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
   const loadChartData = useCallback(async () => {
     setIsLoadingCharts(true)
     try {
-      console.log('🔄 Loading chart data with filter:', currentFilter)
-      
       const [cashFlow, categories, recentTrans, dashboardStats] = await Promise.all([
         getCashFlowData(userId, currentFilter),
         getCategoryData(userId, currentFilter),
@@ -85,33 +82,25 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         getFilteredDashboardStats(userId, currentFilter)
       ])
       
-      console.log('📊 Cash flow data:', cashFlow)
-      console.log('🥧 Category data:', categories)
-      console.log('📄 Recent transactions:', recentTrans)
-      console.log('📈 Dashboard stats:', dashboardStats)
-      
       setCashFlowData(cashFlow)
       setFilteredCategoryData(categories)
       setFilteredRecentTransactions(recentTrans)
       setFilteredStats(dashboardStats)
     } catch (error) {
-      console.error('❌ Error loading chart data:', error)
+      // ... existing code ...
     } finally {
       setIsLoadingCharts(false)
     }
   }, [userId, currentFilter])
 
-  // Carregar dados dos gráficos quando o filtro mudar
   useEffect(() => {
     loadChartData()
   }, [currentFilter, userId, loadChartData])
 
   const handlePeriodChange = (filter: PeriodFilter) => {
-    console.log('📅 Period changed:', filter)
     setCurrentFilter(filter)
   }
 
-  // Criar cards de estatísticas a partir dos dados filtrados
   const statCards: StatCard[] = [
     {
       title: 'Saldo Total',
@@ -122,10 +111,10 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
     },
     {
       title: currentFilter.type === 'monthly' && currentFilter.year && currentFilter.month !== undefined
-        ? 'Receitas do Mês'
+        ? 'Receitas do MÃªs'
         : currentFilter.type === 'yearly' && currentFilter.year
         ? 'Receitas do Ano'
-        : 'Receitas do Período',
+        : 'Receitas do PerÃ­odo',
       value: formatCurrency(filteredStats.monthlyIncome),
       change: formatPercentage(filteredStats.incomeChange),
       changeType: filteredStats.incomeChange >= 0 ? 'positive' : 'negative',
@@ -133,17 +122,17 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
     },
     {
       title: currentFilter.type === 'monthly' && currentFilter.year && currentFilter.month !== undefined
-        ? 'Despesas do Mês'
+        ? 'Despesas do MÃªs'
         : currentFilter.type === 'yearly' && currentFilter.year
         ? 'Despesas do Ano'
-        : 'Despesas do Período',
+        : 'Despesas do PerÃ­odo',
       value: formatCurrency(filteredStats.monthlyExpenses),
       change: formatPercentage(filteredStats.expenseChange),
       changeType: filteredStats.expenseChange <= 0 ? 'positive' : 'negative',
       icon: <TrendingDownIcon />
     },
     {
-      title: 'Transações',
+      title: 'TransaÃ§Ãµes',
       value: filteredStats.transactionCount.toString(),
       change: formatPercentage(filteredStats.transactionChange),
       changeType: filteredStats.transactionChange >= 0 ? 'positive' : 'negative',
@@ -151,7 +140,6 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
     }
   ]
 
-  // Converter dados de categoria para o formato esperado pelo gráfico
   const chartCategoryData = filteredCategoryData.map(cat => ({
     name: cat.categoryName,
     value: cat.totalAmount,
@@ -170,12 +158,12 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
           <div>
             <h1 className="text-4xl font-light text-white mb-3">
-              Visão Geral
+              VisÃ£o Geral
             </h1>
-            <p className="text-white/60 text-lg">Acompanhe suas finanças em tempo real</p>
+            <p className="text-white/60 text-lg">Acompanhe suas finanÃ§as em tempo real</p>
           </div>
           
-          {/* Seletor de Período */}
+          {/* Seletor de PerÃ­odo */}
           <div className="mt-4 lg:mt-0">
             <PeriodSelector 
               currentFilter={currentFilter}
@@ -193,7 +181,6 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8"
       >
         {isLoadingCharts ? (
-          // Loading skeleton para os cards
           [...Array(4)].map((_, index) => (
             <div key={index} className="bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6">
               <div className="flex items-center justify-between">
@@ -233,16 +220,12 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
                 </div>
                 <h3 className="text-white/60 text-sm font-medium mb-1">{card.title}</h3>
                 <p className={`text-2xl font-light ${
-                  // Saldo Total - cor baseada no valor
                   card.title === 'Saldo Total' 
                     ? filteredStats.totalBalance >= 0 ? 'text-green-400' : 'text-red-400'
-                    // Receitas - sempre verde
                     : card.title.includes('Receitas') 
                     ? 'text-green-400'
-                    // Despesas - sempre vermelho
                     : card.title.includes('Despesas') 
                     ? 'text-red-400'
-                    // Transações - branco
                     : 'text-white'
                 }`}>
                   {card.value}
@@ -298,7 +281,7 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         </motion.div>
       </div>
 
-      {/* Transações Recentes */}
+      {/* TransaÃ§Ãµes Recentes */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -306,7 +289,7 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         className="bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6"
       >
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-medium text-white">Transações Recentes</h3>
+          <h3 className="text-xl font-medium text-white">TransaÃ§Ãµes Recentes</h3>
           <TransactionsModal userId={userId} currentFilter={currentFilter} />
         </div>
         
@@ -348,14 +331,14 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
             <div className="text-center py-8">
               <p className="text-white/60">
                 {currentFilter.type === 'monthly' || currentFilter.type === 'yearly' 
-                  ? 'Nenhuma transação encontrada para este período' 
-                  : 'Nenhuma transação encontrada'
+                  ? 'Nenhuma transaÃ§Ã£o encontrada para este perÃ­odo' 
+                  : 'Nenhuma transaÃ§Ã£o encontrada'
                 }
               </p>
               <p className="text-white/40 text-sm mt-1">
                 {currentFilter.type === 'monthly' || currentFilter.type === 'yearly'
-                  ? 'Tente selecionar um período diferente'
-                  : 'Suas transações aparecerão aqui'
+                  ? 'Tente selecionar um perÃ­odo diferente'
+                  : 'Suas transaÃ§Ãµes aparecerÃ£o aqui'
                 }
               </p>
             </div>

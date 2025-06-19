@@ -1,24 +1,19 @@
-import { RawBankStatement } from '../_types/types';
+﻿import { RawBankStatement } from '../_types/types';
 
 export async function parseCSV(file: File): Promise<RawBankStatement[]> {
   try {
-    // Converter File para texto
     const text = await file.text();
     
-    // Dividir em linhas e remover linhas vazias
     const lines = text.split('\n').filter(line => line.trim() !== '');
     
     if (lines.length < 2) {
-      throw new Error('Arquivo CSV deve ter pelo menos um cabeçalho e uma linha de dados');
+      throw new Error('Arquivo CSV deve ter pelo menos um cabeÃ§alho e uma linha de dados');
     }
     
-    // Primeira linha é o cabeçalho
     const headerLine = lines[0];
     const headers = parseCSVLine(headerLine);
     
-    console.log('Cabeçalhos encontrados:', headers);
     
-    // Mapear índices dos cabeçalhos (mais flexível)
     const headerMap = {
       date: findHeaderIndex(headers, ['date', 'data', 'dt', 'fecha', 'datum']),
       description: findHeaderIndex(headers, ['description', 'descricao', 'desc', 'historico', 'memo', 'details', 'detalhes']),
@@ -27,14 +22,11 @@ export async function parseCSV(file: File): Promise<RawBankStatement[]> {
       category: findHeaderIndex(headers, ['category', 'categoria', 'cat', 'class', 'group', 'grupo'])
     };
     
-    console.log('Mapeamento de cabeçalhos:', headerMap);
     
-    // Verificar se pelo menos temos data, descrição e valor
     if (headerMap.date === -1 && headerMap.description === -1 && headerMap.amount === -1) {
-      throw new Error(`Não foi possível identificar as colunas necessárias. Cabeçalhos encontrados: ${headers.join(', ')}`);
+      throw new Error(`NÃ£o foi possÃ­vel identificar as colunas necessÃ¡rias. CabeÃ§alhos encontrados: ${headers.join(', ')}`);
     }
     
-    // Processar linhas de dados
     const results: RawBankStatement[] = [];
     
     for (let i = 1; i < lines.length; i++) {
@@ -44,31 +36,24 @@ export async function parseCSV(file: File): Promise<RawBankStatement[]> {
       try {
         const values = parseCSVLine(line);
         
-        // Extrair valores usando o mapeamento (com fallbacks)
         const rawDate = headerMap.date >= 0 ? values[headerMap.date]?.trim() : `${new Date().getFullYear()}-01-01`;
-        const description = headerMap.description >= 0 ? values[headerMap.description]?.trim() : `Transação ${i}`;
+        const description = headerMap.description >= 0 ? values[headerMap.description]?.trim() : `TransaÃ§Ã£o ${i}`;
         const rawAmount = headerMap.amount >= 0 ? values[headerMap.amount]?.trim() : '0';
         const typeOrCategory = headerMap.type >= 0 ? values[headerMap.type]?.trim() : '';
         const category = headerMap.category >= 0 ? values[headerMap.category]?.trim() : undefined;
         
-        // Pular linhas sem dados essenciais
         if (!rawAmount || rawAmount === '0' || rawAmount === '') {
-          console.warn(`Linha ${i + 1}: Valor não encontrado ou zero`);
           continue;
         }
         
-        // Processar valor
         let amount = parseAmount(rawAmount);
         
-        // Determinar tipo de transação (mais inteligente)
         let processedType: 'credit' | 'debit';
         
-        // 1. Verificar se o valor é negativo
         if (amount < 0) {
           processedType = 'debit';
           amount = Math.abs(amount);
         }
-        // 2. Verificar coluna tipo/categoria
         else if (typeOrCategory) {
           const typeText = typeOrCategory.toLowerCase();
           if (typeText.includes('credit') || typeText.includes('credito') || 
@@ -82,34 +67,30 @@ export async function parseCSV(file: File): Promise<RawBankStatement[]> {
                      typeText.includes('payment') || typeText.includes('pagamento')) {
             processedType = 'debit';
           } else {
-            // Se não conseguir determinar, assumir crédito para valores positivos
             processedType = 'credit';
           }
         }
-        // 3. Fallback: valores positivos = crédito
         else {
           processedType = 'credit';
         }
         
         results.push({
           date: rawDate,
-          description: description || `Transação ${i}`,
+          description: description || `TransaÃ§Ã£o ${i}`,
           amount,
           type: processedType,
           category: category || typeOrCategory || undefined
         });
         
       } catch (error) {
-        console.warn(`Erro na linha ${i + 1}:`, error);
         continue;
       }
     }
     
     if (results.length === 0) {
-      throw new Error('Nenhuma linha válida encontrada no arquivo CSV');
+      throw new Error('Nenhuma linha vÃ¡lida encontrada no arquivo CSV');
     }
     
-    console.log(`Processadas ${results.length} transações com sucesso`);
     return results;
     
   } catch (error) {
@@ -117,7 +98,6 @@ export async function parseCSV(file: File): Promise<RawBankStatement[]> {
   }
 }
 
-// Função para fazer parse de uma linha CSV (lida com aspas e vírgulas)
 function parseCSVLine(line: string): string[] {
   const result: string[] = [];
   let current = '';
@@ -128,15 +108,12 @@ function parseCSVLine(line: string): string[] {
     
     if (char === '"') {
       if (inQuotes && line[i + 1] === '"') {
-        // Aspas duplas escapadas
         current += '"';
-        i++; // Pular a próxima aspa
+        i++; // Pular a prÃ³xima aspa
       } else {
-        // Alternar estado das aspas
         inQuotes = !inQuotes;
       }
     } else if ((char === ',' || char === ';') && !inQuotes) {
-      // Vírgula ou ponto-e-vírgula fora das aspas = separador
       result.push(current.trim());
       current = '';
     } else {
@@ -144,13 +121,11 @@ function parseCSVLine(line: string): string[] {
     }
   }
   
-  // Adicionar último campo
   result.push(current.trim());
   
   return result;
 }
 
-// Função para encontrar índice do cabeçalho (mais flexível)
 function findHeaderIndex(headers: string[], possibleNames: string[]): number {
   for (const name of possibleNames) {
     const index = headers.findIndex(header => {
@@ -163,43 +138,33 @@ function findHeaderIndex(headers: string[], possibleNames: string[]): number {
   return -1;
 }
 
-// Função para processar valores monetários (mais robusta)
 function parseAmount(value: string): number {
   if (!value || value.trim() === '') {
     throw new Error('Valor vazio');
   }
   
-  // Remover símbolos de moeda e espaços
-  let cleaned = value.replace(/[R$€£¥₹₽\s]/g, '');
+  let cleaned = value.replace(/[R$â‚¬Â£Â¥â‚¹â‚½\s]/g, '');
   
-  // Remover caracteres não numéricos (exceto . , + -)
   cleaned = cleaned.replace(/[^\d.,+\-]/g, '');
   
   if (!cleaned) {
-    throw new Error('Nenhum número encontrado');
+    throw new Error('Nenhum nÃºmero encontrado');
   }
   
-  // Lidar com formatos brasileiros (1.234,56) vs americanos (1,234.56)
   if (cleaned.includes(',') && cleaned.includes('.')) {
-    // Se tem ambos, assumir formato brasileiro se vírgula vem depois
     const lastComma = cleaned.lastIndexOf(',');
     const lastDot = cleaned.lastIndexOf('.');
     
     if (lastComma > lastDot) {
-      // Formato brasileiro: 1.234,56
       cleaned = cleaned.replace(/\./g, '').replace(',', '.');
     } else {
-      // Formato americano: 1,234.56
       cleaned = cleaned.replace(/,/g, '');
     }
   } else if (cleaned.includes(',')) {
-    // Só vírgula - pode ser decimal brasileiro ou separador de milhares
     const parts = cleaned.split(',');
     if (parts.length === 2 && parts[1].length <= 2) {
-      // Provavelmente decimal brasileiro
       cleaned = cleaned.replace(',', '.');
     } else {
-      // Provavelmente separador de milhares
       cleaned = cleaned.replace(/,/g, '');
     }
   }
@@ -207,7 +172,7 @@ function parseAmount(value: string): number {
   const parsed = parseFloat(cleaned);
   
   if (isNaN(parsed)) {
-    throw new Error(`Valor inválido: ${value}`);
+    throw new Error(`Valor invÃ¡lido: ${value}`);
   }
   
   return parsed;

@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 
@@ -19,7 +19,7 @@ export default async function getUserImports(): Promise<CSVImport[]> {
     
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
-      throw new Error('Usuário não autenticado')
+      throw new Error('UsuÃ¡rio nÃ£o autenticado')
     }
 
     const { data, error } = await supabase
@@ -29,12 +29,11 @@ export default async function getUserImports(): Promise<CSVImport[]> {
       .order('created_at', { ascending: false })
 
     if (error) {
-      throw new Error('Erro ao buscar importações')
+      throw new Error('Erro ao buscar importaÃ§Ãµes')
     }
 
     return data || []
   } catch (error) {
-    console.error('Erro ao buscar importações:', error)
     return []
   }
 } 

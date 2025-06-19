@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -38,7 +38,6 @@ export default function AddTransactionModal() {
       const result = await addSingleTransaction(formData)
       
       if (result.success) {
-        // Limpar form
         setFormData({
           description: '',
           type: 'debit',
@@ -47,17 +46,13 @@ export default function AddTransactionModal() {
           date: new Date()
         })
         
-        // Fechar modal
         closeModal()
         
-        // Mostrar sucesso (opcional - pode usar toast aqui)
-        console.log('✅ Transação criada com sucesso!')
       } else {
-        setError(result.error || 'Erro ao criar transação')
+        setError(result.error || 'Erro ao criar transaÃ§Ã£o')
       }
     } catch (err) {
-      setError('Erro inesperado ao criar transação')
-      console.error('Erro:', err)
+      setError('Erro inesperado ao criar transaÃ§Ã£o')
     } finally {
       setIsLoading(false)
     }
@@ -74,16 +69,16 @@ export default function AddTransactionModal() {
     <BaseModal
       isOpen={isOpen}
       onClose={closeModal}
-      title="Adicionar Transação"
-      subtitle="Crie uma nova transação manual"
+      title="Adicionar TransaÃ§Ã£o"
+      subtitle="Crie uma nova transaÃ§Ã£o manual"
       size="sm"
     >
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Descrição */}
+        {/* DescriÃ§Ã£o */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            Descrição *
+            DescriÃ§Ã£o *
           </label>
           <input
             type="text"
@@ -106,8 +101,8 @@ export default function AddTransactionModal() {
             className="w-full px-4 py-3 bg-gray-900/50 border border-gray-800/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white transition-all duration-200"
             required
           >
-            <option value="debit" className="bg-gray-900">💸 Despesa</option>
-            <option value="credit" className="bg-gray-900">💰 Receita</option>
+            <option value="debit" className="bg-gray-900">ðŸ’¸ Despesa</option>
+            <option value="credit" className="bg-gray-900">ðŸ’° Receita</option>
           </select>
         </div>
 
@@ -138,7 +133,7 @@ export default function AddTransactionModal() {
             value={formData.category}
             onChange={(e) => handleInputChange('category', e.target.value)}
             className="w-full px-4 py-3 bg-gray-900/50 border border-gray-800/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-gray-400 transition-all duration-200"
-            placeholder="Ex: Alimentação, Transporte"
+            placeholder="Ex: AlimentaÃ§Ã£o, Transporte"
           />
         </div>
 
@@ -166,7 +161,7 @@ export default function AddTransactionModal() {
           </motion.div>
         )}
 
-        {/* Botões */}
+        {/* BotÃµes */}
         <div className="flex gap-3 pt-4">
           <button
             type="button"
@@ -187,7 +182,7 @@ export default function AddTransactionModal() {
                 <span>Salvando...</span>
               </div>
             ) : (
-              'Criar Transação'
+              'Criar TransaÃ§Ã£o'
             )}
           </button>
         </div>

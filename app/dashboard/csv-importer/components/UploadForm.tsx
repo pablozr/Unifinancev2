@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef } from 'react'
 import uploadAndProcess, { UploadResult } from '../_actions/uploadAndProcess'
@@ -23,7 +23,6 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
       
       if (result.success) {
         onSuccess(result)
-        // Reset form
         if (fileInputRef.current) {
           fileInputRef.current.value = ''
         }
@@ -59,7 +58,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
         formData.append('file', file)
         handleSubmit(formData)
       } else {
-        setError('Apenas arquivos CSV são permitidos')
+        setError('Apenas arquivos CSV sÃ£o permitidos')
       }
     }
   }
@@ -77,10 +76,10 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
       <div className="bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-3xl p-8">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-light text-white mb-2">
-            Importar Extrato Bancário
+            Importar Extrato BancÃ¡rio
           </h2>
           <p className="text-white/60 text-sm">
-            Faça upload do seu arquivo CSV para análise automática
+            FaÃ§a upload do seu arquivo CSV para anÃ¡lise automÃ¡tica
           </p>
         </div>
 
@@ -131,7 +130,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
             </div>
 
             <div className="text-xs text-white/40">
-              Formatos aceitos: CSV • Tamanho máximo: 10MB
+              Formatos aceitos: CSV â€¢ Tamanho mÃ¡ximo: 10MB
             </div>
           </div>
         </div>
@@ -154,7 +153,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
 
         <div className="mt-8 p-4 bg-white/[0.02] rounded-2xl">
           <h3 className="text-white font-medium mb-3 text-sm">
-            📋 Formatos aceitos (muito flexível):
+            ðŸ“‹ Formatos aceitos (muito flexÃ­vel):
           </h3>
           <div className="text-xs text-white/60 space-y-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -167,7 +166,7 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
                 <div>amount, valor, value, val, quantia</div>
               </div>
               <div>
-                <div className="font-medium text-white/80 mb-1">Colunas de Descrição:</div>
+                <div className="font-medium text-white/80 mb-1">Colunas de DescriÃ§Ã£o:</div>
                 <div>description, descricao, desc, historico</div>
               </div>
               <div>
@@ -177,18 +176,18 @@ export default function UploadForm({ onSuccess }: UploadFormProps) {
             </div>
             
             <div className="mt-4 pt-3 border-t border-white/[0.05]">
-              <div className="font-medium text-white/80 mb-2">💰 Formatos de valor aceitos:</div>
+              <div className="font-medium text-white/80 mb-2">ðŸ’° Formatos de valor aceitos:</div>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div>• R$ 1.234,56</div>
-                <div>• $1,234.56</div>
-                <div>• 1234.56</div>
-                <div>• -150,50 (débito automático)</div>
+                <div>â€¢ R$ 1.234,56</div>
+                <div>â€¢ $1,234.56</div>
+                <div>â€¢ 1234.56</div>
+                <div>â€¢ -150,50 (dÃ©bito automÃ¡tico)</div>
               </div>
             </div>
 
             <div className="mt-3 pt-3 border-t border-white/[0.05]">
-              <div className="font-medium text-white/80 mb-2">🔄 Separadores aceitos:</div>
-              <div>Vírgula (,) ou ponto-e-vírgula (;)</div>
+              <div className="font-medium text-white/80 mb-2">ðŸ”„ Separadores aceitos:</div>
+              <div>VÃ­rgula (,) ou ponto-e-vÃ­rgula (;)</div>
             </div>
           </div>
         </div>

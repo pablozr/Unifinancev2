@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+﻿import { createClient } from '@/lib/supabase/server'
 
 export interface ImportRecordResult {
   success: boolean
@@ -19,7 +19,6 @@ export default async function createImportRecord(
   try {
     const supabase = await createClient()
     
-    console.log('📝 Criando registro de import...')
     
     let finalHash = fileHash
     let finalFilename = filename
@@ -40,11 +39,8 @@ export default async function createImportRecord(
       .single()
 
     if (importError) {
-      console.error('❌ Import error details:', importError)
       
-      // Se for erro de constraint única, tentar workaround
       if (importError.code === '23505') {
-        console.log('🔄 Erro de constraint única detectado, tentando workaround...')
         
         finalHash = `${fileHash}_${Date.now()}`
         finalFilename = `${Date.now()}_${filename}`
@@ -65,14 +61,12 @@ export default async function createImportRecord(
           .single()
         
         if (retryError) {
-          console.error('❌ Retry também falhou:', retryError)
           return { 
             success: false, 
             error: `Erro persistente: ${retryError.message}` 
           }
         }
         
-        console.log('✅ Workaround funcionou com hash modificado')
         return {
           success: true,
           csvImport: csvImportRetry,
@@ -82,7 +76,7 @@ export default async function createImportRecord(
       } else {
         return { 
           success: false, 
-          error: `Erro ao criar registro de importação: ${importError.message}` 
+          error: `Erro ao criar registro de importaÃ§Ã£o: ${importError.message}` 
         }
       }
     }
@@ -94,7 +88,6 @@ export default async function createImportRecord(
       finalFilename
     }
   } catch (error) {
-    console.error('❌ Erro ao criar registro:', error)
     return { 
       success: false, 
       error: `Erro ao criar registro: ${error}` 

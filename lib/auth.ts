@@ -1,8 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
+﻿import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
 
-// Re-export getUser function
 export { default as getUser } from '@/app/auth/_data/getUser'
 
 export const getSession = cache(async () => {
@@ -10,12 +9,10 @@ export const getSession = cache(async () => {
     const supabase = await createClient()
     const { data: { session }, error } = await supabase.auth.getSession()
     if (error) {
-      console.log('Error getting session:', error)
       return null
     }
     return session
   } catch (error) {
-    console.log('Exception getting session:', error)
     return null
   }
 })

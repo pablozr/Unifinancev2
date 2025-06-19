@@ -1,28 +1,23 @@
-import { MonthlyData, ProcessedTransaction } from "../_types/types"
+﻿import { MonthlyData, ProcessedTransaction } from "../_types/types"
 import { parseDateBR } from '@/lib/utils/validDate'
 
 export function transformToMonthlyData(
     transactions: ProcessedTransaction[]
   ): MonthlyData[] {
     
-    console.log('Transformando transações:', transactions.slice(0, 3))
     
     const grouped = transactions.reduce((acc, transaction) => {
-      // Garantir que temos uma data válida
       let date: Date
       
       if (transaction.date instanceof Date) {
         date = transaction.date
       } else if (typeof transaction.date === 'string') {
-        // Processar string de data usando função unificada
         const parsedDate = parseDateBR(transaction.date)
         if (!parsedDate) {
-          console.warn('Data inválida encontrada:', transaction.date)
           return acc
         }
         date = parsedDate
       } else {
-        console.warn('Data inválida encontrada:', transaction.date)
         return acc
       }
       
@@ -41,12 +36,11 @@ export function transformToMonthlyData(
         }
       }
       
-      // Atualizar transação com mês/ano corretos
       const updatedTransaction = {
         ...transaction,
         month,
         year,
-        date // Garantir que é um objeto Date
+        date // Garantir que Ã© um objeto Date
       }
       
       acc[key].transactions.push(updatedTransaction)
@@ -67,7 +61,6 @@ export function transformToMonthlyData(
       return b.month - a.month
     })
     
-    console.log('Dados mensais agrupados:', result)
     
     return result
 }

@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -13,7 +13,7 @@ export default async function login(_: AuthResult, formData: FormData): Promise<
   }
 
   if (!rawData.email || !rawData.password) {
-    return { success: false, error: 'Email e senha são obrigatórios' }
+    return { success: false, error: 'Email e senha sÃ£o obrigatÃ³rios' }
   }
 
   const result = loginFormSchema.safeParse(rawData)
@@ -35,7 +35,6 @@ export default async function login(_: AuthResult, formData: FormData): Promise<
 
     redirect(result.data.redirectTo || '/dashboard')
   } catch (error) {
-    console.error('Login error:', error)
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 

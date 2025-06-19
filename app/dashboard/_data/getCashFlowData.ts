@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 import { cache } from 'react'
 import { getDatabase } from '@/lib/supabase/database'
 import type { CashFlowMonth, PeriodFilter } from './types'
@@ -7,7 +7,7 @@ import { isRefundTransaction } from './utils/calculationUtils'
 
 /**
  * @function getCashFlowData
- * @description Busca dados de fluxo de caixa agrupados por mês
+ * @description Busca dados de fluxo de caixa agrupados por mÃªs
  */
 export const getCashFlowData = cache(async (
   userId: string, 
@@ -20,14 +20,12 @@ export const getCashFlowData = cache(async (
     orderDirection: 'asc'
   }
 
-  // Aplicar filtro de período se fornecido
   if (filter) {
     const dateRange = getDateRangeFromFilter(filter)
     if (dateRange) {
       queryConfig.dateRange = dateRange
     }
   } else {
-    // Buscar últimos 12 meses se não houver filtro
     const endDate = new Date()
     const startDate = new Date()
     startDate.setMonth(endDate.getMonth() - 12)
@@ -36,7 +34,6 @@ export const getCashFlowData = cache(async (
 
   const transactions = await database.findManyTransactions(queryConfig)
 
-  // Agrupar transações por mês
   const monthlyData = new Map<string, {
     month: string
     income: number
@@ -45,7 +42,6 @@ export const getCashFlowData = cache(async (
     sortKey: string
   }>()
 
-  // Inicializar meses do período
   const startDate = queryConfig.dateRange?.start || new Date()
   const endDate = queryConfig.dateRange?.end || new Date()
   
@@ -62,7 +58,6 @@ export const getCashFlowData = cache(async (
     })
   }
 
-  // Processar transações
   transactions.forEach((transaction: any) => {
     const date = new Date(transaction.date)
     const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`

@@ -10,6 +10,7 @@
     "test": "bun test",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
+    "test:generate": "bun run scripts/generate-tests.ts",
     "db:test-sync": "tsx scripts/test-user-sync.ts"
   },
   "dependencies": {

@@ -12,7 +12,6 @@ export async function getTransactionsClient(
   try {
     return await getAllTransactions(userId, page, limit, filter)
   } catch (error) {
-    console.error('Error in getTransactionsClient:', error)
     throw error
   }
 } 

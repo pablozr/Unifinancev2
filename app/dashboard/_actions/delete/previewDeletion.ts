@@ -1,10 +1,10 @@
-'use server'
+﻿'use server'
 
 import { validateUser, applyFiltersToQuery } from './utils'
 import type { DeleteFilters, PreviewDeletionResult } from './types'
 
 /**
- * Visualiza quantas transações seriam deletadas com os filtros aplicados
+ * Visualiza quantas transaÃ§Ãµes seriam deletadas com os filtros aplicados
  */
 export async function previewDeletionByFilters(
   userId: string,
@@ -17,13 +17,12 @@ export async function previewDeletionByFilters(
     .select('amount')
     .eq('user_id', userId)
 
-  // Aplicar filtros
   query = applyFiltersToQuery(query, filters)
 
   const { data: transactions, error } = await query
 
   if (error) {
-    throw new Error(`Erro ao buscar transações: ${error.message}`)
+    throw new Error(`Erro ao buscar transaÃ§Ãµes: ${error.message}`)
   }
 
   if (!transactions) {
@@ -39,7 +38,7 @@ export async function previewDeletionByFilters(
 }
 
 /**
- * Visualiza quantas transações seriam deletadas em um período
+ * Visualiza quantas transaÃ§Ãµes seriam deletadas em um perÃ­odo
  */
 export async function previewDeletionByPeriod(
   userId: string,
@@ -59,7 +58,7 @@ export async function previewDeletionByPeriod(
     .lte('date', endDateStr)
 
   if (error) {
-    throw new Error(`Erro ao buscar transações: ${error.message}`)
+    throw new Error(`Erro ao buscar transaÃ§Ãµes: ${error.message}`)
   }
 
   if (!transactions) {

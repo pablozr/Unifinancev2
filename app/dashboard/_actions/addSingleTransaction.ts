@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
@@ -23,26 +23,23 @@ export default async function addSingleTransaction(
   try {
     const supabase = await createClient()
     
-    // Verificar autenticação
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
-      return { success: false, error: 'Usuário não autenticado' }
+      return { success: false, error: 'UsuÃ¡rio nÃ£o autenticado' }
     }
 
-    // Validar dados
     if (!data.description || !data.description.trim()) {
-      return { success: false, error: 'Descrição é obrigatória' }
+      return { success: false, error: 'DescriÃ§Ã£o Ã© obrigatÃ³ria' }
     }
 
     if (!data.type || (data.type !== 'credit' && data.type !== 'debit')) {
-      return { success: false, error: 'Tipo de transação inválido' }
+      return { success: false, error: 'Tipo de transaÃ§Ã£o invÃ¡lido' }
     }
 
     if (!data.amount || data.amount <= 0) {
       return { success: false, error: 'Valor deve ser maior que zero' }
     }
 
-    // Preparar dados para inserção
     const transactionData = {
       user_id: user.id,
       description: data.description.trim(),
@@ -53,9 +50,7 @@ export default async function addSingleTransaction(
       created_at: new Date().toISOString(),
     }
 
-    console.log('💰 Criando transação:', transactionData)
 
-    // Inserir transação
     const { data: transaction, error } = await supabase
       .from('transactions')
       .insert([transactionData])
@@ -63,13 +58,10 @@ export default async function addSingleTransaction(
       .single()
 
     if (error) {
-      console.error('❌ Erro ao criar transação:', error)
-      return { success: false, error: `Erro ao criar transação: ${error.message}` }
+      return { success: false, error: `Erro ao criar transaÃ§Ã£o: ${error.message}` }
     }
 
-    console.log('✅ Transação criada com sucesso:', transaction.id)
 
-    // Revalidar caches
     revalidatePath('/dashboard')
     revalidatePath('/dashboard/insights')
 
@@ -79,10 +71,9 @@ export default async function addSingleTransaction(
     }
 
   } catch (error) {
-    console.error('❌ Erro inesperado ao criar transação:', error)
     return { 
       success: false, 
-      error: 'Erro inesperado ao criar transação'
+      error: 'Erro inesperado ao criar transaÃ§Ã£o'
     }
   }
 } 

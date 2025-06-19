@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { deleteAllUserTransactions, clearAllImportRecords } from '../_actions/deleteTransactions'
@@ -26,11 +26,10 @@ export function DataManagement({ userId }: DataManagementProps) {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
   const [result, setResult] = useState<DeleteResult | null>(null)
 
-  // Gerar opções de meses
   const months = [
     { value: '1', label: 'Janeiro' },
     { value: '2', label: 'Fevereiro' },
-    { value: '3', label: 'Março' },
+    { value: '3', label: 'MarÃ§o' },
     { value: '4', label: 'Abril' },
     { value: '5', label: 'Maio' },
     { value: '6', label: 'Junho' },
@@ -42,7 +41,6 @@ export function DataManagement({ userId }: DataManagementProps) {
     { value: '12', label: 'Dezembro' }
   ]
 
-  // Gerar opções de anos (últimos 3 anos + próximo ano)
   const currentYear = new Date().getFullYear()
   const years = Array.from({ length: 4 }, (_, i) => currentYear - 2 + i)
 
@@ -53,37 +51,37 @@ export function DataManagement({ userId }: DataManagementProps) {
     let actionDescription = ''
 
     if (selectedOption === 'all') {
-      confirmMessage = `🚨 ATENÇÃO EXTREMA! 🚨
+      confirmMessage = `ðŸš¨ ATENÃ‡ÃƒO EXTREMA! ðŸš¨
 
-Você está prestes a DELETAR TODAS AS TRANSAÇÕES e registros de import!
+VocÃª estÃ¡ prestes a DELETAR TODAS AS TRANSAÃ‡Ã•ES e registros de import!
 
-⚠️ ESTA AÇÃO NÃO PODE SER DESFEITA! ⚠️
+âš ï¸ ESTA AÃ‡ÃƒO NÃƒO PODE SER DESFEITA! âš ï¸
 
 Digite "DELETAR TUDO" para confirmar:`
-      actionDescription = 'todas as transações'
+      actionDescription = 'todas as transaÃ§Ãµes'
     } else if (selectedOption === 'month') {
       if (!selectedMonth) {
-        alert('Selecione um mês')
+        alert('Selecione um mÃªs')
         return
       }
       const monthName = months.find(m => m.value === selectedMonth)?.label
-      confirmMessage = `⚠️ ATENÇÃO! ⚠️
+      confirmMessage = `âš ï¸ ATENÃ‡ÃƒO! âš ï¸
 
-Você está prestes a DELETAR todas as transações de ${monthName} ${selectedYear} e os registros de import relacionados.
+VocÃª estÃ¡ prestes a DELETAR todas as transaÃ§Ãµes de ${monthName} ${selectedYear} e os registros de import relacionados.
 
-Esta ação NÃO PODE ser desfeita!
+Esta aÃ§Ã£o NÃƒO PODE ser desfeita!
 
 Digite "DELETAR MES" para confirmar:`
-      actionDescription = `transações de ${monthName} ${selectedYear}`
+      actionDescription = `transaÃ§Ãµes de ${monthName} ${selectedYear}`
     } else if (selectedOption === 'year') {
-      confirmMessage = `⚠️ ATENÇÃO! ⚠️
+      confirmMessage = `âš ï¸ ATENÃ‡ÃƒO! âš ï¸
 
-Você está prestes a DELETAR todas as transações de ${selectedYear} e os registros de import relacionados.
+VocÃª estÃ¡ prestes a DELETAR todas as transaÃ§Ãµes de ${selectedYear} e os registros de import relacionados.
 
-Esta ação NÃO PODE ser desfeita!
+Esta aÃ§Ã£o NÃƒO PODE ser desfeita!
 
 Digite "DELETAR ANO" para confirmar:`
-      actionDescription = `transações de ${selectedYear}`
+      actionDescription = `transaÃ§Ãµes de ${selectedYear}`
     }
 
     const expectedText = selectedOption === 'all' ? 'DELETAR TUDO' : 
@@ -92,7 +90,7 @@ Digite "DELETAR ANO" para confirmar:`
     const confirmation = prompt(confirmMessage)
     
     if (confirmation !== expectedText) {
-      alert('Operação cancelada. Texto de confirmação incorreto.')
+      alert('OperaÃ§Ã£o cancelada. Texto de confirmaÃ§Ã£o incorreto.')
       return
     }
 
@@ -101,29 +99,23 @@ Digite "DELETAR ANO" para confirmar:`
       let deleteResult: DeleteResult
 
       if (selectedOption === 'all') {
-        // Deletar tudo
         deleteResult = await deleteAllUserTransactions(userId)
       } else {
-        // Para mês e ano, vamos usar a função de deletar tudo por enquanto
-        // TODO: Implementar funções específicas para mês/ano
         deleteResult = await deleteAllUserTransactions(userId)
       }
 
-      // Limpar registros de import
       await clearAllImportRecords(userId)
 
       setResult(deleteResult)
       
-      console.log(`✅ ${actionDescription} deletadas:`, deleteResult)
-      alert(`✅ SUCESSO! ${deleteResult.deleted} transações foram deletadas. A página será recarregada.`)
+      alert(`âœ… SUCESSO! ${deleteResult.deleted} transaÃ§Ãµes foram deletadas. A pÃ¡gina serÃ¡ recarregada.`)
       
-      // Recarregar após 2 segundos
       setTimeout(() => {
         window.location.reload()
       }, 2000)
     } catch (error) {
-      console.error('Erro ao deletar:', error)
-      alert(`❌ Erro: ${error}`)
+      // ... existing code ...
+      alert(`âŒ Erro: ${error}`)
     } finally {
       setIsLoading(false)
     }
@@ -134,19 +126,19 @@ Digite "DELETAR ANO" para confirmar:`
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-xl font-semibold text-white mb-2">
-            🗑️ Gerenciamento de Dados
+            ðŸ—‘ï¸ Gerenciamento de Dados
           </h3>
           <p className="text-gray-400 text-sm">
-            Remova transações e registros de import do sistema
+            Remova transaÃ§Ãµes e registros de import do sistema
           </p>
         </div>
       </div>
 
       <div className="space-y-6">
-        {/* Seletor de Tipo de Exclusão */}
+        {/* Seletor de Tipo de ExclusÃ£o */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-3">
-            Tipo de Exclusão
+            Tipo de ExclusÃ£o
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <button
@@ -158,9 +150,9 @@ Digite "DELETAR ANO" para confirmar:`
               }`}
             >
               <div className="text-center">
-                <div className="text-2xl mb-2">🚨</div>
+                <div className="text-2xl mb-2">ðŸš¨</div>
                 <div className="font-medium">Deletar Tudo</div>
-                <div className="text-xs opacity-75">Todas as transações</div>
+                <div className="text-xs opacity-75">Todas as transaÃ§Ãµes</div>
               </div>
             </button>
 
@@ -173,9 +165,9 @@ Digite "DELETAR ANO" para confirmar:`
               }`}
             >
               <div className="text-center">
-                <div className="text-2xl mb-2">📅</div>
-                <div className="font-medium">Deletar por Mês</div>
-                <div className="text-xs opacity-75">Período específico</div>
+                <div className="text-2xl mb-2">ðŸ“…</div>
+                <div className="font-medium">Deletar por MÃªs</div>
+                <div className="text-xs opacity-75">PerÃ­odo especÃ­fico</div>
               </div>
             </button>
 
@@ -188,7 +180,7 @@ Digite "DELETAR ANO" para confirmar:`
               }`}
             >
               <div className="text-center">
-                <div className="text-2xl mb-2">📆</div>
+                <div className="text-2xl mb-2">ðŸ“†</div>
                 <div className="font-medium">Deletar por Ano</div>
                 <div className="text-xs opacity-75">Ano completo</div>
               </div>
@@ -196,21 +188,21 @@ Digite "DELETAR ANO" para confirmar:`
           </div>
         </div>
 
-        {/* Seletores de Período */}
+        {/* Seletores de PerÃ­odo */}
         {(selectedOption === 'month' || selectedOption === 'year') && (
           <div className="bg-gray-800/30 rounded-xl p-4">
             <div className="flex gap-4">
               {selectedOption === 'month' && (
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Mês
+                    MÃªs
                   </label>
                   <select
                     value={selectedMonth}
                     onChange={(e) => setSelectedMonth(e.target.value)}
                     className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
                   >
-                    <option value="">Selecione o mês</option>
+                    <option value="">Selecione o mÃªs</option>
                     {months.map(month => (
                       <option key={month.value} value={month.value}>
                         {month.label}
@@ -240,7 +232,7 @@ Digite "DELETAR ANO" para confirmar:`
           </div>
         )}
 
-        {/* Botão de Ação */}
+        {/* BotÃ£o de AÃ§Ã£o */}
         <div className="flex justify-center">
           <button
             onClick={handleDelete}
@@ -260,9 +252,9 @@ Digite "DELETAR ANO" para confirmar:`
               </div>
             ) : (
               <>
-                {selectedOption === 'all' && '🚨 Deletar Todas as Transações'}
-                {selectedOption === 'month' && `📅 Deletar ${selectedMonth ? months.find(m => m.value === selectedMonth)?.label : 'Mês'} ${selectedYear}`}
-                {selectedOption === 'year' && `📆 Deletar Ano ${selectedYear}`}
+                {selectedOption === 'all' && 'ðŸš¨ Deletar Todas as TransaÃ§Ãµes'}
+                {selectedOption === 'month' && `ðŸ“… Deletar ${selectedMonth ? months.find(m => m.value === selectedMonth)?.label : 'MÃªs'} ${selectedYear}`}
+                {selectedOption === 'year' && `ðŸ“† Deletar Ano ${selectedYear}`}
               </>
             )}
           </button>
@@ -272,7 +264,7 @@ Digite "DELETAR ANO" para confirmar:`
         {result && (
           <div className="bg-green-900/20 border border-green-500/30 rounded-xl p-4">
             <h4 className="text-green-300 font-medium mb-2">
-              ✅ Exclusão Concluída com Sucesso!
+              âœ… ExclusÃ£o ConcluÃ­da com Sucesso!
             </h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
               <div className="text-center">
@@ -295,7 +287,7 @@ Digite "DELETAR ANO" para confirmar:`
               </div>
             </div>
             <p className="text-gray-400 text-xs mt-3 text-center">
-              A página será recarregada automaticamente...
+              A pÃ¡gina serÃ¡ recarregada automaticamente...
             </p>
           </div>
         )}

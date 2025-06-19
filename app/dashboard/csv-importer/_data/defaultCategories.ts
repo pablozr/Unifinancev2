@@ -1,4 +1,4 @@
-export interface DefaultCategory {
+﻿export interface DefaultCategory {
   name: string
   color: string
   icon: string
@@ -7,14 +7,12 @@ export interface DefaultCategory {
 
 export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
-    name: 'Alimentação',
+    name: 'AlimentaÃ§Ã£o',
     color: '#10B981',
-    icon: '🍔',
+    icon: 'ðŸ”',
     keywords: [
-      // IFOOD - máxima prioridade
       'ifood', 'ifoods', 'i food', 'i-food', 'ifood.com', 'ifoodcom',
       
-      // Outros deliveries
       'uber eats', 'ubereats', 'rappi', 'delivery', 'comida', 'restaurante', 
       'lanche', 'lanches', 'alimentos', 'alimentacao', 'mercado', 'supermercado', 
       'padaria', 'acougue', 'hortifruti', 'pizza', 'hamburger', 'hamburguer',
@@ -22,17 +20,14 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
       'cafe', 'cafeteria', 'bar', 'boteco', 'cerveja', 'refrigerante',
       'agua', 'bebida', 'doce', 'chocolate', 'sorvete', 'bolacha', 'biscoito',
       
-      // Supermercados
       'extra', 'carrefour', 'pao de acucar', 'big', 'atacadao', 'walmart',
       'sams club', 'makro', 'assai',
       
-      // Restaurantes
       'outback', 'mc donalds', 'bobs', 'girafas', 'china box', 'divino fogao',
       'lanchonete', 'pastelaria', 'churrascaria', 'grill', 'cozinha',
       'compras', 'alimentar', 'nutricao', 'feira', 'quitanda',
       'macarrao', 'macarraoirma', 'massa', 'lanch', 'marcinho', 'marcinholanch',
       
-      // Lojas que vendem alimentos
       'lojas americanas', 'americanas', 'loja americana', 'magazine luiza',
       'magalu', 'casas bahia'
     ]
@@ -40,17 +35,14 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Transporte',
     color: '#3B82F6',
-    icon: '🚗',
+    icon: 'ðŸš—',
     keywords: [
-      // Apps de transporte
       'uber', '99', '99 taxi', '99taxi', 'taxi', 'riopar', 'riocard', 
       'transporte', 'onibus', 'metro', 'trem', 
       
-      // Combustível
       'gasolina', 'combustivel', 'posto', 'shell', 'petrobras', 'ipiranga', 
       'br', 'etanol', 'alcool', 'diesel', 'ale sat', 'alesat',
       
-      // Outros transportes
       'estacionamento', 'zona azul', 'pedagio', 'vignette', 'multa',
       'detran', 'renavam', 'ipva', 'seguro auto', 'manutencao',
       'vlt', 'brt', 'metro rio', 'supervia', 'auto',
@@ -59,9 +51,9 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
     ]
   },
   {
-    name: 'Saúde',
+    name: 'SaÃºde',
     color: '#EF4444',
-    icon: '🏥',
+    icon: 'ðŸ¥',
     keywords: [
       'farmacia', 'drogaria', 'drogasil', 'pacheco', 'raia', 'medico', 
       'hospital', 'clinica', 'laboratorio', 'dentista', 'oftalmologista', 
@@ -74,21 +66,17 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Casa',
     color: '#F59E0B',
-    icon: '🏠',
+    icon: 'ðŸ ',
     keywords: [
-      // Contas básicas
       'aluguel', 'condominio', 'iptu', 'luz', 'energia', 'enel', 'light',
       'cemig', 'copel', 'agua', 'saneamento', 'sabesp', 'cedae',
       'gas', 'comgas', 'ultragaz', 'liquigas', 
       
-      // Internet e telefone
       'internet', 'wifi', 'vivo', 'claro', 'tim', 'oi', 'sky', 'net', 'telefone',
       
-      // Limpeza e manutenção
       'limpeza', 'diarista', 'empregada', 'porteiro', 'zelador',
       'reforma', 'pintura', 'eletricista', 'encanador', 'marceneiro',
       
-      // Pet
       'pet', 'american pet', 'americanpet', 'petshop', 'veterinario', 'animal',
       'racao', 'vacina animal'
     ]
@@ -96,28 +84,24 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Lazer',
     color: '#8B5CF6',
-    icon: '🎮',
+    icon: 'ðŸŽ®',
     keywords: [
-      // Streaming
       'netflix', 'spotify', 'amazon prime', 'disney plus', 'globoplay',
       'youtube premium', 'paramount', 'hbo max', 'prime video',
       
-      // Entretenimento
       'cinema', 'teatro', 'show', 'festa', 'balada', 'jogo', 'game', 
       'steam', 'playstation', 'xbox', 'nintendo',
       
-      // Viagens
       'viagem', 'hotel', 'pousada', 'airbnb', 'booking', 'decolar',
       'parque', 'zoologico', 'museu', 'exposicao', 'livro', 'revista',
       
-      // Esportes
       'academia', 'personal', 'natacao', 'futebol', 'basquete', 'gym'
     ]
   },
   {
-    name: 'Educação',
+    name: 'EducaÃ§Ã£o',
     color: '#06B6D4',
-    icon: '📚',
+    icon: 'ðŸ“š',
     keywords: [
       'escola', 'colegio', 'universidade', 'faculdade', 'curso',
       'aula', 'professor', 'mensalidade', 'material escolar',
@@ -126,22 +110,18 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
     ]
   },
   {
-    name: 'Vestuário',
+    name: 'VestuÃ¡rio',
     color: '#EC4899',
-    icon: '👕',
+    icon: 'ðŸ‘•',
     keywords: [
-      // Roupas
       'roupa', 'roupas', 'camisa', 'calca', 'vestido', 'saia',
       'sapato', 'tenis', 'sandalia', 'bolsa', 'carteira', 'cinto',
       
-      // Acessórios
       'oculos', 'relogio', 'joia', 'anel', 'colar', 'brinco',
       
-      // Cosméticos
       'perfume', 'maquiagem', 'cosmetico', 'shampoo', 'condicionador',
       'creme', 'protetor solar', 'barbeiro', 'cabeleireiro', 'salao',
       
-      // Lojas
       'renner', 'loja renner', 'lojas renner', 'zara', 'hm', 'h&m', 
       'c&a', 'marisa', 'riachuelo', 'posthaus'
     ]
@@ -149,7 +129,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Investimentos',
     color: '#059669',
-    icon: '📈',
+    icon: 'ðŸ“ˆ',
     keywords: [
       'investimento', 'aplicacao', 'poupanca', 'cdb', 'lci', 'lca',
       'tesouro', 'acao', 'fundo', 'previdencia', 'bitcoin', 'crypto',
@@ -161,7 +141,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Outros',
     color: '#6B7280',
-    icon: '📦',
+    icon: 'ðŸ“¦',
     keywords: [
       'outros', 'diverso', 'geral', 'misc', 'variado',
       'fatura', 'pagamento', 'conta', 'boleto', 'cartao',

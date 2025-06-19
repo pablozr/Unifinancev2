@@ -1,4 +1,4 @@
-import type { RecurringTransaction } from './recurringDetector'
+﻿import type { RecurringTransaction } from './recurringDetector'
 
 export interface CashFlowProjection {
   next30Days: number
@@ -6,7 +6,7 @@ export interface CashFlowProjection {
   next90Days: number
   recurringIncome: number
   recurringExpenses: number
-  alertDays: number[] // Dias que o saldo ficará negativo
+  alertDays: number[] // Dias que o saldo ficarÃ¡ negativo
 }
 
 export default function projectCashFlow(
@@ -16,7 +16,6 @@ export default function projectCashFlow(
   const now = new Date()
   const projectionPeriods = [30, 60, 90] // dias
   
-  // Calcular receitas e despesas recorrentes mensais
   const monthlyRecurringIncome = recurringTransactions
     .filter(rt => rt.type === 'income')
     .reduce((sum, rt) => {
@@ -35,15 +34,13 @@ export default function projectCashFlow(
       return sum + monthlyEquivalent
     }, 0)
   
-  // Projetar para cada período
   const projections = projectionPeriods.map(days => {
-    const months = days / 30.44 // Meses médios
+    const months = days / 30.44 // Meses mÃ©dios
     const projectedIncome = monthlyRecurringIncome * months
     const projectedExpenses = monthlyRecurringExpenses * months
     return currentBalance + projectedIncome - projectedExpenses
   })
   
-  // Detectar dias com saldo negativo (simulação diária simplificada)
   const alertDays: number[] = []
   let runningBalance = currentBalance
   const dailyIncome = monthlyRecurringIncome / 30.44
@@ -52,11 +49,10 @@ export default function projectCashFlow(
   for (let day = 1; day <= 90; day++) {
     runningBalance += dailyIncome - dailyExpenses
     
-    // Adicionar variação de ±20% para simular irregularidade
     const variation = runningBalance * 0.2 * (Math.random() - 0.5)
     const adjustedBalance = runningBalance + variation
     
-    if (adjustedBalance < 0 && alertDays.length < 5) { // Máximo 5 alertas
+    if (adjustedBalance < 0 && alertDays.length < 5) { // MÃ¡ximo 5 alertas
       alertDays.push(day)
     }
   }

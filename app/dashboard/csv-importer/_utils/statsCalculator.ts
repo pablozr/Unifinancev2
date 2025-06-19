@@ -1,4 +1,4 @@
-import { ProcessedTransaction } from '../_types/types'
+﻿import { ProcessedTransaction } from '../_types/types'
 
 export interface CategoryStats {
   count: number
@@ -13,14 +13,12 @@ export interface StatsResult {
 export default function calculateCategoryStats(
   transactions: ProcessedTransaction[]
 ): StatsResult {
-  // Calcular estatísticas de categorização - APENAS DESPESAS
   const expensesOnly = transactions.filter(t => t.type === 'debit')
   const categorizedCount = expensesOnly.filter(t => 
     t.detectedCategory && t.detectedCategory !== 'Outros' && t.categoryConfidence! >= 20
   ).length
   
   const categoryStats = expensesOnly.reduce((acc, transaction) => {
-    // Só incluir transações que foram realmente categorizadas
     if (transaction.detectedCategory && transaction.categoryConfidence && transaction.categoryConfidence >= 20) {
       const category = transaction.detectedCategory
       const confidence = transaction.categoryConfidence
@@ -44,7 +42,6 @@ export default function calculateCategoryStats(
     return acc
   }, {} as Record<string, CategoryStats>)
 
-  console.log('🤖 Transações categorizadas automaticamente:', categorizedCount)
 
   return {
     categorizedCount,

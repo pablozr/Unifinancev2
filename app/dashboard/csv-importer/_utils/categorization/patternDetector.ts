@@ -1,4 +1,4 @@
-import normalizeText from './textNormalizer'
+﻿import normalizeText from './textNormalizer'
 
 export interface PatternMatch {
   category: string
@@ -7,21 +7,19 @@ export interface PatternMatch {
 }
 
 /**
- * Detecta padrões específicos de marcas conhecidas
+ * Detecta padrÃµes especÃ­ficos de marcas conhecidas
  */
 export default function detectSpecificPatterns(description: string): PatternMatch | null {
   const desc = normalizeText(description)
   
-  // IFOOD - MÁXIMA PRIORIDADE para alimentação
   if (desc.includes('ifood') || desc.includes('i food') || desc.includes('ifoods')) {
     return {
-      category: 'Alimentação',
+      category: 'AlimentaÃ§Ã£o',
       confidence: 100,
       pattern: 'IFOOD'
     }
   }
   
-  // AMERICAN PET - prioritário para casa/pet
   if (desc.includes('american pet') || desc.includes('americanpet')) {
     return {
       category: 'Casa',
@@ -30,16 +28,14 @@ export default function detectSpecificPatterns(description: string): PatternMatc
     }
   }
   
-  // RENNER - prioritário para vestuário
   if (desc.includes('renner') || desc.includes('loja renner') || desc.includes('lojas renner')) {
     return {
-      category: 'Vestuário',
+      category: 'VestuÃ¡rio',
       confidence: 90,
       pattern: 'RENNER'
     }
   }
   
-  // UBER - prioritário para transporte
   if (desc.includes('uber') && !desc.includes('uber eats')) {
     return {
       category: 'Transporte',
@@ -48,16 +44,14 @@ export default function detectSpecificPatterns(description: string): PatternMatc
     }
   }
   
-  // UBER EATS - prioritário para alimentação
   if (desc.includes('uber eats') || desc.includes('ubereats')) {
     return {
-      category: 'Alimentação',
+      category: 'AlimentaÃ§Ã£o',
       confidence: 90,
       pattern: 'UBER EATS'
     }
   }
   
-  // NETFLIX, SPOTIFY - prioritário para lazer
   if (desc.includes('netflix') || desc.includes('spotify')) {
     return {
       category: 'Lazer',

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
@@ -30,7 +30,6 @@ export default function BaseModal({
   size = 'md',
   showCloseButton = true
 }: BaseModalProps) {
-  // Não renderizar no servidor
   if (typeof window === 'undefined') {
     return null
   }
@@ -91,7 +90,7 @@ export default function BaseModal({
               )}
             </div>
 
-            {/* Conteúdo do Modal */}
+            {/* ConteÃºdo do Modal */}
             <div className="flex-1 overflow-hidden flex flex-col">
               {children}
             </div>

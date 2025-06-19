@@ -1,6 +1,6 @@
-/**
+﻿/**
  * @fileoverview Database client unificado usando Supabase
- * @description Substitui o Prisma Client com funções otimizadas do Supabase
+ * @description Substitui o Prisma Client com funÃ§Ãµes otimizadas do Supabase
  */
 
 import { createBrowserClient } from '@supabase/ssr'
@@ -9,10 +9,9 @@ import type { Database } from '../types/database'
 
 /**
  * @function getSupabaseClient
- * @description Cria uma instância do cliente Supabase para operações de leitura no servidor
+ * @description Cria uma instÃ¢ncia do cliente Supabase para operaÃ§Ãµes de leitura no servidor
  */
 export function getSupabaseClient() {
-  // Para Server Components, usar service role para bypass RLS quando necessário
   if (typeof window === 'undefined') {
     return createClient<Database>(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,7 +25,6 @@ export function getSupabaseClient() {
     )
   }
   
-  // Para Client Components, usar browser client normal
   return createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -35,7 +33,7 @@ export function getSupabaseClient() {
 
 /**
  * @interface TransactionQuery
- * @description Interface para configurar queries de transações
+ * @description Interface para configurar queries de transaÃ§Ãµes
  */
 export interface TransactionQuery {
   userId: string
@@ -50,7 +48,7 @@ export interface TransactionQuery {
 
 /**
  * @class DatabaseService  
- * @description Serviço de banco de dados usando Supabase
+ * @description ServiÃ§o de banco de dados usando Supabase
  */
 export class DatabaseService {
   private supabase: any
@@ -61,7 +59,7 @@ export class DatabaseService {
 
   /**
    * @method findManyTransactions
-   * @description Busca transações com filtros flexíveis
+   * @description Busca transaÃ§Ãµes com filtros flexÃ­veis
    */
   async findManyTransactions(config: TransactionQuery) {
     let query = this.supabase
@@ -72,24 +70,20 @@ export class DatabaseService {
       )
       .eq('user_id', config.userId)
 
-    // Filtro por tipo
     if (config.transactionType && config.transactionType !== 'all') {
       query = query.eq('type', config.transactionType)
     }
 
-    // Filtro por data
     if (config.dateRange) {
       query = query
         .gte('date', config.dateRange.start.toISOString())
         .lte('date', config.dateRange.end.toISOString())
     }
 
-    // Ordenação
     const orderBy = config.orderBy || 'date'
     const ascending = config.orderDirection === 'asc'
     query = query.order(orderBy, { ascending })
 
-    // Paginação
     if (config.limit) {
       query = query.limit(config.limit)
     }
@@ -99,13 +93,13 @@ export class DatabaseService {
 
     const { data, error } = await query
 
-    if (error) throw new Error(`Erro ao buscar transações: ${error.message}`)
+    if (error) throw new Error(`Erro ao buscar transaÃ§Ãµes: ${error.message}`)
     return data || []
   }
 
   /**
    * @method countTransactions
-   * @description Conta transações com filtros
+   * @description Conta transaÃ§Ãµes com filtros
    */
   async countTransactions(config: Omit<TransactionQuery, 'includeCategories' | 'orderBy' | 'orderDirection' | 'limit' | 'offset'>) {
     let query = this.supabase
@@ -125,13 +119,13 @@ export class DatabaseService {
 
     const { count, error } = await query
 
-    if (error) throw new Error(`Erro ao contar transações: ${error.message}`)
+    if (error) throw new Error(`Erro ao contar transaÃ§Ãµes: ${error.message}`)
     return count || 0
   }
 
   /**
    * @method findAllUserTransactions
-   * @description Busca todas as transações de um usuário
+   * @description Busca todas as transaÃ§Ãµes de um usuÃ¡rio
    */
   async findAllUserTransactions(
     userId: string, 
@@ -155,13 +149,13 @@ export class DatabaseService {
 
     const { data, error } = await query
 
-    if (error) throw new Error(`Erro ao buscar todas as transações: ${error.message}`)
+    if (error) throw new Error(`Erro ao buscar todas as transaÃ§Ãµes: ${error.message}`)
     return data || []
   }
 
   /**
    * @method findTransactionsByDateRange
-   * @description Busca transações por range de datas
+   * @description Busca transaÃ§Ãµes por range de datas
    */
   async findTransactionsByDateRange(
     userId: string,
@@ -189,13 +183,13 @@ export class DatabaseService {
 
     const { data, error } = await query
 
-    if (error) throw new Error(`Erro ao buscar transações por data: ${error.message}`)
+    if (error) throw new Error(`Erro ao buscar transaÃ§Ãµes por data: ${error.message}`)
     return data || []
   }
 
   /**
    * @method deleteManyTransactions
-   * @description Remove múltiplas transações
+   * @description Remove mÃºltiplas transaÃ§Ãµes
    */
   async deleteManyTransactions(where: { user_id: string; id?: { in: string[] } }) {
     let query = this.supabase
@@ -209,13 +203,13 @@ export class DatabaseService {
 
     const { error, count } = await query
 
-    if (error) throw new Error(`Erro ao deletar transações: ${error.message}`)
+    if (error) throw new Error(`Erro ao deletar transaÃ§Ãµes: ${error.message}`)
     return { count: count || 0 }
   }
 
   /**
    * @method findManyCategories
-   * @description Busca categorias do usuário
+   * @description Busca categorias do usuÃ¡rio
    */
   async findManyCategories(userId: string) {
     const { data, error } = await this.supabase
@@ -230,17 +224,16 @@ export class DatabaseService {
 
   /**
    * @method disconnect
-   * @description Método de compatibilidade (não necessário no Supabase)
+   * @description MÃ©todo de compatibilidade (nÃ£o necessÃ¡rio no Supabase)
    */
   async disconnect() {
-    // Supabase não precisa de disconnect explícito
     return Promise.resolve()
   }
 }
 
 /**
  * @function createDatabaseService
- * @description Factory para criar o serviço de banco de dados
+ * @description Factory para criar o serviÃ§o de banco de dados
  */
 export function createDatabaseService(): DatabaseService {
   const supabase = getSupabaseClient()
@@ -249,7 +242,7 @@ export function createDatabaseService(): DatabaseService {
 
 /**
  * @constant database
- * @description Instância global do serviço de banco (equivalente ao prisma)
+ * @description InstÃ¢ncia global do serviÃ§o de banco (equivalente ao prisma)
  */
 let _database: DatabaseService | null = null
 
@@ -260,5 +253,4 @@ export function getDatabase(): DatabaseService {
   return _database
 }
 
-// Export para compatibilidade com código existente
 export { getDatabase as database } 

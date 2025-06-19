@@ -1,41 +1,39 @@
-/**
- * @fileoverview Schemas de validação Zod
- * @description Validação robusta de tipos para o sistema de dashboard
+﻿/**
+ * @fileoverview Schemas de validaÃ§Ã£o Zod
+ * @description ValidaÃ§Ã£o robusta de tipos para o sistema de dashboard
  */
 
 import { z } from 'zod'
 
-// === SCHEMAS BÁSICOS ===
 
 /**
  * @schema TransactionTypeSchema
- * @description Tipos válidos de transação
+ * @description Tipos vÃ¡lidos de transaÃ§Ã£o
  */
 export const TransactionTypeSchema = z.enum(['credit', 'debit'])
 
 /**
  * @schema PeriodTypeSchema  
- * @description Tipos válidos de período
+ * @description Tipos vÃ¡lidos de perÃ­odo
  */
 export const PeriodTypeSchema = z.enum(['monthly', 'yearly', 'custom'])
 
 /**
  * @schema OrderBySchema
- * @description Campos válidos para ordenação
+ * @description Campos vÃ¡lidos para ordenaÃ§Ã£o
  */
 export const OrderBySchema = z.enum(['date', 'amount', 'description'])
 
 /**
  * @schema OrderDirectionSchema
- * @description Direções válidas de ordenação
+ * @description DireÃ§Ãµes vÃ¡lidas de ordenaÃ§Ã£o
  */
 export const OrderDirectionSchema = z.enum(['asc', 'desc'])
 
-// === SCHEMAS DE FILTROS ===
 
 /**
  * @schema PeriodFilterSchema
- * @description Validação para filtros de período
+ * @description ValidaÃ§Ã£o para filtros de perÃ­odo
  */
 export const PeriodFilterSchema = z.object({
   type: PeriodTypeSchema,
@@ -44,37 +42,35 @@ export const PeriodFilterSchema = z.object({
   startDate: z.date().optional(),
   endDate: z.date().optional()
 }).refine((data) => {
-  // Validação condicional baseada no tipo
   if (data.type === 'monthly') {
     return data.year !== undefined && data.month !== undefined
   }
   if (data.type === 'yearly') {
     return data.year !== undefined
   }
-  return true // custom não precisa de validações adicionais
+  return true // custom nÃ£o precisa de validaÃ§Ãµes adicionais
 }, {
-  message: "Filtro de período inválido: campos obrigatórios ausentes"
+  message: "Filtro de perÃ­odo invÃ¡lido: campos obrigatÃ³rios ausentes"
 })
 
 /**
  * @schema DateRangeSchema
- * @description Validação para ranges de data
+ * @description ValidaÃ§Ã£o para ranges de data
  */
 export const DateRangeSchema = z.object({
   start: z.date(),
   end: z.date()
 }).refine((data) => data.start <= data.end, {
-  message: "Data de início deve ser anterior ou igual à data de fim"
+  message: "Data de inÃ­cio deve ser anterior ou igual Ã  data de fim"
 })
 
-// === SCHEMAS DE QUERY ===
 
 /**
  * @schema TransactionQuerySchema
- * @description Validação para configuração de queries de transações
+ * @description ValidaÃ§Ã£o para configuraÃ§Ã£o de queries de transaÃ§Ãµes
  */
 export const TransactionQuerySchema = z.object({
-  userId: z.string().uuid("ID do usuário deve ser UUID válido"),
+  userId: z.string().uuid("ID do usuÃ¡rio deve ser UUID vÃ¡lido"),
   filter: PeriodFilterSchema.optional(),
   transactionType: TransactionTypeSchema.or(z.literal('all')).optional(),
   includeCategories: z.boolean().optional().default(false),
@@ -84,11 +80,10 @@ export const TransactionQuerySchema = z.object({
   offset: z.number().int().min(0).optional()
 })
 
-// === SCHEMAS DE RESPOSTA ===
 
 /**
  * @schema RecentTransactionSchema
- * @description Validação para transações recentes
+ * @description ValidaÃ§Ã£o para transaÃ§Ãµes recentes
  */
 export const RecentTransactionSchema = z.object({
   id: z.string().uuid(),
@@ -102,7 +97,7 @@ export const RecentTransactionSchema = z.object({
 
 /**
  * @schema DashboardStatsSchema
- * @description Validação para estatísticas do dashboard
+ * @description ValidaÃ§Ã£o para estatÃ­sticas do dashboard
  */
 export const DashboardStatsSchema = z.object({
   totalBalance: z.number(),
@@ -117,7 +112,7 @@ export const DashboardStatsSchema = z.object({
 
 /**
  * @schema CategorySpendingSchema
- * @description Validação para gastos por categoria
+ * @description ValidaÃ§Ã£o para gastos por categoria
  */
 export const CategorySpendingSchema = z.object({
   id: z.string(),
@@ -125,13 +120,13 @@ export const CategorySpendingSchema = z.object({
   total: z.number().min(0),
   percentage: z.number().min(0).max(100),
   count: z.number().int().min(0),
-  color: z.string().regex(/^#[0-9A-F]{6}$/i, "Cor deve ser hex válida"),
+  color: z.string().regex(/^#[0-9A-F]{6}$/i, "Cor deve ser hex vÃ¡lida"),
   avgAmount: z.number().min(0)
 })
 
 /**
  * @schema CashFlowMonthSchema
- * @description Validação para dados mensais de cash flow
+ * @description ValidaÃ§Ã£o para dados mensais de cash flow
  */
 export const CashFlowMonthSchema = z.object({
   month: z.string().min(1),
@@ -142,7 +137,7 @@ export const CashFlowMonthSchema = z.object({
 
 /**
  * @schema MonthlyDataSchema
- * @description Validação para dados de comparação mensal
+ * @description ValidaÃ§Ã£o para dados de comparaÃ§Ã£o mensal
  */
 export const MonthlyDataSchema = z.object({
   month: z.string().min(1),
@@ -155,7 +150,7 @@ export const MonthlyDataSchema = z.object({
 
 /**
  * @schema CategoryDataSchema
- * @description Validação para dados de categoria em insights
+ * @description ValidaÃ§Ã£o para dados de categoria em insights
  */
 export const CategoryDataSchema = z.object({
   name: z.string().min(1),
@@ -168,7 +163,7 @@ export const CategoryDataSchema = z.object({
 
 /**
  * @schema InsightMetricsSchema
- * @description Validação para métricas de insights
+ * @description ValidaÃ§Ã£o para mÃ©tricas de insights
  */
 export const InsightMetricsSchema = z.object({
   totalTransactions: z.number().int().min(0),
@@ -180,11 +175,10 @@ export const InsightMetricsSchema = z.object({
   savingsRate: z.number().min(-100).max(100) // Pode ser negativo
 })
 
-// === SCHEMAS DE AGREGAÇÃO ===
 
 /**
  * @schema MonthlyGroupSchema
- * @description Validação para grupos mensais
+ * @description ValidaÃ§Ã£o para grupos mensais
  */
 export const MonthlyGroupSchema = z.object({
   income: z.number().min(0),
@@ -195,7 +189,7 @@ export const MonthlyGroupSchema = z.object({
 
 /**
  * @schema CategoryGroupSchema
- * @description Validação para grupos por categoria
+ * @description ValidaÃ§Ã£o para grupos por categoria
  */
 export const CategoryGroupSchema = z.object({
   name: z.string().min(1),
@@ -204,7 +198,6 @@ export const CategoryGroupSchema = z.object({
   color: z.string().regex(/^#[0-9A-F]{6}$/i)
 })
 
-// === ARRAYS ===
 
 export const RecentTransactionsSchema = z.array(RecentTransactionSchema)
 export const CategorySpendingArraySchema = z.array(CategorySpendingSchema)
@@ -212,7 +205,6 @@ export const CashFlowDataSchema = z.array(CashFlowMonthSchema)
 export const MonthlyDataArraySchema = z.array(MonthlyDataSchema)
 export const CategoryDataArraySchema = z.array(CategoryDataSchema)
 
-// === TIPOS INFERIDOS ===
 
 export type TransactionType = z.infer<typeof TransactionTypeSchema>
 export type PeriodType = z.infer<typeof PeriodTypeSchema>
@@ -231,50 +223,49 @@ export type InsightMetrics = z.infer<typeof InsightMetricsSchema>
 export type MonthlyGroup = z.infer<typeof MonthlyGroupSchema>
 export type CategoryGroup = z.infer<typeof CategoryGroupSchema>
 
-// === UTILITÁRIOS DE VALIDAÇÃO ===
 
 /**
  * @function validatePeriodFilter
- * @description Valida filtro de período com mensagem de erro clara
+ * @description Valida filtro de perÃ­odo com mensagem de erro clara
  * @param {unknown} data - Dados para validar
  * @returns {PeriodFilter} Filtro validado
- * @throws {Error} Se validação falhar
+ * @throws {Error} Se validaÃ§Ã£o falhar
  */
 export const validatePeriodFilter = (data: unknown): PeriodFilter => {
   try {
     return PeriodFilterSchema.parse(data)
   } catch (error) {
-    throw new Error(`Filtro de período inválido: ${error}`)
+    throw new Error(`Filtro de perÃ­odo invÃ¡lido: ${error}`)
   }
 }
 
 /**
  * @function validateTransactionQuery
- * @description Valida configuração de query de transações
+ * @description Valida configuraÃ§Ã£o de query de transaÃ§Ãµes
  * @param {unknown} data - Dados para validar
  * @returns {TransactionQuery} Query validada
- * @throws {Error} Se validação falhar
+ * @throws {Error} Se validaÃ§Ã£o falhar
  */
 export const validateTransactionQuery = (data: unknown): TransactionQuery => {
   try {
     return TransactionQuerySchema.parse(data)
   } catch (error) {
-    throw new Error(`Query de transação inválida: ${error}`)
+    throw new Error(`Query de transaÃ§Ã£o invÃ¡lida: ${error}`)
   }
 }
 
 /**
  * @function validateUserId
- * @description Valida UUID de usuário
+ * @description Valida UUID de usuÃ¡rio
  * @param {unknown} userId - ID para validar
  * @returns {string} UUID validado
- * @throws {Error} Se não for UUID válido
+ * @throws {Error} Se nÃ£o for UUID vÃ¡lido
  */
 export const validateUserId = (userId: unknown): string => {
-  const uuidSchema = z.string().uuid("ID do usuário deve ser UUID válido")
+  const uuidSchema = z.string().uuid("ID do usuÃ¡rio deve ser UUID vÃ¡lido")
   try {
     return uuidSchema.parse(userId)
   } catch (error) {
-    throw new Error(`ID de usuário inválido: ${error}`)
+    throw new Error(`ID de usuÃ¡rio invÃ¡lido: ${error}`)
   }
 } 

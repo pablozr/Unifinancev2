@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 import { cache } from 'react'
 import { getDatabase } from '@/lib/supabase/database'
 import type { MonthlyData, PeriodFilter } from './types'
@@ -8,7 +8,7 @@ import { sumTransactionsByType } from './utils/calculationUtils'
 
 /**
  * @function getMonthlyComparison
- * @description Busca dados de comparação mensal entre períodos
+ * @description Busca dados de comparaÃ§Ã£o mensal entre perÃ­odos
  */
 export const getMonthlyComparison = cache(async (
   userId: string,
@@ -22,14 +22,12 @@ export const getMonthlyComparison = cache(async (
     orderDirection: 'asc'
   }
 
-  // Aplicar filtro de período se fornecido
   if (filter) {
     const dateRange = getDateRangeFromFilter(filter)
     if (dateRange) {
       queryConfig.dateRange = dateRange
     }
   } else {
-    // Buscar últimos 12 meses se não houver filtro
     const endDate = new Date()
     const startDate = new Date()
     startDate.setMonth(endDate.getMonth() - 12)
@@ -40,7 +38,6 @@ export const getMonthlyComparison = cache(async (
 
   if (transactions.length === 0) return []
 
-  // Agrupar transações por mês
   const monthlyGroups = new Map<string, any[]>()
   
   transactions.forEach((transaction: any) => {
@@ -53,7 +50,6 @@ export const getMonthlyComparison = cache(async (
     monthlyGroups.get(monthKey)!.push(transaction)
   })
 
-  // Filtrar e processar dados mensais
   const filteredEntries = filterMonthlyData(monthlyGroups, filter)
 
   return filteredEntries.map(([monthKey, monthTransactions]) => {

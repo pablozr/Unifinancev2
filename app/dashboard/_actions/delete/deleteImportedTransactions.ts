@@ -12,19 +12,12 @@ export default async function deleteImportedTransactions(
   startDate: Date, 
   endDate: Date
 ): Promise<DeleteResult> {
-  console.log('🗑️ Iniciando exclusão completa do período...')
-  
-  // Deletar transações do período
   const result = await deleteByPeriod(userId, startDate, endDate)
   
-  console.log('📊 Resultado da exclusão de transações:', result)
-  
-  // Deletar TODOS os registros de import do usuário para evitar conflitos
   try {
     await clearAllImportRecords(userId)
-    console.log('✅ Registros de import também removidos')
   } catch (error) {
-    console.error('⚠️ Erro ao limpar registros de import (transações já foram deletadas):', error)
+    // ... existing code ...
   }
   
   return result
