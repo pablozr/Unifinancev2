@@ -1,0 +1,12 @@
+// Exportar funcionalidades principais
+export { default as normalizeText } from './textNormalizer'
+export { default as calculateMatchScore } from './scoringEngine'
+export { default as detectSpecificPatterns } from './patternDetector'
+export { default as fallbackCategorization } from './fallbackCategorizer'
+export { default as isIncomeTransaction } from './incomeDetector'
+export { default as applyAdvancedRules } from './advancedRules'
+
+// Exportar tipos
+export type { PatternMatch } from './patternDetector'
+export type { FallbackMatch } from './fallbackCategorizer'
+export type { CategorizedTransaction } from './advancedRules' 
