@@ -512,156 +512,263 @@ graph TB
 
 ---
 
-### 🔍 **Explicação Detalhada da Arquitetura**
+### 🏗️ **Arquitetura Feature-Based com Clean Architecture**
+
+A arquitetura do **UniFinance v2** segue os princípios de **Feature-Based Architecture** combinada com **Clean Architecture**, garantindo escalabilidade, manutenibilidade e testabilidade.
+
+#### 📐 **Diagrama UML da Arquitetura**
 
 ```mermaid
-graph TB
-    subgraph "🏠 App Router"
-        A[🔐 (auth) UI Routes]
-        B[📊 Dashboard]
-        C[🌐 Landing Page]
-    end
+classDiagram
+    class NextJSAppRouter {
+        +app/(auth)/
+        +app/dashboard/
+        +app/landing/
+        +layout.tsx
+        +page.tsx
+    }
     
-    subgraph "⚡ Business Logic"
-        D[🔑 auth Actions/Data]
-        E[📊 Dashboard Actions/Data]
-        F[📤 CSV Importer]
-        G[📈 AI Insights]
-    end
+    class FeatureModules {
+        +_actions/
+        +_data/
+        +_components/
+        +_types/
+        +_utils/
+    }
     
-    subgraph "🎨 Shared UI"
-        H[🎨 components/ui]
-        I[🛠️ lib/utils]
-    end
+    class SharedLibraries {
+        +lib/auth.ts
+        +lib/supabase/
+        +lib/validations/
+        +lib/utils/
+        +components/ui/
+    }
     
-    subgraph "🗄️ External"
-        J[(🟢 Supabase)]
-        K[📁 File System]
-    end
+    class ExternalServices {
+        +Supabase Database
+        +Supabase Auth
+        +File System
+        +Edge Functions
+    }
     
-    A --> D
-    B --> E
-    E --> F
-    E --> G
-    D --> J
-    E --> J
-    F --> J
-    G --> J
+    NextJSAppRouter --> FeatureModules : usa
+    FeatureModules --> SharedLibraries : importa
+    FeatureModules --> ExternalServices : conecta
+    SharedLibraries --> ExternalServices : abstrai
+```
+
+#### 🔄 **Fluxo de Dados**
+
+```mermaid
+flowchart TD
+    A[User Interface] --> B[Server Actions]
+    B --> C[Data Validation]
+    C --> D[Business Logic]
+    D --> E[Database Operations]
+    E --> F[Supabase]
     
-    B --> H
-    A --> H
-    C --> H
+    G[Server Components] --> H[Data Fetchers]
+    H --> I[Database Queries]
+    I --> F
     
-    E --> I
-    D --> I
-    
-    F --> K
+    F --> J[Real-time Updates]
+    J --> K[Client Updates]
     
     style A fill:#e3f2fd
     style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
-    style E fill:#fce4ec
-    style F fill:#f1f8e9
-    style G fill:#e0f2f1
+    style C fill:#fff3e0
+    style D fill:#fce4ec
+    style E fill:#f1f8e9
+    style F fill:#e0f2f1
+    style G fill:#e8f5e8
     style H fill:#fff8e1
     style I fill:#fafafa
-    style J fill:#e8f5e8
+    style J fill:#e1f5fe
     style K fill:#f3e5f5
 ```
 
+#### 🎯 **Princípios Arquiteturais**
+
+**1. 📁 Feature-Based Organization**
+- Cada feature tem sua própria pasta com `_actions/`, `_data/`, `_components/`
+- Isolamento de responsabilidades por domínio de negócio
+- Facilita manutenção e escalabilidade
+
+**2. 🔄 Separation of Concerns**
+- **`_actions/`**: Server Actions para write operations
+- **`_data/`**: Data fetchers para read operations  
+- **`_components/`**: UI Components isolados
+- **`_utils/`**: Utilitários específicos da feature
+
+**3. 📦 Dependency Injection**
+- Shared libraries em `lib/` para código reutilizável
+- Barrel exports (`index.ts`) para imports limpos
+- Configurações centralizadas
+
 <details>
-<summary><h4>🔐 Módulo de Autenticação</h4></summary>
-
-**Duas pastas distintas com responsabilidades específicas:**
-
-- **`(auth)/`** - 🎨 **UI Routes**: Páginas de login, registro, reset, etc.
-- **`auth/`** - ⚡ **Business Logic**: Actions, data fetchers, callbacks
+<summary><h4>🔐 Padrão Feature: Autenticação</h4></summary>
 
 ```mermaid
-graph LR
-    A[🌐 User] --> B[🔐 (auth) Pages]
-    B --> C[🔧 auth Actions]
-    C --> D[🗄️ Supabase]
+flowchart LR
+    subgraph "UI Layer"
+        A["(auth)/login/page.tsx"]
+        B["(auth)/register/page.tsx"]
+    end
     
-    style A fill:#e3f2fd
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
+    subgraph "Business Layer"
+        C["auth/_actions/login.ts"]
+        D["auth/_actions/register.ts"]
+        E["auth/_data/getUser.ts"]
+    end
+    
+    subgraph "Data Layer"
+        F["lib/supabase/client.ts"]
+        G["lib/validations/auth.ts"]
+    end
+    
+    A --> C
+    B --> D
+    C --> F
+    D --> F
+    E --> F
+    C --> G
+    D --> G
 ```
 
-**Fluxo de autenticação:**
-1. Usuário acessa `/login` (renderizada por `(auth)/login/page.tsx`)
-2. Formulário chama action `auth/_actions/login.ts`
-3. Action valida dados e comunica com Supabase
-4. Callback em `auth/callback/route.ts` processa resposta
-5. Redirecionamento para dashboard
+**Responsabilidades:**
+- **UI**: Páginas e formulários de autenticação
+- **Actions**: Lógica de login/registro/logout  
+- **Data**: Busca dados do usuário autenticado
+- **Validations**: Schemas Zod para validação
 
 </details>
 
 <details>
-<summary><h4>📊 Dashboard Modular</h4></summary>
-
-**Estrutura baseada em Clean Architecture:**
-
-```
-dashboard/
-├── _actions/     # 🔧 Server Actions (write operations)
-├── _data/        # 📊 Data Fetchers (read operations)  
-├── _components/  # 🎨 UI Components
-└── submodules/   # 📤 Feature modules (csv-importer, insights)
-```
-
-**Como funciona:**
-- **Server Components** fazem fetch direto via `_data/`
-- **Client Components** usam actions via `_actions/`
-- **Barrel exports** (`index.ts`) organizam imports
-- **Utils** separados por responsabilidade
-
-</details>
-
-<details>
-<summary><h4>📤 CSV Importer - Módulo Inteligente</h4></summary>
-
-**Pipeline de processamento avançado:**
+<summary><h4>📊 Padrão Feature: Dashboard</h4></summary>
 
 ```mermaid
-sequenceDiagram
-    participant U as 👤 User
-    participant V as ✅ Validator
-    participant P as ⚙️ Parser
-    participant C as 🤖 Categorizer
-    participant S as 💾 Saver
+flowchart TB
+    subgraph "Dashboard Feature"
+        A["dashboard/page.tsx"]
+        B["dashboard/_components/"]
+        C["dashboard/_actions/"]
+        D["dashboard/_data/"]
+    end
     
-    U->>V: Upload CSV
-    V->>P: File OK
-    P->>C: Parsed data
-    C->>S: Categorized
-    S->>U: Success!
+    subgraph "Sub-Features"
+        E["csv-importer/"]
+        F["insights/"]
+    end
+    
+    subgraph "Shared Utils"
+        G["_data/utils/"]
+        H["lib/validations/"]
+    end
+    
+    A --> B
+    B --> C
+    B --> D
+    D --> G
+    C --> H
+    E --> G
+    F --> G
 ```
 
-**Categorização IA:**
-- **Pattern Detection**: Reconhece padrões em descrições
-- **Income Detection**: Identifica receitas automaticamente  
-- **Scoring Engine**: Score de confiança para cada categoria
-- **Fallback System**: Sistema de backup para casos edge
+**Estrutura Modular:**
+- **Main Dashboard**: Overview financeiro e navegação
+- **CSV Importer**: Sub-feature para importação de dados
+- **Insights**: Sub-feature para análise preditiva
+- **Shared Utils**: Utilitários reutilizáveis entre features
 
 </details>
 
 <details>
-<summary><h4>📈 Insights - IA Preditiva</h4></summary>
+<summary><h4>📤 Padrão Feature: CSV Importer</h4></summary>
 
-**Módulo de análise avançada:**
+```mermaid
+flowchart TD
+    subgraph "CSV Importer Feature"
+        A["csv-importer/page.tsx"]
+        B["_components/UploadForm.tsx"]
+        C["_actions/uploadAndProcess.ts"]
+        D["_data/saveTransactions.ts"]
+    end
+    
+    subgraph "Processing Pipeline"
+        E["_actions/validator.ts"]
+        F["_actions/parser.ts"]
+        G["_actions/transformer.ts"]
+        H["_utils/categorizationProcessor.ts"]
+    end
+    
+    subgraph "AI Categorization"
+        I["_utils/categorization/patternDetector.ts"]
+        J["_utils/categorization/incomeDetector.ts"]
+        K["_utils/categorization/scoringEngine.ts"]
+    end
+    
+    A --> B
+    B --> C
+    C --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    H --> J
+    H --> K
+    G --> D
+```
 
-- **`_data/predictive/`** - 🔮 Algoritmos de ML
-- **`components/`** - 📊 Visualizações interativas
-- **`_data/getSmartInsights.ts`** - 🧠 Engine principal
+**Padrão Pipeline:**
+- **Upload**: Interface de usuário para upload
+- **Validation**: Validação de formato e estrutura
+- **Processing**: Parser e transformação de dados
+- **AI Categorization**: Sistema inteligente de categorização
+- **Persistence**: Salvamento no banco de dados
 
-**Capacidades:**
-- Cash flow projection (regressão linear)
-- Detecção de gastos recorrentes
-- Score financeiro personalizado
-- Análise de tendências sazonais
+</details>
+
+<details>
+<summary><h4>📈 Padrão Feature: Insights IA</h4></summary>
+
+```mermaid
+flowchart LR
+    subgraph "Insights Feature"
+        A["insights/page.tsx"]
+        B["components/AdvancedInsightsDashboard.tsx"]
+        C["_data/getSmartInsights.ts"]
+    end
+    
+    subgraph "Predictive Engine"
+        D["_data/predictive/cashFlowProjector.ts"]
+        E["_data/predictive/recurringDetector.ts"]
+        F["_data/predictive/mathematicalAnalysis.ts"]
+        G["_data/getFinancialScore.ts"]
+    end
+    
+    subgraph "Analytics Utils"
+        H["dashboard/_data/utils/calculationUtils.ts"]
+        I["dashboard/_data/utils/aggregationUtils.ts"]
+        J["dashboard/_data/utils/insightUtils.ts"]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    C --> G
+    D --> H
+    E --> I
+    F --> J
+```
+
+**Padrão Analytics:**
+- **UI Components**: Dashboards e visualizações
+- **Data Aggregation**: Coleta e processamento de dados
+- **Predictive Models**: Algoritmos de Machine Learning
+- **Mathematical Analysis**: Cálculos estatísticos e tendências
+- **Shared Utils**: Utilitários de cálculo reutilizáveis
 
 </details>
 
