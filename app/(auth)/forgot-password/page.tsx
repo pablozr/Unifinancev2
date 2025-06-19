@@ -1,5 +1,5 @@
 import { redirectIfAuthenticated } from '@/lib/auth'
-import { ForgotPasswordForm } from '@/components/auth/forms/forgot-form'
+import { ForgotPasswordForm } from '../_components'
 
 export default async function ForgotPasswordPage() {
   // Redirect if already authenticated

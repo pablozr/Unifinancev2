@@ -1,4 +1,4 @@
-import { DashboardOverview } from '@/app/dashboard/components/DashboardOverview'
+import { DashboardOverview } from './_components'
 import { requireAuthServer } from '@/lib/auth'
 import { 
   getDashboardStats, 

@@ -1,8 +1,4 @@
-import Navigation from '@/components/landing/navigation'
-import Hero from '@/components/landing/hero'
-import FeaturesSection from '@/components/landing/features-section'
-import SocialProof from '@/components/landing/social-proof'
-import Footer from '@/components/landing/footer'
+import { Navigation, Hero, FeaturesSection, SocialProof, Footer } from './_components'
 
 export default function LandingPage() {
   return (

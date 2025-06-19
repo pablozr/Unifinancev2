@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useAuth } from '@/components/auth/providers/auth-provider'
-import { logoutAction } from '@/app/dashboard/actions'
+import { useAuth } from '@/components/ui/auth-provider'
+import { logout as logoutAction } from '@/app/auth/_actions'
 
 export function UserMenu() {
   const { user } = useAuth()
