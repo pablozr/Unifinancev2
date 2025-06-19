@@ -247,46 +247,60 @@ graph TB
 
 ### 📁 **Estrutura Completa Detalhada**
 
+#### 📋 **Como ler a estrutura:**
+
+| Símbolo | Significado |
+|---------|-------------|
+| 📁 | Pasta raiz do projeto |
+| 📱 | App Router (Next.js 15) |
+| 🔐 | Rotas de autenticação |
+| 📊 | Dashboard e analytics |
+| 🎨 | Components UI |
+| 🛠️ | Utilitários e libs |
+| 📚 | Documentação |
+
 <details open>
-<summary><h4>📱 App Directory - Next.js 15 App Router</h4></summary>
+<summary><h4>📁 Estrutura Completa do Projeto</h4></summary>
 
 ```
-```
-📱 app/                              # 🏠 App Router do Next.js 15
-├── 🔐 (auth)/                      # 🔒 Grupo de rotas de autenticação
-│   ├── _components/                # 🎨 Components específicos do auth
-│   │   ├── forgot-form.tsx         # 📧 Formulário "esqueci minha senha"
-│   │   ├── index.ts                # 📦 Barrel exports dos components
-│   │   ├── login-form.tsx          # 🔑 Formulário de login
-│   │   ├── register-form.tsx       # ✍️ Formulário de registro
-│   │   └── reset-form.tsx          # 🔄 Formulário de reset de senha
-│   ├── forgot-password/            # 🤔 Página esqueci senha
-│   │   └── page.tsx                # 🖥️ UI da página
-│   ├── layout.tsx                  # 🏗️ Layout específico do auth
-│   ├── login/                      # 🚪 Página de login
-│   │   └── page.tsx                # 🖥️ UI da página
-│   ├── register/                   # 📝 Página de registro
-│   │   └── page.tsx                # 🖥️ UI da página
-│   └── reset-password/             # 🔓 Página reset senha
-│       └── page.tsx                # 🖥️ UI da página
-│   ├── 🔑 auth/                     # Lógica de autenticação
-│   │   ├── _actions/                # Server Actions de auth
-│   │   │   ├── forgotPassword.ts    # Action esqueci senha
-│   │   │   ├── index.ts             # Barrel exports das actions
-│   │   │   ├── login.ts             # Action de login
-│   │   │   ├── logout.ts            # Action de logout
-│   │   │   ├── register.ts          # Action de registro
-│   │   │   └── resetPassword.ts     # Action reset senha
-│   │   ├── _components/             # Components globais de auth
-│   │   │   ├── index.ts             # Barrel exports
-│   │   │   └── LogoutButton.tsx     # Botão de logout
-│   │   ├── _data/                   # Data fetchers de auth
-│   │   │   ├── getUser.ts           # Buscar dados do usuário
-│   │   │   └── index.ts             # Barrel exports
-│   │   ├── callback/                # Callback OAuth
-│   │   │   └── route.ts             # Route handler OAuth
-│   │   └── error/                   # Página de erro auth
-│   │       └── page.tsx             # UI da página de erro
+📁 unifinancev2/
+├── 📱 app/                              # 🏠 App Router do Next.js 15
+│   ├── 🔐 (auth)/                      # 🔒 Grupo de rotas de autenticação
+│   │   ├── _components/                # 🎨 Components específicos do auth
+│   │   │   ├── forgot-form.tsx         # 📧 Formulário "esqueci minha senha"
+│   │   │   ├── index.ts                # 📦 Barrel exports dos components
+│   │   │   ├── login-form.tsx          # 🔑 Formulário de login
+│   │   │   ├── register-form.tsx       # ✍️ Formulário de registro
+│   │   │   └── reset-form.tsx          # 🔄 Formulário de reset de senha
+│   │   ├── forgot-password/            # 🤔 Página esqueci senha
+│   │   │   └── page.tsx                # 🖥️ UI da página
+│   │   ├── layout.tsx                  # 🏗️ Layout específico do auth
+│   │   ├── login/                      # 🚪 Página de login
+│   │   │   └── page.tsx                # 🖥️ UI da página
+│   │   ├── register/                   # 📝 Página de registro
+│   │   │   └── page.tsx                # 🖥️ UI da página
+│   │   └── reset-password/             # 🔓 Página reset senha
+│   │       └── page.tsx                # 🖥️ UI da página
+│   │
+│   ├── 🔑 auth/                        # ⚡ Lógica de autenticação
+│   │   ├── _actions/                   # 🔧 Server Actions de auth
+│   │   │   ├── forgotPassword.ts       # 📧 Action esqueci senha
+│   │   │   ├── index.ts                # 📦 Barrel exports das actions
+│   │   │   ├── login.ts                # 🔑 Action de login
+│   │   │   ├── logout.ts               # 🚪 Action de logout
+│   │   │   ├── register.ts             # ✍️ Action de registro
+│   │   │   └── resetPassword.ts        # 🔄 Action reset senha
+│   │   ├── _components/                # 🎨 Components globais de auth
+│   │   │   ├── index.ts                # 📦 Barrel exports
+│   │   │   └── LogoutButton.tsx        # 🚪 Botão de logout
+│   │   ├── _data/                      # 📊 Data fetchers de auth
+│   │   │   ├── getUser.ts              # 👤 Buscar dados do usuário
+│   │   │   └── index.ts                # 📦 Barrel exports
+│   │   ├── callback/                   # 🔄 Callback OAuth
+│   │   │   └── route.ts                # 🛣️ Route handler OAuth
+│   │   └── error/                      # ❌ Página de erro auth
+│   │       └── page.tsx                # 🖥️ UI da página de erro
+│   │
 │   ├── 📊 dashboard/                # Dashboard principal
 │   │   ├── _actions/                # Server Actions do dashboard
 │   │   │   ├── addSingleTransaction.ts      # Adicionar transação única
@@ -491,8 +505,165 @@ graph TB
 │           ├── calculationUtils.test.ts # Testes cálculo
 │           └── dateUtils.test.ts    # Testes data
 ├── tsconfig.json                    # Configuração TypeScript
-└── tsconfig.tsbuildinfo             # Cache TypeScript
+└── tsconfig.tsbuildinfo             # 💾 Cache TypeScript
 ```
+
+</details>
+
+---
+
+### 🔍 **Explicação Detalhada da Arquitetura**
+
+```mermaid
+graph TB
+    subgraph "🏠 App Router"
+        A[🔐 (auth) UI Routes]
+        B[📊 Dashboard]
+        C[🌐 Landing Page]
+    end
+    
+    subgraph "⚡ Business Logic"
+        D[🔑 auth Actions/Data]
+        E[📊 Dashboard Actions/Data]
+        F[📤 CSV Importer]
+        G[📈 AI Insights]
+    end
+    
+    subgraph "🎨 Shared UI"
+        H[🎨 components/ui]
+        I[🛠️ lib/utils]
+    end
+    
+    subgraph "🗄️ External"
+        J[(🟢 Supabase)]
+        K[📁 File System]
+    end
+    
+    A --> D
+    B --> E
+    E --> F
+    E --> G
+    D --> J
+    E --> J
+    F --> J
+    G --> J
+    
+    B --> H
+    A --> H
+    C --> H
+    
+    E --> I
+    D --> I
+    
+    F --> K
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#f1f8e9
+    style G fill:#e0f2f1
+    style H fill:#fff8e1
+    style I fill:#fafafa
+    style J fill:#e8f5e8
+    style K fill:#f3e5f5
+```
+
+<details>
+<summary><h4>🔐 Módulo de Autenticação</h4></summary>
+
+**Duas pastas distintas com responsabilidades específicas:**
+
+- **`(auth)/`** - 🎨 **UI Routes**: Páginas de login, registro, reset, etc.
+- **`auth/`** - ⚡ **Business Logic**: Actions, data fetchers, callbacks
+
+```mermaid
+graph LR
+    A[🌐 User] --> B[🔐 (auth) Pages]
+    B --> C[🔧 auth Actions]
+    C --> D[🗄️ Supabase]
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+```
+
+**Fluxo de autenticação:**
+1. Usuário acessa `/login` (renderizada por `(auth)/login/page.tsx`)
+2. Formulário chama action `auth/_actions/login.ts`
+3. Action valida dados e comunica com Supabase
+4. Callback em `auth/callback/route.ts` processa resposta
+5. Redirecionamento para dashboard
+
+</details>
+
+<details>
+<summary><h4>📊 Dashboard Modular</h4></summary>
+
+**Estrutura baseada em Clean Architecture:**
+
+```
+dashboard/
+├── _actions/     # 🔧 Server Actions (write operations)
+├── _data/        # 📊 Data Fetchers (read operations)  
+├── _components/  # 🎨 UI Components
+└── submodules/   # 📤 Feature modules (csv-importer, insights)
+```
+
+**Como funciona:**
+- **Server Components** fazem fetch direto via `_data/`
+- **Client Components** usam actions via `_actions/`
+- **Barrel exports** (`index.ts`) organizam imports
+- **Utils** separados por responsabilidade
+
+</details>
+
+<details>
+<summary><h4>📤 CSV Importer - Módulo Inteligente</h4></summary>
+
+**Pipeline de processamento avançado:**
+
+```mermaid
+sequenceDiagram
+    participant U as 👤 User
+    participant V as ✅ Validator
+    participant P as ⚙️ Parser
+    participant C as 🤖 Categorizer
+    participant S as 💾 Saver
+    
+    U->>V: Upload CSV
+    V->>P: File OK
+    P->>C: Parsed data
+    C->>S: Categorized
+    S->>U: Success!
+```
+
+**Categorização IA:**
+- **Pattern Detection**: Reconhece padrões em descrições
+- **Income Detection**: Identifica receitas automaticamente  
+- **Scoring Engine**: Score de confiança para cada categoria
+- **Fallback System**: Sistema de backup para casos edge
+
+</details>
+
+<details>
+<summary><h4>📈 Insights - IA Preditiva</h4></summary>
+
+**Módulo de análise avançada:**
+
+- **`_data/predictive/`** - 🔮 Algoritmos de ML
+- **`components/`** - 📊 Visualizações interativas
+- **`_data/getSmartInsights.ts`** - 🧠 Engine principal
+
+**Capacidades:**
+- Cash flow projection (regressão linear)
+- Detecção de gastos recorrentes
+- Score financeiro personalizado
+- Análise de tendências sazonais
+
+</details>
 
 ---
 
@@ -500,125 +671,21 @@ graph TB
 
 > Escolhemos cuidadosamente as **tecnologias mais modernas** e **performáticas** do mercado para garantir a melhor experiência de desenvolvimento e usuário.
 
-### 🏗️ **Arquitetura Tecnológica**
+### 🏗️ **Tecnologias Principais**
 
-```mermaid
-graph TB
-    subgraph "🎨 Frontend Stack"
-        A[⚡ Next.js 15]
-        B[⚛️ React 19]
-        C[📘 TypeScript 5.0]
-        D[🎨 Tailwind CSS]
-        E[🧩 Shadcn/ui]
-    end
-    
-    subgraph "⚡ Backend Stack"
-        F[🗄️ Supabase]
-        G[🐘 PostgreSQL]
-        H[🔧 Edge Functions]
-        I[🛡️ Row Level Security]
-        J[📡 Real-time]
-    end
-    
-    subgraph "🔧 DevOps Stack"
-        K[🧅 Bun Runtime]
-        L[🧪 Bun Test]
-        M[📏 ESLint]
-        N[🎨 PostCSS]
-        O[🚀 Vercel]
-    end
-    
-    A --> F
-    B --> G
-    C --> H
-    D --> I
-    E --> J
-    
-    style A fill:#000000,color:#ffffff
-    style F fill:#3ecf8e
-    style K fill:#fbf0df
-```
+| Categoria | Tecnologias |
+|-----------|-------------|
+| **🎨 Frontend** | Next.js 15, React 19, TypeScript 5.0, Tailwind CSS, Shadcn/ui |
+| **⚡ Backend** | Supabase, PostgreSQL, Edge Functions, Row Level Security |
+| **🔧 DevOps** | Bun Runtime, Bun Test, ESLint, PostCSS, Vercel |
 
-<details open>
-<summary><h3>🎨 Frontend Technologies</h3></summary>
+### 💡 **Por que essas tecnologias?**
 
-| Tecnologia | Versão | Propósito | Benefícios |
-|---|---|---|---|
-| **⚡ Next.js** | `15.0` | React Framework | App Router, SSR/SSG, Edge Runtime |
-| **⚛️ React** | `19.0` | UI Library | Server Components, Concurrent Features |
-| **📘 TypeScript** | `5.0` | Type Safety | Intellisense, Error Prevention, DX |
-| **🎨 Tailwind** | `3.4` | CSS Framework | Utility-first, Responsive, Performance |
-| **🧩 Shadcn/ui** | Latest | Component Library | Accessible, Customizable, Modern |
-
-```typescript
-// Exemplo: Server Component com TypeScript
-interface DashboardProps {
-  userId: string
-  period: DateRange
-}
-
-export default async function Dashboard({ 
-  userId, 
-  period 
-}: DashboardProps) {
-  // ✅ Server-side data fetching
-  const data = await getDashboardStats(userId, period)
-  
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {/* 🎨 Tailwind classes para layout responsivo */}
-      <StatsCard data={data.income} type="income" />
-      <StatsCard data={data.expenses} type="expenses" />
-      <StatsCard data={data.balance} type="balance" />
-    </div>
-  )
-}
-```
-
-</details>
-
-<details open>
-<summary><h3>⚡ Backend Technologies</h3></summary>
-
-| Tecnologia | Propósito | Características |
-|---|---|---|
-| **🗄️ Supabase** | Backend-as-a-Service | Auth, Database, Storage, Real-time |
-| **🐘 PostgreSQL** | Database | ACID, Relations, Performance |
-| **🔧 Edge Functions** | Serverless Logic | Global Distribution, Low Latency |
-| **🛡️ RLS** | Security | Row-level Isolation, Zero-trust |
-| **📡 Real-time** | Live Updates | WebSocket, Subscriptions |
-
-```sql
--- Exemplo: Row Level Security Policy
-CREATE POLICY "Users can only see own transactions" ON transactions
-FOR ALL USING (auth.uid() = user_id);
-
--- ✅ Garante isolamento total de dados por usuário
-```
-
-</details>
-
-<details open>
-<summary><h3>🔧 Development & DevOps</h3></summary>
-
-| Tool | Função | Vantagem |
-|---|---|---|
-| **🧅 Bun** | Runtime + Package Manager | 4x mais rápido que npm |
-| **🧪 Bun Test** | Testing Framework | Built-in, Zero config |
-| **📏 ESLint** | Code Quality | Consistent coding standards |
-| **🎨 PostCSS** | CSS Processing | Autoprefixer, Optimizations |
-| **🚀 Vercel** | Deployment | Edge Network, Zero-config CI/CD |
-
-```bash
-# ⚡ Performance comparisons
-npm install        # ~45s
-bun install        # ~8s   (5.6x faster)
-
-npm test          # ~12s
-bun test          # ~3s    (4x faster)
-```
-
-</details>
+- **⚡ Next.js 15** - Framework React com App Router, SSR/SSG e Edge Runtime
+- **🗄️ Supabase** - Backend completo com auth, database e real-time
+- **🧅 Bun** - Runtime moderno, 4x mais rápido que npm
+- **📘 TypeScript** - Type safety e melhor developer experience
+- **🎨 Tailwind CSS** - Framework CSS utility-first e responsivo
 
 ---
 
@@ -1042,58 +1109,6 @@ timeline
 </td>
 </tr>
 </table>
-
----
-
-## 🏆 **Contribuidores**
-
-> **UniFinance v2** é construído com ❤️ pela comunidade. Junte-se a nós!
-
-<div align="center">
-
-### 👨‍💻 **Core Team**
-
-<table>
-<tr>
-<td align="center">
-<img src="https://avatars.githubusercontent.com/u/1?v=4" width="80px;" alt=""/>
-<br><b>Founder</b>
-<br><sub>🧠 Arquitetura & IA</sub>
-</td>
-<td align="center">
-<img src="https://avatars.githubusercontent.com/u/2?v=4" width="80px;" alt=""/>
-<br><b>Frontend Lead</b>
-<br><sub>🎨 UI/UX & Components</sub>
-</td>
-<td align="center">
-<img src="https://avatars.githubusercontent.com/u/3?v=4" width="80px;" alt=""/>
-<br><b>Backend Lead</b>
-<br><sub>⚡ Performance & DB</sub>
-</td>
-</tr>
-</table>
-
-### 🎉 **Como Contribuir**
-
-```mermaid
-gitgraph
-    commit
-    branch feature
-    checkout feature
-    commit id: "Nova Feature"
-    commit id: "Testes"
-    checkout main
-    merge feature
-    commit id: "Release"
-```
-
-**Formas de contribuir:**
-- 🐛 [Reportar Bugs](https://github.com/issues/new?template=bug_report.md)
-- 💡 [Sugerir Features](https://github.com/issues/new?template=feature_request.md)  
-- 📖 [Melhorar Docs](https://github.com/discussions)
-- 💻 [Submit PR](https://github.com/pulls)
-
-</div>
 
 ---
 
