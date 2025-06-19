@@ -48,7 +48,7 @@ export function DataManagement({ userId }: DataManagementProps) {
 
   const handleDelete = async () => {
     let confirmMessage = ''
-    let actionDescription = ''
+
 
     if (selectedOption === 'all') {
       confirmMessage = `ðŸš¨ ATENÃ‡ÃƒO EXTREMA! ðŸš¨
@@ -58,7 +58,7 @@ VocÃª estÃ¡ prestes a DELETAR TODAS AS TRANSAÃ‡Ã•ES e registros de imp
 âš ï¸ ESTA AÃ‡ÃƒO NÃƒO PODE SER DESFEITA! âš ï¸
 
 Digite "DELETAR TUDO" para confirmar:`
-      actionDescription = 'todas as transaÃ§Ãµes'
+
     } else if (selectedOption === 'month') {
       if (!selectedMonth) {
         alert('Selecione um mÃªs')
@@ -72,7 +72,7 @@ VocÃª estÃ¡ prestes a DELETAR todas as transaÃ§Ãµes de ${monthName} ${se
 Esta aÃ§Ã£o NÃƒO PODE ser desfeita!
 
 Digite "DELETAR MES" para confirmar:`
-      actionDescription = `transaÃ§Ãµes de ${monthName} ${selectedYear}`
+
     } else if (selectedOption === 'year') {
       confirmMessage = `âš ï¸ ATENÃ‡ÃƒO! âš ï¸
 
@@ -81,7 +81,7 @@ VocÃª estÃ¡ prestes a DELETAR todas as transaÃ§Ãµes de ${selectedYear} e
 Esta aÃ§Ã£o NÃƒO PODE ser desfeita!
 
 Digite "DELETAR ANO" para confirmar:`
-      actionDescription = `transaÃ§Ãµes de ${selectedYear}`
+
     }
 
     const expectedText = selectedOption === 'all' ? 'DELETAR TUDO' : 

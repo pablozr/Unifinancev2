@@ -2,7 +2,7 @@
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Points, ShaderMaterial, Vector3, InstancedMesh, SphereGeometry, Matrix4, Color } from 'three';
+import { Points, ShaderMaterial } from 'three';
 
 const vertexShader = `
   uniform float uTime;

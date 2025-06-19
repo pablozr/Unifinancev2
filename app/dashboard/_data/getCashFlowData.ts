@@ -87,7 +87,7 @@ export const getCashFlowData = cache(async (
 
   return Array.from(monthlyData.values())
     .sort((a, b) => a.sortKey.localeCompare(b.sortKey))
-    .map(({ sortKey, ...data }) => data)
+    .map(({ sortKey: _, ...data }) => data)
 })
 
 export default getCashFlowData 

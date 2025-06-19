@@ -13,7 +13,6 @@ export default function projectCashFlow(
   recurringTransactions: RecurringTransaction[], 
   currentBalance: number
 ): CashFlowProjection {
-  const _now = new Date()
   const projectionPeriods = [30, 60, 90] // dias
   
   const monthlyRecurringIncome = recurringTransactions

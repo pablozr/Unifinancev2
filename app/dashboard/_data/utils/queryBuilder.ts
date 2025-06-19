@@ -6,7 +6,7 @@
 import { getDatabase } from '@/lib/supabase/database'
 import type { PeriodFilter, DateRange } from '../types'
 import { getDateRangeFromFilter } from './dateUtils'
-import { validateTransactionQuery, validateUserId, TransactionQuerySchema } from '../schemas'
+import { validateTransactionQuery, validateUserId } from '../schemas'
 
 /**
  * @interface TransactionQuery
