@@ -994,26 +994,6 @@ describe('Transaction Schema', () => {
 
 ---
 
-## 🌐 **Deploy em Produção**
-
-### 🚀 **Vercel (Recomendado)**
-```bash
-# 1. Conecte o repositório no Vercel
-# 2. Configure as environment variables
-# 3. Deploy automático a cada push
-```
-
-### 🐳 **Docker**
-```bash
-# Build da imagem
-docker build -t unifinancev2 .
-
-# Executar container
-docker run -p 3000:3000 unifinancev2
-```
-
----
-
 ## 🤝 **Contribuição**
 
 ### 📋 **Padrões de Commit**
@@ -1036,13 +1016,7 @@ chore: manutenção
 
 ---
 
-## 📖 **Documentação Adicional**
 
-- **[🚀 Guia de Deploy](./docs/DEPLOYMENT.md)** - Como fazer deploy
-- **[📧 Setup de Email](./docs/EMAIL_SETUP_GUIDE.md)** - Configurar emails
-- **[🔒 Segurança](./docs/PASSWORD_RESET_SECURITY.md)** - Reset de senha
-
----
 
 ## 📄 **Licença**
 
@@ -1055,60 +1029,31 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 > Veja o que está por vir no **UniFinance v2**! Nosso roadmap é orientado pela comunidade.
 
 ```mermaid
-timeline
+gantt
     title Roadmap UniFinance v2
+    dateFormat YYYY-MM-DD
+    section Q1 2025
+    Mobile App           :active, q1a, 2025-01-01, 2025-03-31
+    APIs Bancárias       :active, q1b, 2025-01-15, 2025-03-15
+    Relatórios PDF       :q1c, 2025-02-01, 2025-03-31
     
-    section 🚀 Q1 2024
-        ✅ Core Features     : Dashboard Inteligente
-                              : CSV Importer
-                              : Análise Preditiva
+    section Q2 2025
+    Multi-moeda          :q2a, 2025-04-01, 2025-06-30
+    Investimentos        :q2b, 2025-04-15, 2025-06-15
+    Metas Financeiras    :q2c, 2025-05-01, 2025-06-30
     
-    section 🎯 Q2 2024  
-        🔄 Em Desenvolvimento : Mobile App
-                              : APIs Bancárias
-                              : Relatórios PDF
+    section Q3 2025
+    IA Conversacional    :q3a, 2025-07-01, 2025-09-30
+    Integração Pix       :q3b, 2025-07-15, 2025-09-15
+    White Label          :q3c, 2025-08-01, 2025-09-30
     
-    section 💡 Q3 2024
-        📋 Planejado         : Multi-moeda
-                              : Investimentos
-                              : Metas Financeiras
-    
-    section 🌟 Q4 2024
-        🎨 Futuro           : IA Conversacional
-                            : Integração Pix
-                            : White Label
+    section Q4 2025
+    Automação Avançada   :q4a, 2025-10-01, 2025-12-31
+    Machine Learning     :q4b, 2025-10-15, 2025-12-15
+    Expansão Global      :q4c, 2025-11-01, 2025-12-31
 ```
 
-### 🗳️ **Vote nas Próximas Features**
 
-<table>
-<tr>
-<td width="25%" align="center">
-<h4>📱 Mobile App</h4>
-<p>App nativo iOS/Android</p>
-<br>
-<img src="https://img.shields.io/badge/Votos-156-green?style=for-the-badge" alt="Votos">
-</td>
-<td width="25%" align="center">
-<h4>🏦 APIs Bancárias</h4>
-<p>Sincronização automática</p>
-<br>
-<img src="https://img.shields.io/badge/Votos-142-blue?style=for-the-badge" alt="Votos">
-</td>
-<td width="25%" align="center">
-<h4>💰 Multi-moeda</h4>
-<p>Suporte a múltiplas moedas</p>
-<br>
-<img src="https://img.shields.io/badge/Votos-98-orange?style=for-the-badge" alt="Votos">
-</td>
-<td width="25%" align="center">
-<h4>🤖 IA Chat</h4>
-<p>Assistente financeiro IA</p>
-<br>
-<img src="https://img.shields.io/badge/Votos-87-purple?style=for-the-badge" alt="Votos">
-</td>
-</tr>
-</table>
 
 ---
 
