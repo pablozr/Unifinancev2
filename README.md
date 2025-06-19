@@ -207,9 +207,271 @@ graph TD
 
 ---
 
-### 🏗️ **Arquitetura Feature-Based com Clean Architecture**
 
-A arquitetura do **UniFinance v2** segue os princípios de **Feature-Based Architecture** combinada com **Clean Architecture**, garantindo escalabilidade, manutenibilidade e testabilidade.
+
+### 📁 **Estrutura Completa do Projeto**
+
+#### 📋 **Como ler a estrutura:**
+
+| Símbolo | Significado |
+|---------|-------------|
+| 📁 | Pasta raiz do projeto |
+| 📱 | App Router (Next.js 15) |
+| 🔐 | Rotas de autenticação |
+| 📊 | Dashboard e analytics |
+| 🎨 | Components UI |
+| 🛠️ | Utilitários e libs |
+| 📚 | Documentação |
+
+<details open>
+<summary><h4>📁 Estrutura Completa do Projeto</h4></summary>
+
+```
+📁 unifinancev2/
+├── 📱 app/                              # 🏠 App Router do Next.js 15
+│   ├── 🔐 (auth)/                      # 🔒 Grupo de rotas de autenticação
+│   │   ├── _components/                # 🎨 Components específicos do auth
+│   │   │   ├── forgot-form.tsx         # 📧 Formulário "esqueci minha senha"
+│   │   │   ├── index.ts                # 📦 Barrel exports dos components
+│   │   │   ├── login-form.tsx          # 🔑 Formulário de login
+│   │   │   ├── register-form.tsx       # ✍️ Formulário de registro
+│   │   │   └── reset-form.tsx          # 🔄 Formulário de reset de senha
+│   │   ├── forgot-password/            # 🤔 Página esqueci senha
+│   │   │   └── page.tsx                # 🖥️ UI da página
+│   │   ├── layout.tsx                  # 🏗️ Layout específico do auth
+│   │   ├── login/                      # 🚪 Página de login
+│   │   │   └── page.tsx                # 🖥️ UI da página
+│   │   ├── register/                   # 📝 Página de registro
+│   │   │   └── page.tsx                # 🖥️ UI da página
+│   │   └── reset-password/             # 🔓 Página reset senha
+│   │       └── page.tsx                # 🖥️ UI da página
+│   │
+│   ├── 🔑 auth/                        # ⚡ Lógica de autenticação
+│   │   ├── _actions/                   # 🔧 Server Actions de auth
+│   │   │   ├── forgotPassword.ts       # 📧 Action esqueci senha
+│   │   │   ├── index.ts                # 📦 Barrel exports das actions
+│   │   │   ├── login.ts                # 🔑 Action de login
+│   │   │   ├── logout.ts               # 🚪 Action de logout
+│   │   │   ├── register.ts             # ✍️ Action de registro
+│   │   │   └── resetPassword.ts        # 🔄 Action reset senha
+│   │   ├── _components/                # 🎨 Components globais de auth
+│   │   │   ├── index.ts                # 📦 Barrel exports
+│   │   │   └── LogoutButton.tsx        # 🚪 Botão de logout
+│   │   ├── _data/                      # 📊 Data fetchers de auth
+│   │   │   ├── getUser.ts              # 👤 Buscar dados do usuário
+│   │   │   └── index.ts                # 📦 Barrel exports
+│   │   ├── callback/                   # 🔄 Callback OAuth
+│   │   │   └── route.ts                # 🛣️ Route handler OAuth
+│   │   └── error/                      # ❌ Página de erro auth
+│   │       └── page.tsx                # 🖥️ UI da página de erro
+│   │
+│   ├── 📊 dashboard/                # Dashboard principal
+│   │   ├── _actions/                # Server Actions do dashboard
+│   │   │   ├── addSingleTransaction.ts      # Adicionar transação única
+│   │   │   ├── delete/              # Módulo de deleção refatorado
+│   │   │   │   ├── clearImportRecords.ts    # Limpar registros importação
+│   │   │   │   ├── deleteAllTransactions.ts # Deletar todas transações
+│   │   │   │   ├── deleteByFilters.ts       # Deletar por filtros
+│   │   │   │   ├── deleteByPeriod.ts        # Deletar por período
+│   │   │   │   ├── deleteImportedTransactions.ts # Deletar importadas
+│   │   │   │   ├── deleteSingleTransactionById.ts # Deletar por ID
+│   │   │   │   ├── index.ts                 # Barrel exports
+│   │   │   │   ├── previewDeletion.ts       # Preview de deleção
+│   │   │   │   ├── README.md                # Docs do módulo delete
+│   │   │   │   ├── types.ts                 # Tipos do módulo
+│   │   │   │   └── utils.ts                 # Utils do módulo
+│   │   │   ├── deleteTransactions.ts        # Action legacy deletar
+│   │   │   ├── getTransactionsClient.ts     # Buscar transações cliente
+│   │   │   └── index.ts                     # Barrel exports actions
+│   │   ├── _components/             # Components do dashboard
+│   │   │   ├── AddTransactionModal.tsx      # Modal adicionar transação
+│   │   │   ├── DashboardCharts.tsx          # Gráficos do dashboard
+│   │   │   ├── DashboardNavigation.tsx      # Navegação do dashboard
+│   │   │   ├── DashboardOverview.tsx        # Overview principal
+│   │   │   ├── DataManagement.tsx           # Gestão de dados
+│   │   │   ├── DeleteTransactionModal.tsx   # Modal deletar transação
+│   │   │   ├── ImportManager.tsx            # Gerenciador de imports
+│   │   │   ├── index.ts                     # Barrel exports
+│   │   │   ├── PeriodSelector.tsx           # Seletor de período
+│   │   │   └── TransactionsModal.tsx        # Modal de transações
+│   │   ├── _data/                   # Data fetchers dashboard
+│   │   │   ├── getAllTransactions.ts        # Buscar todas transações
+│   │   │   ├── getCashFlowData.ts           # Dados de cash flow
+│   │   │   ├── getCategoryData.ts           # Dados por categoria
+│   │   │   ├── getDashboardStats.ts         # Estatísticas dashboard
+│   │   │   ├── getFilteredDashboardStats.ts # Stats filtradas
+│   │   │   ├── getMonthlyComparison.ts      # Comparação mensal
+│   │   │   ├── getRecentTransactions.ts     # Transações recentes
+│   │   │   ├── getTransactionCount.ts       # Contagem transações
+│   │   │   ├── getTransactions.ts           # Buscar transações
+│   │   │   ├── index.ts                     # Barrel exports
+│   │   │   ├── revalidateStats.ts           # Revalidar estatísticas
+│   │   │   ├── schemas.ts                   # Schemas Zod
+│   │   │   ├── types.ts                     # Tipos TypeScript
+│   │   │   └── utils/                       # Utilitários de dados
+│   │   │       ├── aggregationUtils.ts      # Utils de agregação
+│   │   │       ├── auditUtils.ts            # Utils de auditoria
+│   │   │       ├── calculationUtils.ts      # Utils de cálculo
+│   │   │       ├── dateUtils.ts             # Utils de data
+│   │   │       ├── insightUtils.ts          # Utils de insights
+│   │   │       └── queryBuilder.ts          # Builder de queries
+│   │   ├── 📤 csv-importer/         # Importador CSV modular
+│   │   │   ├── _actions/            # Actions do importador
+│   │   │   │   ├── index.ts                 # Barrel exports
+│   │   │   │   ├── parser.ts                # Parser de CSV
+│   │   │   │   ├── transformer.ts           # Transformador dados
+│   │   │   │   ├── uploadAndProcess.ts      # Upload e processamento
+│   │   │   │   └── validator.ts             # Validador de dados
+│   │   │   ├── _components/         # Components do importador
+│   │   │   │   └── UploadForm.tsx           # Formulário de upload
+│   │   │   ├── _data/               # Data do importador
+│   │   │   │   ├── createImportRecord.ts    # Criar registro import
+│   │   │   │   ├── defaultCategories.ts     # Categorias padrão
+│   │   │   │   ├── getDefaultCategories.ts  # Buscar categorias padrão
+│   │   │   │   ├── getImportSummaries.ts    # Resumos de import
+│   │   │   │   ├── getImportTransactions.ts # Transações importadas
+│   │   │   │   ├── getUserImports.ts        # Imports do usuário
+│   │   │   │   ├── index.ts                 # Barrel exports
+│   │   │   │   └── saveTransactions.ts      # Salvar transações
+│   │   │   ├── _types/              # Tipos do importador
+│   │   │   │   └── types.ts                 # Tipos TypeScript
+│   │   │   ├── _utils/              # Utils do importador
+│   │   │   │   ├── categorization/          # Utils de categorização IA
+│   │   │   │   │   ├── advancedRules.ts     # Regras avançadas
+│   │   │   │   │   ├── fallbackCategorizer.ts # Categorizador fallback
+│   │   │   │   │   ├── incomeDetector.ts    # Detector de receita
+│   │   │   │   │   ├── index.ts             # Barrel exports
+│   │   │   │   │   ├── patternDetector.ts   # Detector de padrões
+│   │   │   │   │   ├── scoringEngine.ts     # Engine de scoring
+│   │   │   │   │   └── textNormalizer.ts    # Normalizador de texto
+│   │   │   │   ├── categorizationProcessor.ts  # Processador categorização
+│   │   │   │   ├── categorizationRefactored.ts # Categorização refatorada
+│   │   │   │   ├── csvProcessor.ts          # Processador CSV
+│   │   │   │   ├── duplicateHandler.ts      # Handler de duplicatas
+│   │   │   │   ├── fileValidation.ts        # Validação de arquivo
+│   │   │   │   ├── index.ts                 # Barrel exports
+│   │   │   │   └── statsCalculator.ts       # Calculador stats
+│   │   │   ├── components/          # Components alternativos
+│   │   │   │   ├── ResultsView.tsx          # Visualização resultados
+│   │   │   │   └── UploadForm.tsx           # Form upload alternativo
+│   │   │   └── page.tsx             # Página do importador
+│   │   ├── 📈 insights/             # Análise e insights IA
+│   │   │   ├── _components/         # Components insights privados
+│   │   │   │   └── PeriodSelector.tsx       # Seletor período insights
+│   │   │   ├── _data/               # Data insights
+│   │   │   │   ├── getCategoryInsights.ts   # Insights por categoria
+│   │   │   │   ├── getFinancialScore.ts     # Score financeiro
+│   │   │   │   ├── getInsightMetrics.ts     # Métricas insights
+│   │   │   │   ├── getPredictiveAnalysisRefactored.ts # Análise preditiva
+│   │   │   │   ├── getSmartInsights.ts      # Insights inteligentes
+│   │   │   │   ├── index.ts                 # Barrel exports
+│   │   │   │   └── predictive/              # Módulo preditivo IA
+│   │   │   │       ├── cashFlowProjector.ts # Projetor cash flow
+│   │   │   │       ├── index.ts             # Barrel exports
+│   │   │   │       ├── insightGenerator.ts  # Gerador insights
+│   │   │   │       ├── mathematicalAnalysis.ts # Análise matemática
+│   │   │   │       └── recurringDetector.ts # Detector recorrência
+│   │   │   ├── components/          # Components insights públicos
+│   │   │   │   ├── AdvancedCharts.tsx       # Gráficos avançados
+│   │   │   │   ├── AdvancedInsightsDashboard.tsx # Dashboard insights
+│   │   │   │   ├── FinancialScoreCard.tsx   # Card score financeiro
+│   │   │   │   ├── PeriodSelector.tsx       # Seletor período UI
+│   │   │   │   ├── PredictiveAnalysisCard.tsx # Card análise preditiva
+│   │   │   │   └── SmartInsightsGrid.tsx    # Grid insights
+│   │   │   └── page.tsx             # Página insights
+│   │   ├── layout.tsx               # Layout do dashboard
+│   │   └── page.tsx                 # Página principal dashboard
+│   ├── favicon.ico                  # Ícone do site
+│   ├── 🌐 landing/                  # Landing page
+│   │   ├── _components/             # Components landing
+│   │   │   ├── features-section.tsx         # Seção de funcionalidades
+│   │   │   ├── footer.tsx                   # Rodapé
+│   │   │   ├── hero.tsx                     # Seção hero
+│   │   │   ├── index.ts                     # Barrel exports
+│   │   │   ├── navigation.tsx               # Navegação
+│   │   │   └── social-proof.tsx             # Prova social
+│   │   ├── loading.tsx              # Loading da landing
+│   │   └── page.tsx                 # Página da landing
+│   ├── layout.tsx                   # Layout raiz da aplicação
+│   ├── page.tsx                     # Página inicial (redirect)
+│   └── styles.css                   # Estilos globais CSS
+├── 🎨 components/                   # Components UI globais
+│   └── ui/                          # Library de UI components
+│       ├── alert.tsx                # Component de alerta
+│       ├── auth-provider.tsx        # Provider de autenticação
+│       ├── BaseModal.tsx            # Modal base reutilizável
+│       ├── Beams/                   # Effect visual Beams
+│       │   └── Beams.tsx            # Component Beams
+│       ├── button.tsx               # Component button
+│       ├── Flow.tsx                 # Effect visual Flow
+│       ├── form-field.tsx           # Campo de formulário
+│       ├── Layer.tsx                # Component Layer
+│       ├── LiquidChrome/            # Effect visual LiquidChrome
+│       │   └── LiquidChrome.tsx     # Component LiquidChrome
+│       ├── logout-button.tsx        # Botão logout global
+│       ├── PixelCard/               # Effect visual PixelCard
+│       │   └── PixelCard.tsx        # Component PixelCard
+│       ├── Smoke.tsx                # Effect visual Smoke
+│       └── user-menu.tsx            # Menu do usuário
+├── 📚 docs/                         # Documentação
+│   ├── DEPLOYMENT.md                # Guia de deployment
+│   ├── EMAIL_SETUP_GUIDE.md         # Setup de email
+│   └── PASSWORD_RESET_SECURITY.md   # Segurança reset senha
+├── eslint.config.mjs                # Configuração ESLint
+├── 🛠️ lib/                          # Biblioteca interna
+│   ├── auth.ts                      # Configuração autenticação
+│   ├── errors/                      # Sistema de erros (vazio)
+│   ├── supabase/                    # Configuração Supabase
+│   │   ├── client.ts                # Cliente Supabase
+│   │   ├── config.ts                # Configuração Supabase
+│   │   ├── database.ts              # Database Supabase
+│   │   └── server.ts                # Server Supabase
+│   ├── types/                       # Tipos TypeScript globais
+│   │   ├── bun.d.ts                 # Tipos para Bun
+│   │   └── database.ts              # Tipos do database
+│   ├── utils/                       # Utilitários globais
+│   │   ├── currency.ts              # Utils de moeda
+│   │   └── validDate.ts             # Validação de data
+│   └── validations/                 # Schemas de validação
+│       ├── auth.ts                  # Validações auth
+│       ├── budget.ts                # Validações orçamento
+│       ├── category.ts              # Validações categoria
+│       ├── security.ts              # Validações segurança
+│       ├── transaction.ts           # Validações transação
+│       └── user.ts                  # Validações usuário
+├── middleware.ts                    # Middleware Next.js
+├── next.config.ts                   # Configuração Next.js
+├── package-lock.json                # Lock das dependências
+├── package.json                     # Dependências e scripts
+├── postcss.config.mjs               # Configuração PostCSS
+├── 🌍 public/                       # Assets públicos
+│   ├── file.svg                     # Ícone arquivo
+│   ├── globe.svg                    # Ícone globo
+│   ├── next.svg                     # Logo Next.js
+│   ├── vercel.svg                   # Logo Vercel
+│   └── window.svg                   # Ícone janela
+├── README.md                        # Este arquivo
+├── 🧪 scripts/                      # Scripts utilitários
+│   └── test-user-sync.ts            # Teste sincronização usuário
+├── 🗄️ supabase/                     # Configuração database
+│   ├── add-sample-categories.sql    # Categorias de exemplo
+│   ├── fix-transactions.sql         # Fix transações
+│   ├── schema-step-by-step.sql      # Schema passo a passo
+│   ├── schema.sql                   # Schema principal
+│   └── setup-storage.sql            # Setup storage
+├── tailwind.config.js               # Configuração Tailwind
+├── 🧪 tests/                        # Testes automatizados
+│   └── lib/                         # Testes da biblioteca
+│       ├── schemas.test.ts          # Testes schemas
+│       └── utils/                   # Testes utilitários
+│           ├── aggregationUtils.test.ts # Testes agregação
+│           ├── calculationUtils.test.ts # Testes cálculo
+│           └── dateUtils.test.ts    # Testes data
+├── tsconfig.json                    # Configuração TypeScript
+└── tsconfig.tsbuildinfo             # 💾 Cache TypeScript
+```
+
+</details>
 
 ---
 
