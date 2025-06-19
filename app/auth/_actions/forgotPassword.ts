@@ -23,7 +23,7 @@ export default async function forgotPasswordAction(_: AuthResult, formData: Form
     const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/reset-password`
 
 
-    const { data, error } = await supabase.auth.resetPasswordForEmail(result.data.email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(result.data.email, {
       redirectTo: redirectUrl,
     })
 
@@ -46,7 +46,7 @@ export default async function forgotPasswordAction(_: AuthResult, formData: Form
       success: true,
       error: 'Link de recuperaÃ§Ã£o enviado para seu email. Verifique tambÃ©m a pasta de spam.'
     }
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 

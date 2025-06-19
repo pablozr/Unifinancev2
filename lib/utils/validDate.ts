@@ -179,10 +179,10 @@ export function formatRelativeDateBR(date: Date | string): string {
   const now = new Date()
   const diffInDays = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60 * 24))
   
-  if (diffInDays === 0) return 'Hoje'
-  if (diffInDays === 1) return 'Ontem'
-  if (diffInDays < 7) return `${diffInDays} dias atrás`
-  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} semanas atrás`
+  if (diffInDays === 0) {return 'Hoje'}
+  if (diffInDays === 1) {return 'Ontem'}
+  if (diffInDays < 7) {return `${diffInDays} dias atrás`}
+  if (diffInDays < 30) {return `${Math.floor(diffInDays / 7)} semanas atrás`}
   
   return formatDateIntl(dateObj)
 }

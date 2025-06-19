@@ -3,9 +3,6 @@
 import { useActionState } from 'react'
 import Link from 'next/link'
 import { register as registerAction } from '@/app/auth/_actions'
-import { FormField } from '@/components/ui/form-field'
-import { Button } from '@/components/ui/button'
-import { Alert } from '@/components/ui/alert'
 
 export function RegisterForm() {
   const [state, formAction, isPending] = useActionState(registerAction, { success: false })

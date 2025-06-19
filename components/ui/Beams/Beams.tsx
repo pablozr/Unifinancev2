@@ -53,12 +53,12 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
     envMapIntensity?: number;
   };
 
-  if (defaults.color) uniforms.diffuse.value = defaults.color;
-  if ("roughness" in defaults) uniforms.roughness.value = defaults.roughness;
-  if ("metalness" in defaults) uniforms.metalness.value = defaults.metalness;
-  if ("envMap" in defaults) uniforms.envMap.value = defaults.envMap;
+  if (defaults.color) {uniforms.diffuse.value = defaults.color;}
+  if ("roughness" in defaults) {uniforms.roughness.value = defaults.roughness;}
+  if ("metalness" in defaults) {uniforms.metalness.value = defaults.metalness;}
+  if ("envMap" in defaults) {uniforms.envMap.value = defaults.envMap;}
   if ("envMapIntensity" in defaults)
-    uniforms.envMapIntensity.value = defaults.envMapIntensity;
+    {uniforms.envMapIntensity.value = defaults.envMapIntensity;}
 
   Object.entries(cfg.uniforms ?? {}).forEach(([key, u]) => {
     uniforms[key] =
@@ -387,7 +387,7 @@ const DirLight: FC<{ position: [number, number, number]; color: string }> = ({
 }) => {
   const dir = useRef<THREE.DirectionalLight>(null!);
   useEffect(() => {
-    if (!dir.current) return;
+    if (!dir.current) {return;}
     const cam = dir.current.shadow.camera as THREE.Camera & {
       top: number;
       bottom: number;

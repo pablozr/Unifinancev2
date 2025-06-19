@@ -8,7 +8,7 @@ export function UserMenu() {
   const { user } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
 
-  if (!user) return null
+  if (!user) {return null}
 
   return (
     <div className="relative">

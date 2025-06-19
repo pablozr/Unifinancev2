@@ -14,7 +14,7 @@ export const getCashFlowData = cache(async (
   filter?: PeriodFilter
 ): Promise<CashFlowMonth[]> => {
   const database = getDatabase()
-  let queryConfig: any = {
+  const queryConfig: any = {
     userId,
     orderBy: 'date',
     orderDirection: 'asc'

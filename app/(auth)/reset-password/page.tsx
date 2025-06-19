@@ -4,7 +4,7 @@ import { ResetPasswordForm } from '../_components'
 
 export default async function ResetPasswordPage() {
   const session = await getSession()
-  if (!session) redirect('/login')
+  if (!session) {redirect('/login')}
   return <ResetPasswordForm />
 }
 

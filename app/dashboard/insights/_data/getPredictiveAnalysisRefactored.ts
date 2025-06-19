@@ -57,11 +57,6 @@ export async function getPredictiveAnalysisRefactored(
     }
   }
   
-    start: dateRange.start.toISOString(),
-    end: dateRange.end.toISOString(),
-    filterType: filter.type
-  })
-  
   const { data: transactions, error } = await supabase
     .from('transactions')
     .select(`
@@ -152,13 +147,6 @@ export async function getPredictiveAnalysisRefactored(
     cashFlowProjection
   })
 
-    confidence: confidence.toFixed(1),
-    trend,
-    recurringTransactions: recurringTransactions.length,
-    automaticInsights: automaticInsights.length,
-    cashFlowAlerts: cashFlowProjection.alertDays.length
-  })
-
   return {
     nextMonthExpenses: Math.round(predictions.expenses * 100) / 100,
     nextMonthIncome: Math.round(predictions.income * 100) / 100,
@@ -243,8 +231,8 @@ function calculateSmartPredictions(params: {
   const recentAvgIncome = recentMonths.reduce((sum, m) => sum + m.income, 0) / recentMonths.length
   const recentAvgExpenses = recentMonths.reduce((sum, m) => sum + m.expenses, 0) / recentMonths.length
   
-  let regressionIncome = regressions.income.slope * nextMonthIndex + regressions.income.intercept
-  let regressionExpenses = regressions.expense.slope * nextMonthIndex + regressions.expense.intercept
+  const regressionIncome = regressions.income.slope * nextMonthIndex + regressions.income.intercept
+  const regressionExpenses = regressions.expense.slope * nextMonthIndex + regressions.expense.intercept
   
   const regressionQuality = (regressions.income.r2 + regressions.expense.r2) / 2
   const recurringQuality = recurringTransactions.length > 0 ? 

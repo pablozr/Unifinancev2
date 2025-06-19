@@ -9,7 +9,7 @@ export default cache(async () => {
       return null
     }
     return user
-  } catch (error) {
+  } catch {
     // ... existing code ...
     return null
   }

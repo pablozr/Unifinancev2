@@ -34,7 +34,7 @@ export default async function login(_: AuthResult, formData: FormData): Promise<
     }
 
     redirect(result.data.redirectTo || '/dashboard')
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 

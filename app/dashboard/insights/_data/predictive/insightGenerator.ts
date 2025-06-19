@@ -106,7 +106,7 @@ function detectSpendingAnomalies(transactions: any[]): string[] {
     })
   
   categoryAverages.forEach((data, category) => {
-    if (data.count < 3) return // Precisa de pelo menos 3 transaÃ§Ãµes
+    if (data.count < 3) {return} // Precisa de pelo menos 3 transaÃ§Ãµes
     
     const average = data.total / data.count
     const highSpendingTransactions = transactions

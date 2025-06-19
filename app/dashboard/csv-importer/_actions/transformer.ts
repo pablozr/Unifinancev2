@@ -57,7 +57,7 @@ export function transformToMonthlyData(
     }, {} as Record<string, MonthlyData>)
     
     const result = Object.values(grouped).sort((a, b) => {
-      if (a.year !== b.year) return b.year - a.year
+      if (a.year !== b.year) {return b.year - a.year}
       return b.month - a.month
     })
     

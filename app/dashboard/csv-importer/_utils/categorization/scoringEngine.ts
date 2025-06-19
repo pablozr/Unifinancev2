@@ -43,7 +43,7 @@ export default function calculateMatchScore(description: string, keywords: strin
     }
   }
   
-  if (matches === 0) return 0
+  if (matches === 0) {return 0}
   
   const density = matches / Math.max(words.length, 1)
   const finalScore = totalScore * Math.min(density * 2, 1) // Bonus para alta densidade

@@ -41,15 +41,6 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
         getSmartInsights(userId, currentFilter)
       ])
       
-        hasScore: !!score,
-        scoreValue: score?.overallScore,
-        grade: score?.grade,
-        hasPredictive: !!predictive,
-        confidence: predictive?.confidence,
-        hasInsights: insights.length > 0,
-        insightTitles: insights.map(i => i.title)
-      })
-      
       setPredictiveData(predictive)
       setFinancialScore(score)
       setSmartInsights(insights)

@@ -31,7 +31,7 @@ export async function parseCSV(file: File): Promise<RawBankStatement[]> {
     
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i].trim();
-      if (!line) continue;
+      if (!line) {continue;}
       
       try {
         const values = parseCSVLine(line);
@@ -133,7 +133,7 @@ function findHeaderIndex(headers: string[], possibleNames: string[]): number {
       const nameLower = name.toLowerCase();
       return headerLower.includes(nameLower) || nameLower.includes(headerLower);
     });
-    if (index >= 0) return index;
+    if (index >= 0) {return index;}
   }
   return -1;
 }

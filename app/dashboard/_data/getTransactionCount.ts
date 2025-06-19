@@ -26,6 +26,6 @@ export default async function getTransactionCount(config: CountQuery) {
 
   const { count, error } = await query
 
-  if (error) throw new Error(`Erro ao contar transações: ${error.message}`)
+  if (error) {throw new Error(`Erro ao contar transações: ${error.message}`)}
   return count || 0
 } 

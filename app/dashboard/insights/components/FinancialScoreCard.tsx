@@ -20,10 +20,10 @@ export function FinancialScoreCard({ score }: FinancialScoreCardProps) {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 85) return 'from-green-500 to-emerald-600'
-    if (score >= 70) return 'from-blue-500 to-cyan-600'
-    if (score >= 55) return 'from-yellow-500 to-amber-600'
-    if (score >= 40) return 'from-orange-500 to-red-600'
+    if (score >= 85) {return 'from-green-500 to-emerald-600'}
+    if (score >= 70) {return 'from-blue-500 to-cyan-600'}
+    if (score >= 55) {return 'from-yellow-500 to-amber-600'}
+    if (score >= 40) {return 'from-orange-500 to-red-600'}
     return 'from-red-500 to-red-700'
   }
 

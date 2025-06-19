@@ -106,11 +106,11 @@ export async function getFinancialScore(
   )
   
   let grade: 'A' | 'B' | 'C' | 'D' | 'F'
-  if (overallScore >= 85) grade = 'A'
-  else if (overallScore >= 70) grade = 'B'
-  else if (overallScore >= 55) grade = 'C'
-  else if (overallScore >= 40) grade = 'D'
-  else grade = 'F'
+  if (overallScore >= 85) {grade = 'A'}
+  else if (overallScore >= 70) {grade = 'B'}
+  else if (overallScore >= 55) {grade = 'C'}
+  else if (overallScore >= 40) {grade = 'D'}
+  else {grade = 'F'}
   
   const recommendations: string[] = []
   const strengths: string[] = []

@@ -36,9 +36,9 @@ function smartCategorization(description: string, amount: number, existingCatego
     }
   }
 
-  if (amount > 3000) return 'SalÃ¡rio/Receita'
-  if (amount > 1000) return 'Grandes Despesas'
-  if (amount < 50) return 'Pequenos Gastos'
+  if (amount > 3000) {return 'SalÃ¡rio/Receita'}
+  if (amount > 1000) {return 'Grandes Despesas'}
+  if (amount < 50) {return 'Pequenos Gastos'}
   
   return 'Outros'
 }
@@ -62,7 +62,7 @@ export default function detectRecurringTransactions(transactions: any[]): Recurr
   })
   
   groupedByValue.forEach((group, key) => {
-    if (group.length < 2) return // Apenas 2 ocorrÃªncias jÃ¡ Ã© suficiente
+    if (group.length < 2) {return} // Apenas 2 ocorrÃªncias jÃ¡ Ã© suficiente
     
     group.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     
@@ -74,24 +74,24 @@ export default function detectRecurringTransactions(transactions: any[]): Recurr
       intervals.push(diffDays)
     }
     
-    if (intervals.length === 0) return
+    if (intervals.length === 0) {return}
     
     const avgInterval = intervals.reduce((sum, interval) => sum + interval, 0) / intervals.length
     const variance = intervals.reduce((sum, interval) => sum + Math.pow(interval - avgInterval, 2), 0) / intervals.length
     const stdDev = Math.sqrt(variance)
     
     const consistency = intervals.length === 1 ? 0 : stdDev / avgInterval
-    if (consistency > 0.5) return // Aumentado de 0.3 para 0.5
+    if (consistency > 0.5) {return} // Aumentado de 0.3 para 0.5
     
     let frequency: 'weekly' | 'monthly' | 'quarterly' | null = null
     
-    if (avgInterval >= 5 && avgInterval <= 10) frequency = 'weekly'      // 5-10 dias
-    else if (avgInterval >= 25 && avgInterval <= 35) frequency = 'monthly'   // 25-35 dias
-    else if (avgInterval >= 80 && avgInterval <= 100) frequency = 'quarterly' // 80-100 dias
-    else if (avgInterval >= 11 && avgInterval <= 24) frequency = 'monthly'   // Quinzenal tratado como mensal
-    else if (avgInterval >= 36 && avgInterval <= 79) frequency = 'monthly'   // Bimestrais tratados como mensais
+    if (avgInterval >= 5 && avgInterval <= 10) {frequency = 'weekly'}      // 5-10 dias
+    else if (avgInterval >= 25 && avgInterval <= 35) {frequency = 'monthly'}   // 25-35 dias
+    else if (avgInterval >= 80 && avgInterval <= 100) {frequency = 'quarterly'} // 80-100 dias
+    else if (avgInterval >= 11 && avgInterval <= 24) {frequency = 'monthly'}   // Quinzenal tratado como mensal
+    else if (avgInterval >= 36 && avgInterval <= 79) {frequency = 'monthly'}   // Bimestrais tratados como mensais
     
-    if (!frequency) return // NÃ£o se encaixa em nenhum padrÃ£o
+    if (!frequency) {return} // NÃ£o se encaixa em nenhum padrÃ£o
     
     const firstTransaction = group[0]
     const averageAmount = group.reduce((sum, t) => sum + Math.abs(t.amount), 0) / group.length

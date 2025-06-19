@@ -77,7 +77,7 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
   }
 
   const handleDeleteTransaction = async (transactionId: string) => {
-    if (deletingId) return // Previne cliques mÃºltiplos
+    if (deletingId) {return} // Previne cliques mÃºltiplos
     
     setDeletingId(transactionId)
     try {
@@ -229,7 +229,7 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
                     paginatedData.currentPage - 2
                   )) + i
                   
-                  if (pageNumber > paginatedData.totalPages) return null
+                  if (pageNumber > paginatedData.totalPages) {return null}
                   
                   return (
                     <button

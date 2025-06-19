@@ -93,7 +93,7 @@ export class DatabaseService {
 
     const { data, error } = await query
 
-    if (error) throw new Error(`Erro ao buscar transaÃ§Ãµes: ${error.message}`)
+    if (error) {throw new Error(`Erro ao buscar transaÃ§Ãµes: ${error.message}`)}
     return data || []
   }
 
@@ -119,7 +119,7 @@ export class DatabaseService {
 
     const { count, error } = await query
 
-    if (error) throw new Error(`Erro ao contar transaÃ§Ãµes: ${error.message}`)
+    if (error) {throw new Error(`Erro ao contar transaÃ§Ãµes: ${error.message}`)}
     return count || 0
   }
 
@@ -149,7 +149,7 @@ export class DatabaseService {
 
     const { data, error } = await query
 
-    if (error) throw new Error(`Erro ao buscar todas as transaÃ§Ãµes: ${error.message}`)
+    if (error) {throw new Error(`Erro ao buscar todas as transaÃ§Ãµes: ${error.message}`)}
     return data || []
   }
 
@@ -183,7 +183,7 @@ export class DatabaseService {
 
     const { data, error } = await query
 
-    if (error) throw new Error(`Erro ao buscar transaÃ§Ãµes por data: ${error.message}`)
+    if (error) {throw new Error(`Erro ao buscar transaÃ§Ãµes por data: ${error.message}`)}
     return data || []
   }
 
@@ -203,7 +203,7 @@ export class DatabaseService {
 
     const { error, count } = await query
 
-    if (error) throw new Error(`Erro ao deletar transaÃ§Ãµes: ${error.message}`)
+    if (error) {throw new Error(`Erro ao deletar transaÃ§Ãµes: ${error.message}`)}
     return { count: count || 0 }
   }
 
@@ -218,7 +218,7 @@ export class DatabaseService {
       .eq('user_id', userId)
       .order('name')
 
-    if (error) throw new Error(`Erro ao buscar categorias: ${error.message}`)
+    if (error) {throw new Error(`Erro ao buscar categorias: ${error.message}`)}
     return data || []
   }
 

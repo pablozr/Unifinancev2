@@ -53,5 +53,5 @@ export async function requireAuthServer() {
 export async function redirectIfAuthenticated() {
   const getUserFn = (await import('@/app/auth/_data/getUser')).default
   const user = await getUserFn()
-  if (user) redirect('/dashboard')
+  if (user) {redirect('/dashboard')}
 }

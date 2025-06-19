@@ -12,7 +12,7 @@ export interface CategorizedTransaction extends RawBankStatement {
  */
 export default function applyAdvancedRules(transactions: CategorizedTransaction[]): CategorizedTransaction[] {
   return transactions.map(transaction => {
-    let updatedTransaction = { ...transaction }
+    const updatedTransaction = { ...transaction }
     
     if (transaction.type === 'credit' && transaction.amount > 2000) {
       updatedTransaction.detectedCategory = 'Outros' // Manter genÃ©rico para receitas altas

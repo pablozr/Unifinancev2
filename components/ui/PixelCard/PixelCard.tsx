@@ -198,7 +198,7 @@ export default function PixelCard({
   const finalNoFocus = noFocus ?? variantCfg.noFocus;
 
   const initPixels = () => {
-    if (!containerRef.current || !canvasRef.current) return;
+    if (!containerRef.current || !canvasRef.current) {return;}
 
     const rect = containerRef.current.getBoundingClientRect();
     const width = Math.floor(rect.width);
@@ -221,7 +221,7 @@ export default function PixelCard({
         const dy = y - height / 2;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const delay = reducedMotion ? 0 : distance;
-        if (!ctx) return;
+        if (!ctx) {return;}
         pxs.push(
           new Pixel(
             canvasRef.current,
@@ -244,18 +244,18 @@ export default function PixelCard({
     const timePassed = timeNow - timePreviousRef.current;
     const timeInterval = 1000 / 60;
 
-    if (timePassed < timeInterval) return;
+    if (timePassed < timeInterval) {return;}
     timePreviousRef.current = timeNow - (timePassed % timeInterval);
 
     const ctx = canvasRef.current?.getContext("2d");
-    if (!ctx || !canvasRef.current) return;
+    if (!ctx || !canvasRef.current) {return;}
 
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
     let allIdle = true;
     for (let i = 0; i < pixelsRef.current.length; i++) {
       const pixel = pixelsRef.current[i];
-      // @ts-ignore
+      // @ts-expect-error - Dynamic method call on Pixel class
       pixel[fnName]();
       if (!pixel.isIdle) {
         allIdle = false;
@@ -276,11 +276,11 @@ export default function PixelCard({
   const onMouseEnter = () => handleAnimation("appear");
   const onMouseLeave = () => handleAnimation("disappear");
   const onFocus: React.FocusEventHandler<HTMLDivElement> = (e) => {
-    if (e.currentTarget.contains(e.relatedTarget)) return;
+    if (e.currentTarget.contains(e.relatedTarget)) {return;}
     handleAnimation("appear");
   };
   const onBlur: React.FocusEventHandler<HTMLDivElement> = (e) => {
-    if (e.currentTarget.contains(e.relatedTarget)) return;
+    if (e.currentTarget.contains(e.relatedTarget)) {return;}
     handleAnimation("disappear");
   };
 
@@ -298,7 +298,7 @@ export default function PixelCard({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [finalGap, finalSpeed, finalColors, finalNoFocus]);
+  }, [finalGap, finalSpeed, finalColors, finalNoFocus, initPixels]);
 
   return (
     <div

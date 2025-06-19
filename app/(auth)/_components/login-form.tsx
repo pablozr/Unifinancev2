@@ -4,9 +4,6 @@ import { useActionState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { login as loginAction } from '@/app/auth/_actions'
-import { FormField } from '@/components/ui/form-field'
-import { Button } from '@/components/ui/button'
-import { Alert } from '@/components/ui/alert'
 
 export function LoginForm() {
   const redirectTo = useSearchParams().get('redirectTo') || '/dashboard'

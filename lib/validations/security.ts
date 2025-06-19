@@ -69,29 +69,29 @@ export const validatePasswordStrength = (password: string): {
   const feedback: string[] = []
   let score = 0
 
-  if (password.length >= 8) score += 1
-  else feedback.push('Use pelo menos 8 caracteres')
+  if (password.length >= 8) {score += 1}
+  else {feedback.push('Use pelo menos 8 caracteres')}
 
-  if (password.length >= 12) score += 1
-  else feedback.push('Recomendado: 12+ caracteres')
+  if (password.length >= 12) {score += 1}
+  else {feedback.push('Recomendado: 12+ caracteres')}
 
-  if (/[a-z]/.test(password)) score += 1
-  else feedback.push('Adicione letras minÃºsculas')
+  if (/[a-z]/.test(password)) {score += 1}
+  else {feedback.push('Adicione letras minÃºsculas')}
 
-  if (/[A-Z]/.test(password)) score += 1
-  else feedback.push('Adicione letras maiÃºsculas')
+  if (/[A-Z]/.test(password)) {score += 1}
+  else {feedback.push('Adicione letras maiÃºsculas')}
 
-  if (/[0-9]/.test(password)) score += 1
-  else feedback.push('Adicione nÃºmeros')
+  if (/[0-9]/.test(password)) {score += 1}
+  else {feedback.push('Adicione nÃºmeros')}
 
-  if (/[^a-zA-Z0-9]/.test(password)) score += 1
-  else feedback.push('Adicione sÃ­mbolos (!@#$%^&*)')
+  if (/[^a-zA-Z0-9]/.test(password)) {score += 1}
+  else {feedback.push('Adicione sÃ­mbolos (!@#$%^&*)')}
 
-  if (!/(.)\1{2,}/.test(password)) score += 1
-  else feedback.push('Evite caracteres repetidos')
+  if (!/(.)\1{2,}/.test(password)) {score += 1}
+  else {feedback.push('Evite caracteres repetidos')}
 
-  if (!/123|abc|qwe|password|admin/i.test(password)) score += 1
-  else feedback.push('Evite sequÃªncias comuns')
+  if (!/123|abc|qwe|password|admin/i.test(password)) {score += 1}
+  else {feedback.push('Evite sequÃªncias comuns')}
 
   return { score, feedback }
 }
@@ -99,7 +99,7 @@ export const validatePasswordStrength = (password: string): {
 export const validateEmailDomain = async (email: string): Promise<boolean> => {
   try {
     const domain = email.split('@')[1]
-    if (!domain) return false
+    if (!domain) {return false}
 
     const disposableDomains = [
       '10minutemail.com',

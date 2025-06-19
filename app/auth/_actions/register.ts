@@ -38,7 +38,7 @@ export default async function register(_: AuthResult, formData: FormData): Promi
       success: true,
       error: 'Conta criada com sucesso! Verifique seu email para confirmar sua conta.'
     }
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 

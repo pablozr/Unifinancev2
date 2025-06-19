@@ -34,7 +34,7 @@ export const generateMonthKey = (date: Date): string => {
  * @returns {number} Valor do ticket mÃ©dio
  */
 export const calculateAvgTicket = (transactions: any[]): number => {
-  if (transactions.length === 0) return 0
+  if (transactions.length === 0) {return 0}
   const totalAmount = transactions.reduce((sum, t) => sum + Number(t.amount), 0)
   return totalAmount / transactions.length
 }

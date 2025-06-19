@@ -16,7 +16,7 @@ export const getMonthlyComparison = cache(async (
 ): Promise<MonthlyData[]> => {
   const database = getDatabase()
   
-  let queryConfig: any = {
+  const queryConfig: any = {
     userId,
     orderBy: 'date',
     orderDirection: 'asc'
@@ -36,7 +36,7 @@ export const getMonthlyComparison = cache(async (
 
   const transactions = await database.findManyTransactions(queryConfig)
 
-  if (transactions.length === 0) return []
+  if (transactions.length === 0) {return []}
 
   const monthlyGroups = new Map<string, any[]>()
   

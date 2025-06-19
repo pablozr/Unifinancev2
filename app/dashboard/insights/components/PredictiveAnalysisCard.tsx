@@ -83,19 +83,19 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
   }
 
   const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 80) return 'text-green-500'
-    if (confidence >= 60) return 'text-yellow-500'
+    if (confidence >= 80) {return 'text-green-500'}
+    if (confidence >= 60) {return 'text-yellow-500'}
     return 'text-red-500'
   }
 
   const getConfidenceBadgeColor = (confidence: number) => {
-    if (confidence >= 80) return 'bg-green-100 text-green-800'
-    if (confidence >= 60) return 'bg-yellow-100 text-yellow-800'
+    if (confidence >= 80) {return 'bg-green-100 text-green-800'}
+    if (confidence >= 60) {return 'bg-yellow-100 text-yellow-800'}
     return 'bg-red-100 text-red-800'
   }
 
   const svgData = useMemo(() => {
-    if (!analysis) return null
+    if (!analysis) {return null}
 
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
     const currentMonth = new Date().getMonth()

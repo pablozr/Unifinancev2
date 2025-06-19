@@ -30,7 +30,7 @@ export const isRefundTransaction = (transaction: any): boolean => {
  * @returns {number} Percentual de mudanÃ§a
  */
 export const calculatePercentageChange = (current: number, previous: number): number => {
-  if (previous === 0) return current > 0 ? 100 : 0
+  if (previous === 0) {return current > 0 ? 100 : 0}
   return ((current - previous) / previous) * 100
 }
 
@@ -43,7 +43,7 @@ export const calculatePercentageChange = (current: number, previous: number): nu
  */
 export const sumTransactionsByType = (transactions: any[], type: TransactionType): number => {
   const filtered = transactions.filter(t => {
-    if (t.type !== type) return false
+    if (t.type !== type) {return false}
     
     if (type === 'credit') {
       return !isRefundTransaction(t)
@@ -112,7 +112,7 @@ export const calculateCategoryPercentages = (categories: any[]) => {
  * @returns {CategorySpending[]} Array de gastos por categoria
  */
 export const groupTransactionsByCategory = (transactions: any[]): CategorySpending[] => {
-  if (transactions.length === 0) return []
+  if (transactions.length === 0) {return []}
 
   const categoryMap = new Map<string, {
     name: string

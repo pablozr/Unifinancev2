@@ -105,7 +105,7 @@ export function detectSeasonality(data: MonthlyDataPoint[]): SeasonalityResult {
 }
 
 export function calculateVolatility(data: MonthlyDataPoint[]): number {
-  if (data.length < 2) return 0
+  if (data.length < 2) {return 0}
 
   const balances = data.map(d => d.balance)
   const mean = balances.reduce((sum, val) => sum + val, 0) / balances.length
@@ -119,7 +119,7 @@ export function calculateVolatility(data: MonthlyDataPoint[]): number {
 }
 
 export function detectCyclicalPatterns(data: MonthlyDataPoint[]): CyclicalPattern {
-  if (data.length < 6) return { hasCycle: false, cycleLength: 0, amplitude: 0 }
+  if (data.length < 6) {return { hasCycle: false, cycleLength: 0, amplitude: 0 }}
 
   const balances = data.map(d => d.balance)
   
@@ -127,7 +127,7 @@ export function detectCyclicalPatterns(data: MonthlyDataPoint[]): CyclicalPatter
   let bestCycle = { length: 0, correlation: 0, amplitude: 0 }
 
   cycleLengths.forEach(cycleLength => {
-    if (data.length < cycleLength * 2) return
+    if (data.length < cycleLength * 2) {return}
 
     let correlation = 0
     let validComparisons = 0

@@ -45,6 +45,6 @@ export default async function getTransactions(config: TransactionQuery) {
 
   const { data, error } = await query
 
-  if (error) throw new Error(`Erro ao buscar transações: ${error.message}`)
+  if (error) {throw new Error(`Erro ao buscar transações: ${error.message}`)}
   return data || []
 } 

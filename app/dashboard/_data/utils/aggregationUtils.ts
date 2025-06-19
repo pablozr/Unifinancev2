@@ -143,7 +143,7 @@ export const aggregateTransactionsByType = (transactions: any[]) => {
  */
 export const filterTransactionsByType = (transactions: any[], type: 'credit' | 'debit') => {
   const filteredTransactions = transactions.filter(t => {
-    if (t.type !== type) return false
+    if (t.type !== type) {return false}
     if (type === 'credit') {
       return !isRefundTransaction(t)
     }

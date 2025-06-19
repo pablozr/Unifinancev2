@@ -34,7 +34,7 @@ export const errorMessages = {
 } as const
 
 export const getErrorMessage = (error: any): string => {
-  if (!error?.message) return 'Erro inesperado. Tente novamente.'
+  if (!error?.message) {return 'Erro inesperado. Tente novamente.'}
 
   const message = error.message.toLowerCase()
 

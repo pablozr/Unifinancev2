@@ -46,7 +46,7 @@ export default async function resetPasswordAction(_: AuthResult, formData: FormD
     }
 
     redirect('/dashboard')
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Erro interno do servidor. Tente novamente.' }
   }
 } 
