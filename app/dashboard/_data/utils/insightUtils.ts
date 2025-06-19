@@ -3,7 +3,7 @@
  * @description FunÃ§Ãµes auxiliares especÃ­ficas para cÃ¡lculos e transformaÃ§Ãµes de insights
  */
 
-import type { MonthlyData, CategoryData } from '../types'
+import type { CategoryData } from '../types'
 
 /**
  * @function generateMonthLabel

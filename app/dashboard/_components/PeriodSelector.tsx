@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDownIcon, CalendarIcon } from '@heroicons/react/24/outline'
+// import { ChevronDownIcon, CalendarIcon } from '@heroicons/react/24/outline' // não utilizados
 import type { PeriodFilter } from '../_data/types'
 
 interface PeriodSelectorProps {

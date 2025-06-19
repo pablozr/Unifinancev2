@@ -1,5 +1,5 @@
 ﻿'use server'
-import { createActionClient, createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import type { PeriodFilter } from '../../_data/types'
 
 export interface FinancialScore {
@@ -17,7 +17,7 @@ export interface FinancialScore {
 
 export async function getFinancialScore(
   userId: string, 
-  filter: PeriodFilter = { type: 'custom' }
+  _filter: PeriodFilter = { type: 'custom' }
 ): Promise<FinancialScore> {
   const supabase = await createClient()
   

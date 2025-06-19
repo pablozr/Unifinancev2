@@ -27,10 +27,6 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
   const [isLoading, setIsLoading] = useState(true)
   const [currentFilter, setCurrentFilter] = useState<PeriodFilter>({ type: 'custom' })
 
-  useEffect(() => {
-    loadAdvancedData()
-  }, [userId, currentFilter])
-
   const loadAdvancedData = async () => {
     setIsLoading(true)
     try {
@@ -50,6 +46,10 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadAdvancedData()
+  }, [userId, currentFilter, loadAdvancedData])
 
   const handlePeriodChange = (filter: PeriodFilter) => {
     setCurrentFilter(filter)

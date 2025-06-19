@@ -36,7 +36,7 @@ export async function clearAllImportRecords(userId: string): Promise<{ success: 
           if (storageError) {
           } else {
           }
-        } catch (error) {
+        } catch {
         }
       }
     }
@@ -118,7 +118,7 @@ export async function forceDeleteImportByHash(userId: string, fileHash: string):
         if (deleteError) {
         } else {
         }
-      } catch (error) {
+      } catch {
       }
     }
 

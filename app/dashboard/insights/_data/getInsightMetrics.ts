@@ -2,7 +2,7 @@
 import { cache } from 'react'
 import { getDatabase } from '@/lib/supabase/database'
 import type { PeriodFilter } from '../../_data/types'
-import { getDateRangeFromFilter, getCurrentMonthRange, getPreviousMonthRange } from '../../_data/utils/dateUtils'
+import { getDateRangeFromFilter } from '../../_data/utils/dateUtils'
 import { calculatePercentageChange } from '../../_data/utils/calculationUtils'
 
 export interface InsightMetrics {

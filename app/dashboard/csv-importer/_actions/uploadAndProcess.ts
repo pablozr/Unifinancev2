@@ -85,7 +85,7 @@ export default async function uploadAndProcess(formData: FormData): Promise<Uplo
       return { success: false, error: importResult.error }
     }
 
-    const { csvImport, finalHash, finalFilename } = importResult
+    const { csvImport, finalHash } = importResult
 
     const saveResult = await saveTransactions(
       finalTransactions,

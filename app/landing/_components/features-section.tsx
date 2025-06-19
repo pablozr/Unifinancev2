@@ -2,14 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { 
-  BarChart3, 
   Shield, 
   Zap, 
   TrendingUp,
-  Lock,
-  Brain,
-  Gauge,
-  Users
+  Brain
 } from 'lucide-react'
 import Beams from '@/components/ui/Beams/Beams'
 import PixelCard from '@/components/ui/PixelCard/PixelCard'

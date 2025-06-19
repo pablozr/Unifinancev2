@@ -1,9 +1,9 @@
 ﻿'use client'
 
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion' // não utilizado
 import { formatCurrency } from '@/lib/utils/currency'
 import type { PredictiveAnalysis } from '../_data'
-import { TrendingUp, TrendingDown, Minus, AlertCircle, BarChart3, Calendar, DollarSign, Clock, CheckCircle, Info } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, AlertCircle, BarChart3, Calendar, Clock, CheckCircle, Info } from 'lucide-react'
 import { useMemo } from 'react'
 
 const Card = ({ children, className }: { children: React.ReactNode; className?: string }) => (
@@ -22,7 +22,7 @@ const CardContent = ({ children, className }: { children: React.ReactNode; class
   <div className={`p-6 pt-0 ${className || ''}`}>{children}</div>
 )
 
-const Badge = ({ children, className, variant }: { children: React.ReactNode; className?: string; variant?: string }) => (
+const Badge = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${className || 'bg-gray-100 text-gray-800'}`}>
     {children}
   </span>
@@ -39,14 +39,7 @@ interface RecurringTransaction {
   nextExpectedDate: Date
 }
 
-interface CashFlowProjection {
-  next30Days: number
-  next60Days: number
-  next90Days: number
-  recurringIncome: number
-  recurringExpenses: number
-  alertDays: number[]
-}
+// CashFlowProjection interface removida por não estar sendo utilizada
 
 interface PredictiveAnalysisCardProps {
   analysis: PredictiveAnalysis | null
@@ -82,11 +75,7 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
     }
   }
 
-  const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 80) {return 'text-green-500'}
-    if (confidence >= 60) {return 'text-yellow-500'}
-    return 'text-red-500'
-  }
+  // getConfidenceColor removido por não ser utilizado
 
   const getConfidenceBadgeColor = (confidence: number) => {
     if (confidence >= 80) {return 'bg-green-100 text-green-800'}
@@ -458,7 +447,7 @@ export default function PredictiveAnalysisCard({ analysis, loading }: Predictive
                 <div key={index} className="bg-gray-800/30 p-3 rounded-lg">
                   <div className="flex items-center justify-between mb-1">
                     <div className="font-medium text-white text-sm">{transaction.description}</div>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge className="text-xs border border-gray-300">
                       {transaction.confidence.toFixed(0)}% confianÃ§a
                     </Badge>
                   </div>

@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Canvas } from '@react-three/fiber'
-
+  
 import { Suspense } from 'react'
-import { LayeredFinancialBackground } from '../ui/Layer'
-import LiquidChrome from '../ui/LiquidChrome/LiquidChrome'
+import { LayeredFinancialBackground } from '@/components/ui/Layer'
+import LiquidChrome from '@/components/ui/LiquidChrome/LiquidChrome'
 
 export default function Hero() {
   return (

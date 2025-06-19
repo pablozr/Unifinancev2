@@ -1,7 +1,6 @@
 ﻿import { DEFAULT_CATEGORIES } from '../_data/defaultCategories'
 import type { RawBankStatement } from '../_types/types'
 import {
-  normalizeText,
   calculateMatchScore,
   detectSpecificPatterns,
   fallbackCategorization,
@@ -24,16 +23,13 @@ export function categorizeTransaction(transaction: RawBankStatement): Categorize
   
   let bestCategory = 'Outros'
   let bestScore = 0
-  let detectionMethod = 'keyword'
   
-  
-  const normalizedDesc = normalizeText(transaction.description)
+  // const _normalizedDesc = normalizeText(transaction.description) // não utilizado
   
   const specificPattern = detectSpecificPatterns(transaction.description)
   if (specificPattern) {
     bestCategory = specificPattern.category
     bestScore = specificPattern.confidence
-    detectionMethod = 'pattern'
   }
   
   if (bestScore === 0) {
@@ -44,7 +40,6 @@ export function categorizeTransaction(transaction: RawBankStatement): Categorize
       if (score > bestScore && score >= 8) { // Threshold mÃ­nimo de 8
         bestScore = score
         bestCategory = category.name
-        detectionMethod = 'keyword'
       }
     }
   }
@@ -55,7 +50,6 @@ export function categorizeTransaction(transaction: RawBankStatement): Categorize
     if (fallbackMatch) {
       bestCategory = fallbackMatch.category
       bestScore = fallbackMatch.confidence
-      detectionMethod = 'fallback'
     }
   }
   
@@ -73,20 +67,8 @@ export function categorizeTransaction(transaction: RawBankStatement): Categorize
  * Categoriza mÃºltiplas transaÃ§Ãµes
  */
 export function categorizeTransactions(transactions: RawBankStatement[]): CategorizedTransaction[] {
-  
-  const receitas = transactions.filter(t => t.type === 'credit')
-  const despesas = transactions.filter(t => t.type === 'debit')
-  
-  
+  // Estatísticas removidas por não serem utilizadas
   const categorized = transactions.map(transaction => categorizeTransaction(transaction))
-  
-  const categorizedTransactions = categorized.filter(t => t.detectedCategory && t.detectedCategory !== 'Outros')
-  const uncategorizedTransactions = categorized.filter(t => !t.detectedCategory || t.detectedCategory === 'Outros')
-  const receitasNaoCategorizada = categorized.filter(t => t.type === 'credit' && !t.detectedCategory)
-  
-  
-  const successRate = despesas.length > 0 ? 
-    (categorizedTransactions.length / despesas.length) * 100 : 0
   
   
   return categorized

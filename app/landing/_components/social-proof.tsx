@@ -272,7 +272,7 @@ export default function SocialProof() {
 
                 {/* Content */}
                 <p className="text-white/80 mb-8 leading-relaxed text-lg font-light group-hover:text-white/90 transition-colors duration-600">
-                  "{testimonial.content}"
+                  &ldquo;{testimonial.content}&rdquo;
                 </p>
 
                 {/* Impact metric */}
