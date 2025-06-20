@@ -88,7 +88,7 @@ export function DashboardNavigation({ user }: { user: User }) {
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="p-3 rounded-xl bg-black/90 backdrop-blur-sm text-white hover:bg-black/95 transition-all duration-200 border border-gray-800 shadow-xl"
+          className="p-3 rounded-xl bg-black/90 backdrop-blur-sm text-white hover:bg-black/95 transition-all duration-200 border border-white/30 shadow-xl hover:border-white/40"
         >
           <Bars3Icon />
         </button>
@@ -103,12 +103,12 @@ export function DashboardNavigation({ user }: { user: User }) {
               animate={{ x: 0 }}
               exit={{ x: -320 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="w-80 h-full bg-black border-r border-gray-800 shadow-2xl"
+              className="w-80 h-full bg-black border-r border-white/20 shadow-2xl"
             >
-              <div className="p-4 border-b border-gray-800">
+              <div className="p-4 border-b border-white/10">
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                  className="p-2 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300"
                 >
                   <XMarkIcon />
                 </button>
@@ -121,7 +121,7 @@ export function DashboardNavigation({ user }: { user: User }) {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:flex lg:fixed lg:inset-y-0 lg:w-64 lg:flex-col">
-        <div className="flex flex-col flex-grow bg-black border-r border-gray-800 shadow-2xl">
+        <div className="flex flex-col flex-grow bg-black border-r border-white/20 shadow-2xl">
           <NavigationContent pathname={pathname} user={user} />
         </div>
       </div>
@@ -143,7 +143,7 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
   return (
     <>
       {/* Header */}
-      <div className="flex flex-col p-6 border-b border-gray-700">
+      <div className="flex flex-col p-6 border-b border-white/10">
         <motion.h1 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -151,11 +151,11 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
         >
           UniFinance
         </motion.h1>
-        <p className="text-sm text-gray-400 mt-1">Dashboard Premium</p>
+        <p className="text-sm text-white/60 mt-1">Dashboard Premium</p>
       </div>
 
       {/* Ações de Transação */}
-      <div className="p-4 border-b border-gray-700 space-y-3">
+      <div className="p-4 border-b border-white/10 space-y-3">
         {/* Botão Adicionar */}
         <motion.button
           onClick={handleAddTransaction}
@@ -163,9 +163,9 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           animate={{ opacity: 1, y: 0 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full flex items-center px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all duration-300 border border-green-500/30"
+          className="w-full flex items-center px-4 py-3 bg-white text-black font-medium rounded-xl hover:bg-white/90 transition-all duration-300 shadow-lg"
         >
-          <div className="p-1 bg-white/20 rounded-lg mr-2 flex-shrink-0">
+          <div className="p-1 bg-black/10 rounded-lg mr-2 flex-shrink-0">
             <PlusIcon />
           </div>
           <span className="whitespace-nowrap">Adicionar Transação</span>
@@ -184,7 +184,7 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           transition={{ delay: 0.1 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full flex items-center px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all duration-300 border border-red-500/30"
+          className="w-full flex items-center px-4 py-3 bg-white/10 border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 hover:border-white/30 transition-all duration-300"
         >
           <div className="p-1 bg-white/20 rounded-lg mr-2 flex-shrink-0">
             <TrashIcon />
@@ -194,7 +194,7 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-4 space-y-2">
         {navigation.map((item, index) => {
           const isActive = pathname === item.href
           const Icon = item.icon
@@ -209,23 +209,23 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
               <Link
                 href={item.href}
                 onClick={onItemClick}
-                className={`group flex items-center px-4 py-4 text-sm font-medium rounded-xl transition-all duration-300 ${
+                className={`group flex items-center px-4 py-4 text-sm font-medium rounded-xl transition-all duration-300 border ${
                   isActive
-                    ? 'bg-gray-800 text-white border border-gray-600'
-                    : 'text-gray-300 hover:text-white hover:bg-gray-800/50 hover:border-gray-700 border border-transparent'
+                    ? 'bg-white text-black border-white shadow-lg'
+                    : 'text-white/80 hover:text-white hover:bg-white/5 hover:border-white/20 border-transparent'
                 }`}
               >
-                <div className={`p-2 rounded-lg mr-3 ${
+                <div className={`p-2 rounded-lg mr-3 transition-all duration-300 ${
                   isActive 
-                    ? 'bg-gray-700 text-white' 
-                    : 'bg-gray-800/50 text-gray-400 group-hover:bg-gray-700/50 group-hover:text-gray-300'
+                    ? 'bg-black/10 text-black' 
+                    : 'bg-white/10 text-white/80 group-hover:bg-white/20 group-hover:text-white'
                 }`}>
                   <Icon />
                 </div>
                 <div className="flex-1">
                   <div className="font-semibold">{item.name}</div>
-                  <div className={`text-xs ${
-                    isActive ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-400'
+                  <div className={`text-xs transition-all duration-300 ${
+                    isActive ? 'text-black/70' : 'text-white/50 group-hover:text-white/70'
                   }`}>
                     {item.description}
                   </div>
@@ -233,7 +233,7 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
                 {isActive && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="w-1 h-8 bg-white rounded-full"
+                    className="w-1 h-8 bg-black rounded-full"
                   />
                 )}
               </Link>
@@ -243,10 +243,10 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
       </nav>
 
       {/* User section */}
-      <div className="p-4 border-t border-gray-700 bg-gray-900">
+      <div className="p-4 border-t border-white/10 bg-black">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3 flex-1 min-w-0">
-            <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/20 border border-white/30 rounded-full flex items-center justify-center">
               <span className="text-white text-sm font-medium">
                 {user.email?.charAt(0).toUpperCase()}
               </span>
@@ -260,7 +260,7 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           <form action={logout}>
             <button
               type="submit"
-              className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200"
+              className="p-2 text-white/60 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200 border border-transparent hover:border-red-500/20"
               title="Sair"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
