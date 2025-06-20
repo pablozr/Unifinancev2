@@ -41,6 +41,7 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
   const [isLoading, setIsLoading] = useState(false)
   const [currentFilter, setCurrentFilter] = useState<PeriodFilter>({ type: 'custom' })
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const isModalOpen = modalOpen === 'delete-transaction'
 
@@ -77,20 +78,22 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
   }
 
   const handleDeleteTransaction = async (transactionId: string) => {
-    if (deletingId) {return} // Previne cliques múltiplos
+    if (deletingId) return // Previne cliques múltiplos
     
     setDeletingId(transactionId)
+    setErrorMessage(null) // Limpa erros anteriores
+    
     try {
       const result = await deleteSingleTransaction(transactionId)
       
       if (result.success) {
         loadTransactions()
       } else {
-        alert('Erro ao deletar transação: ' + result.error)
+        setErrorMessage('Erro ao deletar transação: ' + result.error)
       }
     } catch (error) {
-      // ... existing code ...
-      alert('Erro ao deletar transação')
+      setErrorMessage('Erro ao deletar transação')
+      console.error('Erro ao deletar transação:', error)
     } finally {
       setDeletingId(null)
     }
@@ -135,6 +138,18 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
           </button>
         </div>
       </div>
+
+      {/* Mensagem de erro */}
+      {errorMessage && (
+        <div className="mb-4 bg-red-900/20 border border-red-500/30 rounded-xl p-4">
+          <div className="flex items-center">
+            <svg className="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-red-300 text-sm">{errorMessage}</p>
+          </div>
+        </div>
+      )}
 
       {/* Conteúdo do Modal */}
       {isLoading ? (

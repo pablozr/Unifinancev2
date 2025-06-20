@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { deleteAllImportedTransactions, previewDeletionByPeriod, clearAllImportRecords, type DeleteResult } from '../_actions/deleteTransactions'
 import { formatCurrency } from '@/lib/utils/currency'
-
+import ConfirmationModal, { useConfirmationModal } from '@/components/ui/ConfirmationModal'
 
 interface ImportManagerProps {
   userId: string
@@ -16,7 +16,8 @@ export function ImportManager({ userId }: ImportManagerProps) {
   const [preview, setPreview] = useState<{ count: number; totalAmount: number } | null>(null)
   const [result, setResult] = useState<DeleteResult | null>(null)
   const [clearImportsResult, setClearImportsResult] = useState<{ success: boolean; message: string } | null>(null)
-
+  
+  const { modalId, openModal, closeModal } = useConfirmationModal()
 
   const months = [
     { value: '1', label: 'Janeiro' },
@@ -38,7 +39,10 @@ export function ImportManager({ userId }: ImportManagerProps) {
 
   const handlePreview = async () => {
     if (!selectedMonth) {
-      alert('Selecione um mês')
+      setClearImportsResult({
+        success: false,
+        message: 'Selecione um mês'
+      })
       return
     }
 
@@ -51,21 +55,17 @@ export function ImportManager({ userId }: ImportManagerProps) {
 
       setPreview(previewResult)
     } catch (error) {
-      alert('Erro ao visualizar transações')
+      setClearImportsResult({
+        success: false,
+        message: 'Erro ao visualizar transações'
+      })
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleDelete = async () => {
+  const handleDeletePeriod = async () => {
     if (!preview || preview.count === 0) {
-      return
-    }
-
-    const monthName = months.find(m => m.value === selectedMonth)?.label
-    const confirmMessage = `⚠️ ATENÇÃO: Você está prestes a EXCLUIR PERMANENTEMENTE todas as ${preview.count} transações de ${monthName} ${selectedYear}.\n\nImpacto no saldo: R$ ${preview.totalAmount.toFixed(2)}\n\nEsta ação NÃO PODE ser desfeita!\n\nTem certeza absoluta?`
-
-    if (!confirm(confirmMessage)) {
       return
     }
 
@@ -82,21 +82,16 @@ export function ImportManager({ userId }: ImportManagerProps) {
         window.location.reload()
       }, 3000)
     } catch (error) {
-      alert('Erro ao excluir transações')
+      setClearImportsResult({
+        success: false,
+        message: 'Erro ao excluir transações'
+      })
     } finally {
       setIsLoading(false)
     }
   }
 
-
-
   const handleClearImports = async () => {
-    const confirmMessage = `🗂️ LIMPAR REGISTROS DE IMPORT\n\nEsta ação irá remover todos os registros de arquivos importados.\n\nIsso permite reimportar arquivos que estavam dando erro de "já importado".\n\nAs transações NÃO serão deletadas, apenas os registros de controle.\n\nDeseja continuar?`
-
-    if (!confirm(confirmMessage)) {
-      return
-    }
-
     setIsLoading(true)
     try {
       const result = await clearAllImportRecords(userId)
@@ -112,44 +107,83 @@ export function ImportManager({ userId }: ImportManagerProps) {
   }
 
   const handleDeleteAll = async () => {
-    const confirmMessage = `🚨 ATENÇÃO EXTREMA! 🚨
+    setIsLoading(true)
+    try {
+      const result = await deleteAllImportedTransactions(userId, new Date(), new Date())
+      setResult(result)
+      
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } catch (error) {
+      console.error('Erro ao excluir transações:', error)
+      setClearImportsResult({
+        success: false,
+        message: `Erro ao excluir transações: ${error}`
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-Você está prestes a DELETAR TODAS AS TRANSAÇÕES do seu banco de dados!
+  // Configurações dos modais de confirmação
+  const getModalConfig = () => {
+    const monthName = months.find(m => m.value === selectedMonth)?.label
+    
+    switch (modalId) {
+      case 'clear-imports':
+        return {
+          title: 'Limpar Registros de Import',
+          dangerLevel: 'low' as const,
+          message: `Esta ação irá remover todos os registros de arquivos importados.
+
+Isso permite reimportar arquivos que estavam dando erro de "já importado".
+
+As transações NÃO serão deletadas, apenas os registros de controle.`,
+          confirmText: 'Limpar Registros',
+          onConfirm: handleClearImports
+        }
+      
+      case 'delete-period':
+        return {
+          title: 'Excluir Transações do Período',
+          dangerLevel: 'high' as const,
+          message: `Você está prestes a EXCLUIR PERMANENTEMENTE todas as transações de ${monthName} ${selectedYear}.
+
+Esta ação NÃO PODE ser desfeita!`,
+          data: {
+            count: preview?.count,
+            amount: preview?.totalAmount,
+            period: `${monthName} ${selectedYear}`
+          },
+          confirmText: 'EXCLUIR TRANSAÇÕES',
+          onConfirm: handleDeletePeriod
+        }
+      
+      case 'delete-all':
+        return {
+          title: 'DELETAR TODAS AS TRANSAÇÕES',
+          dangerLevel: 'extreme' as const,
+          message: `Você está prestes a DELETAR TODAS AS TRANSAÇÕES do seu banco de dados!
 
 Esta ação irá:
 - Remover TODAS as suas transações
 - Zerar todos os dados financeiros
 - Apagar todo o histórico
 
-⚠️ ESTA AÇÃO NÃO PODE SER DESFEITA! ⚠️
-
-Digite "CONFIRMO EXCLUSÃO TOTAL" para continuar:`
-
-    const confirmed = prompt(confirmMessage)
-    
-    if (confirmed !== 'CONFIRMO EXCLUSÃO TOTAL') {
-      alert('Operação cancelada. Texto de confirmação incorreto.')
-      return
-    }
-
-    setIsLoading(true)
-    try {
-      const result = await deleteAllImportedTransactions(userId, new Date(), new Date())
-      setResult(result)
+⚠️ ESTA AÇÃO NÃO PODE SER DESFEITA! ⚠️`,
+          confirmText: 'CONFIRMO EXCLUSÃO TOTAL',
+          requireTextConfirmation: true,
+          confirmationPhrase: 'CONFIRMO EXCLUSÃO TOTAL',
+          onConfirm: handleDeleteAll
+        }
       
-      alert(`✅ SUCESSO! ${result.deleted} transações foram deletadas. A página será recarregada.`)
-      
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
-    } catch (error) {
-      alert(`🚨 Erro: ${error}`)
-    } finally {
-      setIsLoading(false)
+      default:
+        return null
     }
   }
 
-
+  const modalConfig = getModalConfig()
 
   return (
     <div className="space-y-6">
@@ -166,7 +200,7 @@ Digite "CONFIRMO EXCLUSÃO TOTAL" para continuar:`
           
           <div className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={handleClearImports}
+              onClick={() => openModal('clear-imports')}
               disabled={isLoading}
               className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium"
             >
@@ -174,7 +208,7 @@ Digite "CONFIRMO EXCLUSÃO TOTAL" para continuar:`
             </button>
             
             <button
-              onClick={handleDeleteAll}
+              onClick={() => openModal('delete-all')}
               disabled={isLoading}
               className="bg-red-700 hover:bg-red-800 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg font-bold border-2 border-red-500 shadow-lg"
             >
@@ -258,7 +292,7 @@ Digite "CONFIRMO EXCLUSÃO TOTAL" para continuar:`
             
             {preview && preview.count > 0 && (
               <button
-                onClick={handleDelete}
+                onClick={() => openModal('delete-period')}
                 disabled={isLoading}
                 className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold"
               >
@@ -310,6 +344,23 @@ Digite "CONFIRMO EXCLUSÃO TOTAL" para continuar:`
           )}
         </div>
       </div>
+
+      {/* Modal de Confirmação - Debug */}
+      {modalId && modalConfig && (
+        <ConfirmationModal
+          {...modalConfig}
+          modalId={modalId}
+          isLoading={isLoading}
+          onCancel={closeModal}
+        />
+      )}
+      
+      {/* Debug info - vou remover depois */}
+      {modalId && (
+        <div className="fixed top-4 right-4 bg-red-500 text-white p-2 rounded z-50">
+          Modal ID: {modalId} | Config: {modalConfig ? 'OK' : 'NULL'}
+        </div>
+      )}
     </div>
   )
 } 

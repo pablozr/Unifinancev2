@@ -1,31 +1,24 @@
 ﻿'use client'
 
 import { useState } from 'react'
-import { deleteAllUserTransactions, clearAllImportRecords } from '../_actions/deleteTransactions'
+import { deleteAllUserTransactions, clearAllImportRecords, type DeleteResult } from '../_actions/deleteTransactions'
 import { formatCurrency } from '@/lib/utils/currency'
 import { TrashIcon, AlertIcon, CalendarIcon } from '@/components/icons'
+import ConfirmationModal, { useConfirmationModal } from '@/components/ui/ConfirmationModal'
 
 interface DataManagementProps {
   userId: string
 }
 
-interface DeleteResult {
-  deleted: number
-  totalImpact: number
-  breakdown: {
-    credits: number
-    debits: number
-    creditAmount: number
-    debitAmount: number
-  }
-}
-
 export function DataManagement({ userId }: DataManagementProps) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedOption, setSelectedOption] = useState<'all' | 'month' | 'year'>('all')
+  const [selectedOption, setSelectedOption] = useState<'all' | 'month' | 'year' | ''>('')
   const [selectedMonth, setSelectedMonth] = useState('')
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
+  const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<DeleteResult | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  
+  const { modalId, openModal, closeModal } = useConfirmationModal()
 
   const months = [
     { value: '1', label: 'Janeiro' },
@@ -46,52 +39,21 @@ export function DataManagement({ userId }: DataManagementProps) {
   const years = Array.from({ length: 4 }, (_, i) => currentYear - 2 + i)
 
   const handleDelete = async () => {
-    let confirmMessage = ''
-
-    if (selectedOption === 'all') {
-      confirmMessage = `🚨 ATENÇÃO EXTREMA! 🚨
-
-Você está prestes a DELETAR TODAS AS TRANSAÇÕES e registros de import!
-
-⚠️ ESTA AÇÃO NÃO PODE SER DESFEITA! ⚠️
-
-Digite "DELETAR TUDO" para confirmar:`
-
-    } else if (selectedOption === 'month') {
-      if (!selectedMonth) {
-        alert('Selecione um mês')
-        return
-      }
-      const monthName = months.find(m => m.value === selectedMonth)?.label
-      confirmMessage = `⚠️ ATENÇÃO! ⚠️
-
-Você está prestes a DELETAR todas as transações de ${monthName} ${selectedYear} e os registros de import relacionados.
-
-Esta ação NÃO PODE ser desfeita!
-
-Digite "DELETAR MES" para confirmar:`
-
-    } else if (selectedOption === 'year') {
-      confirmMessage = `⚠️ ATENÇÃO! ⚠️
-
-Você está prestes a DELETAR todas as transações de ${selectedYear} e os registros de import relacionados.
-
-Esta ação NÃO PODE ser desfeita!
-
-Digite "DELETAR ANO" para confirmar:`
-
-    }
-
-    const expectedText = selectedOption === 'all' ? 'DELETAR TUDO' : 
-                        selectedOption === 'month' ? 'DELETAR MES' : 'DELETAR ANO'
-    
-    const confirmation = prompt(confirmMessage)
-    
-    if (confirmation !== expectedText) {
-      alert('Operação cancelada. Texto de confirmação incorreto.')
+    if (selectedOption === 'month' && !selectedMonth) {
+      setErrorMessage('Selecione um mês')
       return
     }
 
+    const modalIdMap = {
+      'all': 'delete-all',
+      'month': 'delete-month', 
+      'year': 'delete-year'
+    }
+
+    openModal(modalIdMap[selectedOption as keyof typeof modalIdMap])
+  }
+
+  const handleConfirmDelete = async () => {
     setIsLoading(true)
     try {
       let deleteResult: DeleteResult
@@ -106,18 +68,72 @@ Digite "DELETAR ANO" para confirmar:`
 
       setResult(deleteResult)
       
-      alert(`✅ SUCESSO! ${deleteResult.deleted} transações foram deletadas. A página será recarregada.`)
-      
       setTimeout(() => {
         window.location.reload()
       }, 2000)
     } catch (error) {
-      // ... existing code ...
-      alert(`❌ Erro: ${error}`)
+      setErrorMessage(`Erro: ${error}`)
     } finally {
       setIsLoading(false)
     }
   }
+
+  // Configurações dos modais de confirmação
+  const getModalConfig = () => {
+    const monthName = months.find(m => m.value === selectedMonth)?.label
+    
+    switch (modalId) {
+      case 'delete-all':
+        return {
+          title: 'DELETAR TODAS AS TRANSAÇÕES',
+          dangerLevel: 'extreme' as const,
+          message: `🚨 ATENÇÃO EXTREMA! 🚨
+
+Você está prestes a DELETAR TODAS AS TRANSAÇÕES e registros de import!
+
+⚠️ ESTA AÇÃO NÃO PODE SER DESFEITA! ⚠️`,
+          confirmText: 'DELETAR TUDO',
+          requireTextConfirmation: true,
+          confirmationPhrase: 'DELETAR TUDO',
+          onConfirm: handleConfirmDelete
+        }
+      
+      case 'delete-month':
+        return {
+          title: 'Deletar Transações do Mês',
+          dangerLevel: 'high' as const,
+          message: `⚠️ ATENÇÃO! ⚠️
+
+Você está prestes a DELETAR todas as transações de ${monthName} ${selectedYear} e os registros de import relacionados.
+
+Esta ação NÃO PODE ser desfeita!`,
+          confirmText: 'DELETAR MES',
+          requireTextConfirmation: true,
+          confirmationPhrase: 'DELETAR MES',
+          onConfirm: handleConfirmDelete
+        }
+      
+      case 'delete-year':
+        return {
+          title: 'Deletar Transações do Ano',
+          dangerLevel: 'high' as const,
+          message: `⚠️ ATENÇÃO! ⚠️
+
+Você está prestes a DELETAR todas as transações de ${selectedYear} e os registros de import relacionados.
+
+Esta ação NÃO PODE ser desfeita!`,
+          confirmText: 'DELETAR ANO',
+          requireTextConfirmation: true,
+          confirmationPhrase: 'DELETAR ANO',
+          onConfirm: handleConfirmDelete
+        }
+      
+      default:
+        return null
+    }
+  }
+
+  const modalConfig = getModalConfig()
 
   return (
     <div className="bg-black/40 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 shadow-2xl">
@@ -296,7 +312,27 @@ Digite "DELETAR ANO" para confirmar:`
             </p>
           </div>
         )}
+
+        {/* Mensagem de erro */}
+        {errorMessage && (
+          <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-4">
+            <h4 className="text-red-300 font-medium mb-2">
+              🚨 Erro
+            </h4>
+            <p className="text-gray-300 text-sm">{errorMessage}</p>
+          </div>
+        )}
       </div>
+
+      {/* Modal de Confirmação */}
+      {modalId && modalConfig && (
+        <ConfirmationModal
+          {...modalConfig}
+          modalId={modalId}
+          isLoading={isLoading}
+          onCancel={closeModal}
+        />
+      )}
     </div>
   )
 } 
