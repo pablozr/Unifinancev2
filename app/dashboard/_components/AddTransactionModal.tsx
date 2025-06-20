@@ -49,10 +49,10 @@ export default function AddTransactionModal() {
         closeModal()
         
       } else {
-        setError(result.error || 'Erro ao criar transaÃ§Ã£o')
+        setError(result.error || 'Erro ao criar transação')
       }
     } catch (err) {
-      setError('Erro inesperado ao criar transaÃ§Ã£o')
+              setError('Erro inesperado ao criar transação')
     } finally {
       setIsLoading(false)
     }
@@ -69,16 +69,16 @@ export default function AddTransactionModal() {
     <BaseModal
       isOpen={isOpen}
       onClose={closeModal}
-      title="Adicionar TransaÃ§Ã£o"
-      subtitle="Crie uma nova transaÃ§Ã£o manual"
+              title="Adicionar Transação"
+        subtitle="Crie uma nova transação manual"
       size="sm"
     >
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* DescriÃ§Ã£o */}
+                  {/* Descrição */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            DescriÃ§Ã£o *
+            Descrição *
           </label>
           <input
             type="text"
@@ -101,8 +101,8 @@ export default function AddTransactionModal() {
             className="w-full px-4 py-3 bg-gray-900/50 border border-gray-800/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white transition-all duration-200"
             required
           >
-            <option value="debit" className="bg-gray-900">ðŸ’¸ Despesa</option>
-            <option value="credit" className="bg-gray-900">ðŸ’° Receita</option>
+            <option value="debit" className="bg-gray-900">💸 Despesa</option>
+            <option value="credit" className="bg-gray-900">💰 Receita</option>
           </select>
         </div>
 
@@ -133,7 +133,7 @@ export default function AddTransactionModal() {
             value={formData.category}
             onChange={(e) => handleInputChange('category', e.target.value)}
             className="w-full px-4 py-3 bg-gray-900/50 border border-gray-800/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-gray-400 transition-all duration-200"
-            placeholder="Ex: AlimentaÃ§Ã£o, Transporte"
+                            placeholder="Ex: Alimentação, Transporte"
           />
         </div>
 
@@ -161,7 +161,7 @@ export default function AddTransactionModal() {
           </motion.div>
         )}
 
-        {/* BotÃµes */}
+                  {/* Botões */}
         <div className="flex gap-3 pt-4">
           <button
             type="button"
@@ -182,7 +182,7 @@ export default function AddTransactionModal() {
                 <span>Salvando...</span>
               </div>
             ) : (
-              'Criar TransaÃ§Ã£o'
+              'Criar Transação'
             )}
           </button>
         </div>

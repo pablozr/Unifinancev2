@@ -1,9 +1,9 @@
 ﻿const CATEGORY_PATTERNS = {
-  'alimentaÃ§Ã£o': ['ifood', 'uber eats', 'delivery', 'mercado', 'restaurante', 'padaria', 'aÃ§ougue', 'supermercado', 'feira', 'lanchonete', 'pizza', 'hamburger'],
+  'alimentação': ['ifood', 'uber eats', 'delivery', 'mercado', 'restaurante', 'padaria', 'açougue', 'supermercado', 'feira', 'lanchonete', 'pizza', 'hamburger'],
   'transporte': ['uber', '99', 'taxi', 'posto', 'combustivel', 'gasolina', 'etanol', 'metro', 'onibus', 'trem', 'brt', 'estacionamento'],
   'assinatura': ['netflix', 'spotify', 'amazon prime', 'youtube premium', 'disney+', 'globoplay', 'microsoft', 'adobe', 'canva'],
-  'saÃºde': ['farmacia', 'medico', 'hospital', 'clinica', 'laboratorio', 'exame', 'consulta', 'dentista', 'oftalmologista'],
-  'educaÃ§Ã£o': ['escola', 'universidade', 'curso', 'livro', 'apostila', 'material escolar', 'mensalidade'],
+  'saúde': ['farmacia', 'medico', 'hospital', 'clinica', 'laboratorio', 'exame', 'consulta', 'dentista', 'oftalmologista'],
+  'educação': ['escola', 'universidade', 'curso', 'livro', 'apostila', 'material escolar', 'mensalidade'],
   'casa': ['aluguel', 'condominio', 'luz', 'energia', 'agua', 'gas', 'internet', 'telefone', 'limpeza', 'mercado'],
   'lazer': ['cinema', 'teatro', 'show', 'festa', 'bar', 'balada', 'viagem', 'hotel', 'passagem'],
   'roupas': ['loja', 'shopping', 'roupa', 'sapato', 'bolsa', 'acessorio', 'perfume'],
@@ -36,7 +36,7 @@ function smartCategorization(description: string, amount: number, existingCatego
     }
   }
 
-  if (amount > 3000) {return 'SalÃ¡rio/Receita'}
+  if (amount > 3000) {return 'Salário/Receita'}
   if (amount > 1000) {return 'Grandes Despesas'}
   if (amount < 50) {return 'Pequenos Gastos'}
   

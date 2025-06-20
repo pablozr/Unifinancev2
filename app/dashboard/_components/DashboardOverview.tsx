@@ -111,10 +111,10 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
     },
     {
       title: currentFilter.type === 'monthly' && currentFilter.year && currentFilter.month !== undefined
-        ? 'Receitas do MÃªs'
+        ? 'Receitas do Mês'
         : currentFilter.type === 'yearly' && currentFilter.year
         ? 'Receitas do Ano'
-        : 'Receitas do PerÃ­odo',
+        : 'Receitas do Período',
       value: formatCurrency(filteredStats.monthlyIncome),
       change: formatPercentage(filteredStats.incomeChange),
       changeType: filteredStats.incomeChange >= 0 ? 'positive' : 'negative',
@@ -122,17 +122,17 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
     },
     {
       title: currentFilter.type === 'monthly' && currentFilter.year && currentFilter.month !== undefined
-        ? 'Despesas do MÃªs'
+        ? 'Despesas do Mês'
         : currentFilter.type === 'yearly' && currentFilter.year
         ? 'Despesas do Ano'
-        : 'Despesas do PerÃ­odo',
+        : 'Despesas do Período',
       value: formatCurrency(filteredStats.monthlyExpenses),
       change: formatPercentage(filteredStats.expenseChange),
       changeType: filteredStats.expenseChange <= 0 ? 'positive' : 'negative',
       icon: <TrendingDownIcon />
     },
     {
-      title: 'TransaÃ§Ãµes',
+      title: 'Transações',
       value: filteredStats.transactionCount.toString(),
       change: formatPercentage(filteredStats.transactionChange),
       changeType: filteredStats.transactionChange >= 0 ? 'positive' : 'negative',
@@ -158,12 +158,12 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
           <div>
             <h1 className="text-4xl font-light text-white mb-3">
-              VisÃ£o Geral
+              Visão Geral
             </h1>
-            <p className="text-white/60 text-lg">Acompanhe suas finanÃ§as em tempo real</p>
+            <p className="text-white/60 text-lg">Acompanhe suas finanças em tempo real</p>
           </div>
           
-          {/* Seletor de PerÃ­odo */}
+          {/* Seletor de Período */}
           <div className="mt-4 lg:mt-0">
             <PeriodSelector 
               currentFilter={currentFilter}
@@ -281,7 +281,7 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         </motion.div>
       </div>
 
-      {/* TransaÃ§Ãµes Recentes */}
+              {/* Transações Recentes */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -289,7 +289,7 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         className="bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6"
       >
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-medium text-white">TransaÃ§Ãµes Recentes</h3>
+          <h3 className="text-xl font-medium text-white">Transações Recentes</h3>
           <TransactionsModal userId={userId} currentFilter={currentFilter} />
         </div>
         
@@ -331,14 +331,14 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
             <div className="text-center py-8">
               <p className="text-white/60">
                 {currentFilter.type === 'monthly' || currentFilter.type === 'yearly' 
-                  ? 'Nenhuma transaÃ§Ã£o encontrada para este perÃ­odo' 
-                  : 'Nenhuma transaÃ§Ã£o encontrada'
+                              ? 'Nenhuma transação encontrada para este período'
+            : 'Nenhuma transação encontrada'
                 }
               </p>
               <p className="text-white/40 text-sm mt-1">
                 {currentFilter.type === 'monthly' || currentFilter.type === 'yearly'
-                  ? 'Tente selecionar um perÃ­odo diferente'
-                  : 'Suas transaÃ§Ãµes aparecerÃ£o aqui'
+                  ? 'Tente selecionar um período diferente'
+                  : 'Suas transações aparecerão aqui'
                 }
               </p>
             </div>

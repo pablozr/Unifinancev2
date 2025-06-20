@@ -18,9 +18,9 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
   
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i)
   const months = [
-    'Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-  ]
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+]
   
   const getDisplayText = () => {
     if (currentFilter.type === 'yearly' && currentFilter.year) {
@@ -29,7 +29,7 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
     if (currentFilter.type === 'monthly' && currentFilter.year && currentFilter.month !== undefined) {
       return `${months[currentFilter.month]} ${currentFilter.year}`
     }
-    return 'Ãšltimos 6 meses'
+    return 'Últimos 6 meses'
   }
 
   const handleQuickSelect = (type: 'current-month' | 'current-year' | 'last-6-months') => {
@@ -100,15 +100,15 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
           className="absolute right-0 top-full mt-2 w-80 bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-lg z-50"
         >
           <div className="p-4">
-            {/* SeleÃ§Ãµes RÃ¡pidas */}
-            <div className="mb-4">
-              <h4 className="text-sm font-medium text-white/60 mb-2">SeleÃ§Ãµes RÃ¡pidas</h4>
+                      {/* Seleções Rápidas */}
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-white/60 mb-2">Seleções Rápidas</h4>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => handleQuickSelect('current-month')}
                   className="text-left p-2 text-sm text-white/60 hover:bg-white/[0.05] rounded transition-colors"
                 >
-                  MÃªs Atual
+                  Mês Atual
                 </button>
                 <button
                   onClick={() => handleQuickSelect('current-year')}
@@ -120,12 +120,12 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
                   onClick={() => handleQuickSelect('last-6-months')}
                   className="text-left p-2 text-sm text-white/60 hover:bg-white/[0.05] rounded transition-colors col-span-2"
                 >
-                  Ãšltimos 6 Meses
+                  Últimos 6 Meses
                 </button>
               </div>
             </div>
 
-            {/* SeleÃ§Ã£o por Ano */}
+            {/* Seleção por Ano */}
             <div className="mb-4">
               <h4 className="text-sm font-medium text-white/60 mb-2">Por Ano</h4>
               <div className="grid grid-cols-3 gap-2">
@@ -145,9 +145,9 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
               </div>
             </div>
 
-            {/* SeleÃ§Ã£o por MÃªs */}
-            <div>
-              <h4 className="text-sm font-medium text-white/60 mb-2">Por MÃªs</h4>
+                    {/* Seleção por Mês */}
+        <div>
+          <h4 className="text-sm font-medium text-white/60 mb-2">Por Mês</h4>
               <div className="max-h-48 overflow-y-auto">
                 {years.slice(0, 2).map(year => (
                   <div key={year} className="mb-3">

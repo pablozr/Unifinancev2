@@ -7,14 +7,14 @@ export interface PatternMatch {
 }
 
 /**
- * Detecta padrÃµes especÃ­ficos de marcas conhecidas
+ * Detecta padrões específicos de marcas conhecidas
  */
 export default function detectSpecificPatterns(description: string): PatternMatch | null {
   const desc = normalizeText(description)
   
   if (desc.includes('ifood') || desc.includes('i food') || desc.includes('ifoods')) {
     return {
-      category: 'AlimentaÃ§Ã£o',
+      category: 'Alimentação',
       confidence: 100,
       pattern: 'IFOOD'
     }
@@ -30,7 +30,7 @@ export default function detectSpecificPatterns(description: string): PatternMatc
   
   if (desc.includes('renner') || desc.includes('loja renner') || desc.includes('lojas renner')) {
     return {
-      category: 'VestuÃ¡rio',
+      category: 'Vestuário',
       confidence: 90,
       pattern: 'RENNER'
     }
@@ -46,7 +46,7 @@ export default function detectSpecificPatterns(description: string): PatternMatc
   
   if (desc.includes('uber eats') || desc.includes('ubereats')) {
     return {
-      category: 'AlimentaÃ§Ã£o',
+      category: 'Alimentação',
       confidence: 90,
       pattern: 'UBER EATS'
     }

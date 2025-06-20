@@ -7,9 +7,9 @@
 
 export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
-    name: 'AlimentaÃ§Ã£o',
+    name: 'Alimentação',
     color: '#10B981',
-    icon: 'ðŸ”',
+    icon: '🍔',
     keywords: [
       'ifood', 'ifoods', 'i food', 'i-food', 'ifood.com', 'ifoodcom',
       
@@ -35,7 +35,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Transporte',
     color: '#3B82F6',
-    icon: 'ðŸš—',
+    icon: '🚗',
     keywords: [
       'uber', '99', '99 taxi', '99taxi', 'taxi', 'riopar', 'riocard', 
       'transporte', 'onibus', 'metro', 'trem', 
@@ -51,9 +51,9 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
     ]
   },
   {
-    name: 'SaÃºde',
+    name: 'Saúde',
     color: '#EF4444',
-    icon: 'ðŸ¥',
+    icon: '🏥',
     keywords: [
       'farmacia', 'drogaria', 'drogasil', 'pacheco', 'raia', 'medico', 
       'hospital', 'clinica', 'laboratorio', 'dentista', 'oftalmologista', 
@@ -66,7 +66,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Casa',
     color: '#F59E0B',
-    icon: 'ðŸ ',
+    icon: '🏠',
     keywords: [
       'aluguel', 'condominio', 'iptu', 'luz', 'energia', 'enel', 'light',
       'cemig', 'copel', 'agua', 'saneamento', 'sabesp', 'cedae',
@@ -84,7 +84,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Lazer',
     color: '#8B5CF6',
-    icon: 'ðŸŽ®',
+    icon: '🎮',
     keywords: [
       'netflix', 'spotify', 'amazon prime', 'disney plus', 'globoplay',
       'youtube premium', 'paramount', 'hbo max', 'prime video',
@@ -99,9 +99,9 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
     ]
   },
   {
-    name: 'EducaÃ§Ã£o',
+    name: 'Educação',
     color: '#06B6D4',
-    icon: 'ðŸ“š',
+    icon: '📚',
     keywords: [
       'escola', 'colegio', 'universidade', 'faculdade', 'curso',
       'aula', 'professor', 'mensalidade', 'material escolar',
@@ -110,9 +110,9 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
     ]
   },
   {
-    name: 'VestuÃ¡rio',
+    name: 'Vestuário',
     color: '#EC4899',
-    icon: 'ðŸ‘•',
+    icon: '👕',
     keywords: [
       'roupa', 'roupas', 'camisa', 'calca', 'vestido', 'saia',
       'sapato', 'tenis', 'sandalia', 'bolsa', 'carteira', 'cinto',
@@ -129,7 +129,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Investimentos',
     color: '#059669',
-    icon: 'ðŸ“ˆ',
+    icon: '📈',
     keywords: [
       'investimento', 'aplicacao', 'poupanca', 'cdb', 'lci', 'lca',
       'tesouro', 'acao', 'fundo', 'previdencia', 'bitcoin', 'crypto',
@@ -141,7 +141,7 @@ export const DEFAULT_CATEGORIES: DefaultCategory[] = [
   {
     name: 'Outros',
     color: '#6B7280',
-    icon: 'ðŸ“¦',
+    icon: '📦',
     keywords: [
       'outros', 'diverso', 'geral', 'misc', 'variado',
       'fatura', 'pagamento', 'conta', 'boleto', 'cartao',

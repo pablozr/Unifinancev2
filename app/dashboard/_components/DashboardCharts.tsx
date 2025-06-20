@@ -38,10 +38,10 @@ export function CashFlowChart({ data, title }: CashFlowChartProps) {
           <h3 className="text-xl font-medium text-white mb-4">{title}</h3>
           <div className="h-80 flex items-center justify-center border-2 border-dashed border-white/[0.08] rounded-lg">
             <div className="text-center">
-              <span className="text-4xl mb-4 block">ðŸ“Š</span>
-              <p className="text-white/60 text-lg font-medium mb-2">Nenhuma transaÃ§Ã£o encontrada</p>
-              <p className="text-white/40 text-sm">Para este perÃ­odo selecionado nÃ£o hÃ¡ dados financeiros.</p>
-              <p className="text-white/40 text-sm mt-1">Tente selecionar um perÃ­odo diferente ou importe mais transaÃ§Ãµes.</p>
+              <span className="text-4xl mb-4 block">📊</span>
+              <p className="text-white/60 text-lg font-medium mb-2">Nenhuma transação encontrada</p>
+              <p className="text-white/40 text-sm">Para este período selecionado não há dados financeiros.</p>
+              <p className="text-white/40 text-sm mt-1">Tente selecionar um período diferente ou importe mais transações.</p>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ export function CashFlowChart({ data, title }: CashFlowChartProps) {
                     />
                   </div>
                   
-                  {/* Label do mÃªs melhorado */}
+                  {/* Label do mês melhorado */}
                   <div className="mt-4 text-center">
                     <span className="text-xs text-white/60 font-medium px-2 py-1 bg-white/[0.05] rounded-full">
                       {item.month}
@@ -191,7 +191,7 @@ export function CashFlowChart({ data, title }: CashFlowChartProps) {
           </div>
         </div>
         
-        {/* Resumo estatÃ­stico melhorado */}
+        {/* Resumo estatístico melhorado */}
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-4 text-center">
             <div className="text-lg font-light text-green-400">
@@ -211,13 +211,13 @@ export function CashFlowChart({ data, title }: CashFlowChartProps) {
             }`}>
               {formatCurrency(data.reduce((sum, d) => sum + d.balance, 0))}
             </div>
-            <div className="text-xs text-white/60 mt-1">Saldo LÃ­quido</div>
+            <div className="text-xs text-white/60 mt-1">Saldo Líquido</div>
           </div>
           <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-4 text-center">
             <div className="text-lg font-light text-white">
               {data.length}
             </div>
-            <div className="text-xs text-white/60 mt-1">PerÃ­odos</div>
+            <div className="text-xs text-white/60 mt-1">Períodos</div>
           </div>
         </div>
       </div>
@@ -245,10 +245,10 @@ export function CategoryPieChart({ data, title }: CategoryPieChartProps) {
           <h3 className="text-xl font-medium text-white mb-4">{title}</h3>
           <div className="h-80 flex items-center justify-center border-2 border-dashed border-white/[0.08] rounded-lg">
             <div className="text-center">
-              <span className="text-4xl mb-4 block">ðŸ¥§</span>
+              <span className="text-4xl mb-4 block">🥧</span>
               <p className="text-white/60 text-lg font-medium mb-2">Nenhuma despesa encontrada</p>
-              <p className="text-white/40 text-sm">Para este perÃ­odo selecionado nÃ£o hÃ¡ gastos categorizados.</p>
-              <p className="text-white/40 text-sm mt-1">Tente selecionar um perÃ­odo diferente ou categorize suas despesas.</p>
+              <p className="text-white/40 text-sm">Para este período selecionado não há gastos categorizados.</p>
+              <p className="text-white/40 text-sm mt-1">Tente selecionar um período diferente ou categorize suas despesas.</p>
             </div>
           </div>
         </div>
@@ -270,7 +270,7 @@ export function CategoryPieChart({ data, title }: CategoryPieChartProps) {
           <h3 className="text-xl font-medium text-white mb-4">{title}</h3>
           <div className="h-80 flex items-center justify-center border-2 border-dashed border-white/[0.08] rounded-lg">
             <div className="text-center">
-              <span className="text-4xl mb-2 block">ðŸ’¸</span>
+              <span className="text-4xl mb-2 block">💸</span>
               <p className="text-white/60">Nenhuma despesa registrada</p>
             </div>
           </div>
@@ -324,10 +324,10 @@ export function CategoryPieChart({ data, title }: CategoryPieChartProps) {
         <h3 className="text-xl font-medium text-white mb-6">{title}</h3>
         
         <div className="h-80 flex items-center space-x-6">
-          {/* GrÃ¡fico de Pizza maior */}
+          {/* Gráfico de Pizza maior */}
           <div className="relative flex-shrink-0">
             <svg width="240" height="240" viewBox="0 0 240 240">
-              {/* Sombra do cÃ­rculo */}
+              {/* Sombra do círculo */}
               <circle 
                 cx="120" 
                 cy="120" 
@@ -408,7 +408,7 @@ export function CategoryPieChart({ data, title }: CategoryPieChartProps) {
           </div>
         </div>
         
-        {/* EstatÃ­sticas do rodapÃ© */}
+        {/* Estatísticas do rodapé */}
         <div className="mt-6 grid grid-cols-3 gap-4">
           <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-3 text-center">
             <div className="text-lg font-light text-white">{data.length}</div>
@@ -418,7 +418,7 @@ export function CategoryPieChart({ data, title }: CategoryPieChartProps) {
             <div className="text-lg font-light text-white">
               {formatCurrency(data.length > 0 ? total / data.length : 0)}
             </div>
-            <div className="text-xs text-white/60">MÃ©dia</div>
+            <div className="text-xs text-white/60">Média</div>
           </div>
           <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-3 text-center">
             <div className="text-lg font-light text-white">

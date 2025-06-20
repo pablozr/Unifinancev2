@@ -23,9 +23,17 @@ export default async function processAutoCategorization(
     categorizedTransactions = mapCategoriesToIds(categorizedTransactions, userCategories)
     
     const processedTransactions: ProcessedTransaction[] = categorizedTransactions.map(transaction => {
-      const parsedDate = parseDateBR(transaction.date)
-      if (!parsedDate) {
-        throw new Error(`Data invÃ¡lida: ${transaction.date}`)
+      // Verificar se a data já é um objeto Date ou precisa ser parseada
+      let parsedDate: Date | null = null
+      
+      if (transaction.date && typeof transaction.date === 'object' && 'getTime' in transaction.date) {
+        parsedDate = transaction.date as Date
+      } else if (typeof transaction.date === 'string') {
+        parsedDate = parseDateBR(transaction.date)
+      }
+      
+      if (!parsedDate || isNaN(parsedDate.getTime())) {
+        throw new Error(`Data inválida: ${transaction.date}`)
       }
       
       return {
@@ -50,7 +58,7 @@ export default async function processAutoCategorization(
   } catch (error) {
     return {
       success: false,
-      error: `Erro na categorizaÃ§Ã£o: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
+      error: `Erro na categorização: ${error instanceof Error ? error.message : 'Erro desconhecido'}`
     }
   }
 } 

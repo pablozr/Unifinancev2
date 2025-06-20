@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import { ChartBarIcon, CrystalBallIcon, TrophyIcon, BrainIcon, TargetIcon, BellIcon, TrendingUpIcon, BotIcon } from '@/components/icons'
 import { PeriodSelector } from './PeriodSelector'
 import { FinancialScoreCard } from './FinancialScoreCard'
 import PredictiveAnalysisCard from './PredictiveAnalysisCard'
@@ -85,10 +86,10 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
           <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6">
             <div>
               <h1 className="text-4xl font-light text-white mb-3">
-                Insights AvanÃ§ados
+                Insights Avançados
               </h1>
               <p className="text-white/60 text-lg">
-                AnÃ¡lises inteligentes e projeÃ§Ãµes para suas finanÃ§as
+                Análises inteligentes e projeções para suas finanças
               </p>
             </div>
           </div>
@@ -101,46 +102,54 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
           className="max-w-2xl mx-auto text-center"
         >
           <div className="bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-12">
-            <div className="text-6xl mb-6">ðŸ“Š</div>
+            <div className="mb-6">
+              <ChartBarIcon size={72} className="text-blue-400 mx-auto" />
+            </div>
             <h2 className="text-2xl font-light text-white mb-4">
-              Dados Insuficientes para AnÃ¡lise
+              Dados Insuficientes para Análise
             </h2>
             <p className="text-white/60 text-lg leading-relaxed mb-8">
-              Para gerar insights inteligentes e anÃ¡lises avanÃ§adas, precisamos de mais dados financeiros. 
-              Adicione mais transaÃ§Ãµes ao seu histÃ³rico para comeÃ§ar a ver anÃ¡lises personalizadas.
+              Para gerar insights inteligentes e análises avançadas, precisamos de mais dados financeiros. 
+              Adicione mais transações ao seu histórico para começar a ver análises personalizadas.
             </p>
             
             {/* Requisitos */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-4">
-                <div className="text-2xl mb-2">ðŸ”®</div>
-                <h3 className="text-white font-medium mb-1">AnÃ¡lise Preditiva</h3>
+                <div className="mb-2">
+                  <CrystalBallIcon size={32} className="text-purple-400 mx-auto" />
+                </div>
+                <h3 className="text-white font-medium mb-1">Análise Preditiva</h3>
                 <p className="text-white/60 text-sm">Precisa de 3+ meses de dados</p>
               </div>
               
               <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-4">
-                <div className="text-2xl mb-2">ðŸ†</div>
+                <div className="mb-2">
+                  <TrophyIcon size={32} className="text-yellow-400 mx-auto" />
+                </div>
                 <h3 className="text-white font-medium mb-1">Score Financeiro</h3>
                 <p className="text-white/60 text-sm">Precisa de 6+ meses de dados</p>
               </div>
               
               <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-4">
-                <div className="text-2xl mb-2">ðŸ§ </div>
+                <div className="mb-2">
+                  <BrainIcon size={32} className="text-pink-400 mx-auto" />
+                </div>
                 <h3 className="text-white font-medium mb-1">Insights Inteligentes</h3>
-                <p className="text-white/60 text-sm">Precisa de transaÃ§Ãµes recentes</p>
+                <p className="text-white/60 text-sm">Precisa de transações recentes</p>
               </div>
             </div>
 
             {/* Call to Action */}
             <div className="space-y-4">
               <button 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-xl font-medium hover:opacity-90 transition-opacity"
-                onClick={() => window.location.href = '/dashboard/transactions'}
+                className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 border border-gray-600/50 hover:border-gray-500/50"
+                onClick={() => window.location.href = '/dashboard'}
               >
-                Adicionar TransaÃ§Ãµes
+                Adicionar Transações
               </button>
               <p className="text-white/40 text-sm">
-                Ou conecte uma conta bancÃ¡ria para importar automaticamente
+                Ou conecte uma conta bancária para importar automaticamente
               </p>
             </div>
           </div>
@@ -160,10 +169,10 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6">
           <div>
             <h1 className="text-4xl font-light text-white mb-3">
-              Insights AvanÃ§ados
+              Insights Avançados
             </h1>
             <p className="text-white/60 text-lg">
-              AnÃ¡lises inteligentes e projeÃ§Ãµes para suas finanÃ§as
+              Análises inteligentes e projeções para suas finanças
             </p>
           </div>
           
@@ -221,48 +230,48 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
         className="mt-12"
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-light text-white">AÃ§Ãµes Recomendadas</h2>
-          <div className="text-2xl">âš¡</div>
+          <h2 className="text-2xl font-light text-white">Ações Recomendadas</h2>
+          <BrainIcon size={28} className="text-purple-400" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-xl p-4 hover:bg-white/[0.04] transition-all cursor-pointer">
             <div className="flex items-center space-x-3 mb-3">
-              <div className="text-2xl">ðŸ“Š</div>
-              <h3 className="text-white font-medium">Criar OrÃ§amento</h3>
+              <ChartBarIcon size={32} className="text-blue-400" />
+              <h3 className="text-white font-medium">Criar Orçamento</h3>
             </div>
             <p className="text-white/60 text-sm">
-              Defina limites de gastos baseados na sua anÃ¡lise
+              Defina limites de gastos baseados na sua análise
             </p>
           </div>
 
           <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-xl p-4 hover:bg-white/[0.04] transition-all cursor-pointer">
             <div className="flex items-center space-x-3 mb-3">
-              <div className="text-2xl">ðŸŽ¯</div>
+              <TargetIcon size={32} className="text-green-400" />
               <h3 className="text-white font-medium">Definir Metas</h3>
             </div>
             <p className="text-white/60 text-sm">
-              EstabeleÃ§a objetivos financeiros inteligentes
+              Estabeleça objetivos financeiros inteligentes
             </p>
           </div>
 
           <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-xl p-4 hover:bg-white/[0.04] transition-all cursor-pointer">
             <div className="flex items-center space-x-3 mb-3">
-              <div className="text-2xl">ðŸ””</div>
+              <BellIcon size={32} className="text-yellow-400" />
               <h3 className="text-white font-medium">Alertas</h3>
             </div>
             <p className="text-white/60 text-sm">
-              Configure notificaÃ§Ãµes personalizadas
+              Configure notificações personalizadas
             </p>
           </div>
 
           <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-xl p-4 hover:bg-white/[0.04] transition-all cursor-pointer">
             <div className="flex items-center space-x-3 mb-3">
-              <div className="text-2xl">ðŸ“ˆ</div>
-              <h3 className="text-white font-medium">RelatÃ³rio</h3>
+              <ChartBarIcon size={32} className="text-purple-400" />
+              <h3 className="text-white font-medium">Relatório</h3>
             </div>
             <p className="text-white/60 text-sm">
-              Gere relatÃ³rio detalhado de insights
+              Gere relatório detalhado de insights
             </p>
           </div>
         </div>
@@ -277,15 +286,16 @@ export function AdvancedInsightsDashboard({ userId }: AdvancedInsightsDashboardP
       >
         <div className="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-white/[0.05] rounded-xl p-6">
           <div className="flex items-center justify-center space-x-2 mb-3">
-            <span className="text-2xl">ðŸ¤–</span>
+            <BotIcon size={32} className="text-blue-400" />
             <h3 className="text-white font-medium">Powered by AI</h3>
           </div>
           <p className="text-white/60 text-sm max-w-2xl mx-auto">
-            Nossos insights sÃ£o gerados por inteligÃªncia artificial que analisa seus padrÃµes de gastos, 
-            identifica tendÃªncias e faz previsÃµes personalizadas para ajudar vocÃª a tomar melhores decisÃµes financeiras.
+            Nossos insights são gerados por inteligência artificial que analisa seus padrões de gastos, 
+            identifica tendências e faz previsões personalizadas para ajudar você a tomar melhores decisões financeiras.
           </p>
         </div>
       </motion.div>
     </div>
   )
 } 
+

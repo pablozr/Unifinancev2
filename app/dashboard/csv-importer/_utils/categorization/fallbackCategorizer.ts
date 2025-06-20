@@ -7,7 +7,7 @@ export interface FallbackMatch {
 }
 
 /**
- * CategorizaÃ§Ã£o fallback baseada em padrÃµes simples
+ * Categorização fallback baseada em padrões simples
  */
 export default function fallbackCategorization(description: string): FallbackMatch | null {
   const desc = normalizeText(description)
@@ -23,17 +23,17 @@ export default function fallbackCategorization(description: string): FallbackMat
     
     if (desc.includes('farmacia') || desc.includes('drog')) {
       return {
-        category: 'SaÃºde',
+        category: 'Saúde',
         confidence: 15,
-        reason: 'PadrÃ£o de farmÃ¡cia detectado'
+        reason: 'Padrão de farmácia detectado'
       }
     } 
     
     if (desc.includes('mercado') || desc.includes('super')) {
       return {
-        category: 'AlimentaÃ§Ã£o',
+        category: 'Alimentação',
         confidence: 15,
-        reason: 'PadrÃ£o de supermercado detectado'
+        reason: 'Padrão de supermercado detectado'
       }
     }
   }
@@ -42,7 +42,7 @@ export default function fallbackCategorization(description: string): FallbackMat
     return {
       category: 'Outros',
       confidence: 12,
-      reason: 'TransferÃªncia detectada'
+      reason: 'Transferência detectada'
     }
   }
   

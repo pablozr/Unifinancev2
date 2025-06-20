@@ -59,7 +59,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   {
-    name: 'VisÃ£o Geral',
+    name: 'Visão Geral',
     href: '/dashboard',
     icon: HomeIcon,
     description: 'Dashboard principal'
@@ -68,13 +68,13 @@ const navigation: NavigationItem[] = [
     name: 'Insights',
     href: '/dashboard/insights',
     icon: ChartBarIcon,
-    description: 'GrÃ¡ficos e anÃ¡lises'
+    description: 'Gráficos e análises'
   },
   {
     name: 'Importador CSV',
     href: '/dashboard/csv-importer',
     icon: DocumentArrowUpIcon,
-    description: 'Importar transaÃ§Ãµes'
+    description: 'Importar transações'
   }
 ]
 
@@ -154,9 +154,9 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
         <p className="text-sm text-gray-400 mt-1">Dashboard Premium</p>
       </div>
 
-      {/* AÃ§Ãµes de TransaÃ§Ã£o */}
+      {/* Ações de Transação */}
       <div className="p-4 border-b border-gray-700 space-y-3">
-        {/* BotÃ£o Adicionar */}
+        {/* Botão Adicionar */}
         <motion.button
           onClick={handleAddTransaction}
           initial={{ opacity: 0, y: 10 }}
@@ -168,10 +168,10 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           <div className="p-1 bg-white/20 rounded-lg mr-2 flex-shrink-0">
             <PlusIcon />
           </div>
-          <span className="whitespace-nowrap">Adicionar TransaÃ§Ã£o</span>
+          <span className="whitespace-nowrap">Adicionar Transação</span>
         </motion.button>
 
-        {/* BotÃ£o Excluir */}
+        {/* Botão Excluir */}
         <motion.button
           onClick={() => {
             const params = new URLSearchParams(searchParams.toString())
@@ -184,12 +184,12 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
           transition={{ delay: 0.1 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full flex items-center px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-xl shadow-lg shadow-red-500/25 transition-all duration-300 border border-red-500/30"
+          className="w-full flex items-center px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all duration-300 border border-red-500/30"
         >
           <div className="p-1 bg-white/20 rounded-lg mr-2 flex-shrink-0">
             <TrashIcon />
           </div>
-          <span className="whitespace-nowrap">Excluir TransaÃ§Ã£o</span>
+          <span className="whitespace-nowrap">Excluir Transação</span>
         </motion.button>
       </div>
 

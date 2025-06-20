@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import { type MonthlyData, type CategoryData } from '../../_data/types'
 import { formatCurrency } from '@/lib/utils/currency'
+import { ChartBarIcon, PieChartIcon, MoneyOffIcon } from '@/components/icons'
 
 interface AdvancedBarChartProps {
   data: MonthlyData[]
@@ -32,7 +33,7 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
           <div className="flex items-center justify-center h-96 text-white/60">
             <div className="text-center">
               <span className="text-4xl mb-2 block">ðŸ“Š</span>
-              <p>Nenhum dado disponÃ­vel</p>
+              <p>Nenhum dado disponível</p>
             </div>
           </div>
         </div>
@@ -128,11 +129,11 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
                           </span>
                         </div>
                         <div className="flex justify-between text-blue-400">
-                          <span>TransaÃ§Ãµes:</span>
+                          <span>Transações:</span>
                           <span className="font-medium">{item.transactionCount}</span>
                         </div>
                         <div className="flex justify-between text-purple-400">
-                          <span>Ticket MÃ©dio:</span>
+                          <span>Ticket Médio:</span>
                           <span className="font-medium">{formatCurrency(item.avgTicket)}</span>
                         </div>
                       </div>
@@ -170,7 +171,7 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
                     />
                   </div>
                   
-                  {/* Label do mÃªs melhorado */}
+                  {/* Label do mês melhorado */}
                   <div className="mt-4 text-center">
                     <span className="text-xs text-white/60 font-medium px-3 py-1 bg-white/[0.05] rounded-full">
                       {item.month}
@@ -214,13 +215,13 @@ export function AdvancedBarChart({ data, title }: AdvancedBarChartProps) {
             }`}>
               {formatCurrency(data.reduce((sum, d) => sum + d.balance, 0))}
             </div>
-            <div className="text-xs text-white/60 mt-1">Saldo LÃ­quido</div>
+            <div className="text-xs text-white/60 mt-1">Saldo Líquido</div>
           </div>
           <div className="bg-purple-400/10 border border-purple-400/20 rounded-xl p-4 text-center">
             <div className="text-lg font-light text-white">
               {data.reduce((sum, d) => sum + d.transactionCount, 0)}
             </div>
-            <div className="text-xs text-white/60 mt-1">Total TransaÃ§Ãµes</div>
+            <div className="text-xs text-white/60 mt-1">Total Transações</div>
           </div>
         </div>
       </div>
@@ -243,8 +244,8 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
           <h3 className="text-lg font-medium text-white mb-4">{title}</h3>
           <div className="flex items-center justify-center h-96 text-white/60">
             <div className="text-center">
-              <span className="text-4xl mb-2 block">ðŸ¥§</span>
-              <p>Nenhum dado disponÃ­vel</p>
+              <div className="mb-2"><PieChartIcon size={48} className="text-green-400 mx-auto" /></div>
+              <p>Nenhum dado disponível</p>
             </div>
           </div>
         </div>
@@ -323,10 +324,10 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
         <h3 className="text-lg font-medium text-white mb-6">{title}</h3>
         
         <div className="h-96 flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
-          {/* GrÃ¡fico de Pizza maior */}
+          {/* Gráfico de Pizza maior */}
           <div className="relative flex-shrink-0">
             <svg width="280" height="280" viewBox="0 0 280 280" className="drop-shadow-2xl">
-              {/* Sombra do cÃ­rculo */}
+              {/* Sombra do círculo */}
               <circle 
                 cx="140" 
                 cy="140" 
@@ -394,7 +395,7 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
                   />
                   <div>
                     <div className="text-white font-medium text-base">{item.label}</div>
-                    <div className="text-sm text-white/60">{item.transactionCount} transaÃ§Ãµes â€¢ {item.percentage.toFixed(1)}%</div>
+                    <div className="text-sm text-white/60">{item.transactionCount} transações â€¢ {item.percentage.toFixed(1)}%</div>
                   </div>
                 </div>
                 <div className="text-right">
@@ -405,7 +406,7 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
           </div>
         </div>
         
-        {/* EstatÃ­sticas melhoradas */}
+        {/* Estatísticas melhoradas */}
         <div className="mt-8 grid grid-cols-3 gap-4">
           <div className="bg-blue-400/10 border border-blue-400/20 rounded-xl p-4 text-center">
             <div className="text-xl font-light text-white">{data.length}</div>
@@ -415,13 +416,13 @@ export function AdvancedPieChart({ data, title }: PieChartProps) {
             <div className="text-xl font-light text-white">
               {formatCurrency(data.length > 0 ? total / data.length : 0)}
             </div>
-            <div className="text-sm text-white/60 mt-1">MÃ©dia por Categoria</div>
+            <div className="text-sm text-white/60 mt-1">Média por Categoria</div>
           </div>
           <div className="bg-green-400/10 border border-green-400/20 rounded-xl p-4 text-center">
             <div className="text-xl font-light text-white">
               {data.reduce((sum, item) => sum + item.transactionCount, 0)}
             </div>
-            <div className="text-sm text-white/60 mt-1">Total TransaÃ§Ãµes</div>
+            <div className="text-sm text-white/60 mt-1">Total Transações</div>
           </div>
         </div>
       </div>

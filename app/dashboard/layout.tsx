@@ -1,7 +1,7 @@
 import { requireAuthServer } from '@/lib/auth'
-import { DashboardNavigation } from './components/DashboardNavigation'
-import AddTransactionModal from './components/AddTransactionModal'
-import DeleteTransactionModal from './components/DeleteTransactionModal'
+import { DashboardNavigation } from './_components/DashboardNavigation'
+import AddTransactionModal from './_components/AddTransactionModal'
+import DeleteTransactionModal from './_components/DeleteTransactionModal'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 export default async function DashboardLayout({

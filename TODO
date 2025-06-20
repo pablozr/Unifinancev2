@@ -1,6 +1,7 @@
-- Estrutura de testes
-- Eslint antes do commit e builld
+
 - Responsividade total
 - Ajustar bug no grafico de mostrar dados
 - Estudar utilizar IA pra analisar os dados financeiros
 - Mexer no auth para expirar sessao
+- Ajustar estilo do insights quando n tem nd
+- Ajustar estilo do menu lateral

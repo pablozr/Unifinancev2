@@ -73,11 +73,11 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
 
   const handlePeriodChange = (filter: PeriodFilter) => {
     setCurrentFilter(filter)
-    setCurrentPage(1) // Reset para primeira pÃ¡gina
+          setCurrentPage(1) // Reset para primeira página
   }
 
   const handleDeleteTransaction = async (transactionId: string) => {
-    if (deletingId) {return} // Previne cliques mÃºltiplos
+    if (deletingId) {return} // Previne cliques múltiplos
     
     setDeletingId(transactionId)
     try {
@@ -86,18 +86,18 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
       if (result.success) {
         loadTransactions()
       } else {
-        alert('Erro ao deletar transaÃ§Ã£o: ' + result.error)
+        alert('Erro ao deletar transação: ' + result.error)
       }
     } catch (error) {
       // ... existing code ...
-      alert('Erro ao deletar transaÃ§Ã£o')
+      alert('Erro ao deletar transação')
     } finally {
       setDeletingId(null)
     }
   }
 
   const getSubtitle = () => {
-    const count = paginatedData ? `${paginatedData.totalCount} transaÃ§Ãµes encontradas` : ''
+    const count = paginatedData ? `${paginatedData.totalCount} transações encontradas` : ''
     return count
   }
 
@@ -105,7 +105,7 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
     <BaseModal
       isOpen={isModalOpen}
       onClose={closeModal}
-      title="Excluir TransaÃ§Ãµes"
+              title="Excluir Transações"
       subtitle={getSubtitle()}
       size="xl"
       showCloseButton={false}
@@ -114,12 +114,12 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 space-y-4 lg:space-y-0">
         <div className="flex-1">
           <p className="text-gray-400 text-sm lg:text-base mb-2">
-            Selecione as transaÃ§Ãµes que deseja excluir
+            Selecione as transações que deseja excluir
           </p>
         </div>
         
         <div className="flex items-center space-x-4">
-          {/* Seletor de PerÃ­odo */}
+          {/* Seletor de Período */}
           <PeriodSelector 
             currentFilter={currentFilter}
             onPeriodChange={handlePeriodChange}
@@ -136,17 +136,17 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
         </div>
       </div>
 
-      {/* ConteÃºdo do Modal */}
+      {/* Conteúdo do Modal */}
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
-            <p className="text-gray-400">Carregando transaÃ§Ãµes...</p>
+            <p className="text-gray-400">Carregando transações...</p>
           </div>
         </div>
       ) : paginatedData && paginatedData.transactions.length > 0 ? (
         <>
-          {/* Lista de TransaÃ§Ãµes */}
+          {/* Lista de Transações */}
           <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
             {paginatedData.transactions.map((transaction, index) => (
               <motion.div
@@ -173,7 +173,7 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
                         </h3>
                         <div className="flex flex-col lg:flex-row lg:items-center space-y-1 lg:space-y-0 lg:space-x-3 text-xs lg:text-sm text-gray-400">
                           <span className="font-medium">{transaction.categoryName || 'Sem categoria'}</span>
-                          <span className="hidden lg:inline">â€¢</span>
+                          <span className="hidden lg:inline">•</span>
                           <span>{formatDateIntl(transaction.date)}</span>
                         </div>
                       </div>
@@ -189,12 +189,12 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
                   </div>
                 </div>
                 
-                {/* BotÃ£o de Deletar */}
+                {/* Botão de Deletar */}
                 <button
                   onClick={() => handleDeleteTransaction(transaction.id)}
                   disabled={deletingId === transaction.id}
                   className="ml-4 p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200 disabled:opacity-50"
-                  title="Excluir transaÃ§Ã£o"
+                  title="Excluir transação"
                 >
                   {deletingId === transaction.id ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-red-400"></div>
@@ -206,11 +206,11 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
             ))}
           </div>
 
-          {/* PaginaÃ§Ã£o */}
+          {/* Paginação */}
           {paginatedData.totalPages > 1 && (
             <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-800/50">
               <div className="text-sm text-gray-400">
-                PÃ¡gina {paginatedData.currentPage} de {paginatedData.totalPages}
+                Página {paginatedData.currentPage} de {paginatedData.totalPages}
               </div>
               
               <div className="flex items-center space-x-2">
@@ -222,7 +222,7 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
                   <ChevronLeftIcon className="w-5 h-5" />
                 </button>
                 
-                {/* NÃºmeros das pÃ¡ginas */}
+                {/* Números das páginas */}
                 {Array.from({ length: Math.min(5, paginatedData.totalPages) }, (_, i) => {
                   const pageNumber = Math.max(1, Math.min(
                     paginatedData.totalPages - 4,
@@ -263,10 +263,10 @@ export default function DeleteTransactionModal({ userId }: { userId: string }) {
             <div className="w-16 h-16 bg-gray-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrashIcon className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-lg text-white mb-2">Nenhuma transaÃ§Ã£o encontrada</h3>
-            <p className="text-gray-400 text-sm">
-              NÃ£o hÃ¡ transaÃ§Ãµes no perÃ­odo selecionado.
-            </p>
+                    <h3 className="text-lg text-white mb-2">Nenhuma transação encontrada</h3>
+        <p className="text-gray-400 text-sm">
+          Não há transações no período selecionado.
+        </p>
           </div>
         </div>
       )}

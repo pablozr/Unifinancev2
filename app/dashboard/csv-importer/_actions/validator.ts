@@ -13,16 +13,16 @@ export function validateBankStatement(data: any[]): {
     data.forEach((row, index) => {
       try {
         if (!row.date) {
-          errors.push(`Linha ${index + 1}: Data Ã© obrigatÃ³ria`)
+          errors.push(`Linha ${index + 1}: Data é obrigatória`)
           return
         }
         if (!row.amount && row.amount !== 0) {
-          errors.push(`Linha ${index + 1}: Valor Ã© obrigatÃ³rio`)
+          errors.push(`Linha ${index + 1}: Valor é obrigatório`)
           return
         }
         
         if (!isValidBrazilianDate(row.date)) {
-          errors.push(`Linha ${index + 1}: Formato de data invÃ¡lido: ${row.date}`)
+          errors.push(`Linha ${index + 1}: Formato de data inválido: ${row.date}`)
           return
         }
         
@@ -33,7 +33,7 @@ export function validateBankStatement(data: any[]): {
         }
         
         if (typeof row.amount !== 'number' || isNaN(row.amount)) {
-          errors.push(`Linha ${index + 1}: Valor deve ser um nÃºmero vÃ¡lido: ${row.amount}`)
+          errors.push(`Linha ${index + 1}: Valor deve ser um número válido: ${row.amount}`)
           return
         }
         

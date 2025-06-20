@@ -36,7 +36,7 @@ export function isValidDate(dateString: string): boolean {
   const currentYear = new Date().getFullYear()
   const dateYear = date.getFullYear()
   
-  if (dateYear < 1900 || dateYear > currentYear + 10) {
+  if (dateYear < 1900 || dateYear > currentYear + 50) {
     return false
   }
 

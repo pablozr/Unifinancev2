@@ -83,7 +83,7 @@ export const TransactionQuerySchema = z.object({
 
 /**
  * @schema RecentTransactionSchema
- * @description ValidaÃ§Ã£o para transaÃ§Ãµes recentes
+ * @description Validação para transações recentes
  */
 export const RecentTransactionSchema = z.object({
   id: z.string().uuid(),
@@ -112,7 +112,7 @@ export const DashboardStatsSchema = z.object({
 
 /**
  * @schema CategorySpendingSchema
- * @description ValidaÃ§Ã£o para gastos por categoria
+ * @description Validação para gastos por categoria
  */
 export const CategorySpendingSchema = z.object({
   id: z.string(),
@@ -120,7 +120,7 @@ export const CategorySpendingSchema = z.object({
   total: z.number().min(0),
   percentage: z.number().min(0).max(100),
   count: z.number().int().min(0),
-  color: z.string().regex(/^#[0-9A-F]{6}$/i, "Cor deve ser hex vÃ¡lida"),
+  color: z.string().regex(/^#[0-9A-F]{6}$/i, "Cor deve ser hex válida"),
   avgAmount: z.number().min(0)
 })
 
@@ -150,7 +150,7 @@ export const MonthlyDataSchema = z.object({
 
 /**
  * @schema CategoryDataSchema
- * @description ValidaÃ§Ã£o para dados de categoria em insights
+ * @description Validação para dados de categoria em insights
  */
 export const CategoryDataSchema = z.object({
   name: z.string().min(1),
@@ -163,7 +163,7 @@ export const CategoryDataSchema = z.object({
 
 /**
  * @schema InsightMetricsSchema
- * @description ValidaÃ§Ã£o para mÃ©tricas de insights
+ * @description Validação para métricas de insights
  */
 export const InsightMetricsSchema = z.object({
   totalTransactions: z.number().int().min(0),
@@ -189,7 +189,7 @@ export const MonthlyGroupSchema = z.object({
 
 /**
  * @schema CategoryGroupSchema
- * @description ValidaÃ§Ã£o para grupos por categoria
+ * @description Validação para grupos por categoria
  */
 export const CategoryGroupSchema = z.object({
   name: z.string().min(1),
@@ -226,7 +226,7 @@ export type CategoryGroup = z.infer<typeof CategoryGroupSchema>
 
 /**
  * @function validatePeriodFilter
- * @description Valida filtro de perÃ­odo com mensagem de erro clara
+ * @description Valida filtro de período com mensagem de erro clara
  * @param {unknown} data - Dados para validar
  * @returns {PeriodFilter} Filtro validado
  * @throws {Error} Se validaÃ§Ã£o falhar
@@ -235,7 +235,7 @@ export const validatePeriodFilter = (data: unknown): PeriodFilter => {
   try {
     return PeriodFilterSchema.parse(data)
   } catch (error) {
-    throw new Error(`Filtro de perÃ­odo invÃ¡lido: ${error}`)
+    throw new Error(`Filtro de período inválido: ${error}`)
   }
 }
 
