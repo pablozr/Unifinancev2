@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import logout from '@/app/auth/_actions/logout'
+import { ChevronUpIcon, LogOutIcon, UserIcon } from 'lucide-react'
 
 const HomeIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,12 +133,18 @@ export function DashboardNavigation({ user }: { user: User }) {
 function NavigationContent({ pathname, user, onItemClick }: { pathname: string; user: User; onItemClick?: () => void }) {
   const router = useRouter()
   const searchParams = useSearchParams()
-
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const handleAddTransaction = () => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('modal', 'add-transaction')
     router.push(`?${params.toString()}`, { scroll: false })
     onItemClick?.()
+  }
+
+
+  function handleLogout() {
+    logout()
+    router.push('/')
   }
 
   return (
@@ -232,20 +239,86 @@ function NavigationContent({ pathname, user, onItemClick }: { pathname: string; 
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="p-3 sm:p-4 border-t border-white/10">
-        <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="p-3 sm:p-4 border-t border-white/10 relative">
+        {/* Profile Menu Dropdown */}
+        <AnimatePresence>
+          {profileMenuOpen && (
+            <>
+              {/* Overlay para fechar o menu */}
+              <div 
+                className="fixed inset-0 z-40" 
+                onClick={() => setProfileMenuOpen(false)}
+              />
+              
+              {/* Menu dropdown que sobe */}
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute bottom-full left-3 right-3 mb-2 z-50"
+              >
+                <div className="bg-black/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden">
+                  {/* Header do menu */}
+                  <div className="px-4 py-3 border-b border-white/10">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-medium">
+                          {user.email?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white text-sm font-medium truncate">{user.email}</p>
+                        <p className="text-white/60 text-xs truncate">Usuário Premium</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Menu items */}
+                  <div className="py-2">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200"
+                    >
+                      <LogOutIcon />
+                      <span className="ml-3">Sair da Conta</span>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Profile button */}
+        <motion.button
+          onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className={`w-full flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 rounded-lg sm:rounded-xl transition-all duration-300 ${
+            profileMenuOpen 
+              ? 'bg-white/10 border border-white/20' 
+              : 'hover:bg-white/5 border border-transparent hover:border-white/10'
+          }`}
+        >
           <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white text-xs sm:text-sm font-medium">
               {user.email?.charAt(0).toUpperCase()}
             </span>
           </div>
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 text-left">
             <p className="text-white text-xs sm:text-sm font-medium truncate">{user.email}</p>
             <p className="text-white/60 text-xs truncate">Usuário Ativo</p>
           </div>
-        </div>
+          <motion.div
+            animate={{ rotate: profileMenuOpen ? 0 : 180 }}
+            transition={{ duration: 0.2 }}
+            className="text-white/60"
+          >
+            <ChevronUpIcon />
+          </motion.div>
+        </motion.button>
       </div>
     </>
   )
-} 
+}
