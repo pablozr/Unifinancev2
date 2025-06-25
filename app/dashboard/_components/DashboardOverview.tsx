@@ -155,16 +155,16 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between">
+        <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
           <div>
-            <h1 className="text-4xl font-light text-white mb-3">
+            <h1 className="text-3xl lg:text-4xl font-light text-white mb-3">
               Visão Geral
             </h1>
             <p className="text-white/60 text-lg">Acompanhe suas finanças em tempo real</p>
           </div>
           
           {/* Seletor de Período */}
-          <div className="mt-4 lg:mt-0">
+          <div className="w-full sm:w-auto">
             <PeriodSelector 
               currentFilter={currentFilter}
               onPeriodChange={handlePeriodChange}
@@ -178,7 +178,7 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8"
+        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8"
       >
         {isLoadingCharts ? (
           [...Array(4)].map((_, index) => (
@@ -281,14 +281,14 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
         </motion.div>
       </div>
 
-              {/* Transações Recentes */}
+      {/* Transações Recentes */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
         className="bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-6"
       >
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 space-y-2 sm:space-y-0">
           <h3 className="text-xl font-medium text-white">Transações Recentes</h3>
           <TransactionsModal userId={userId} currentFilter={currentFilter} />
         </div>
@@ -299,7 +299,7 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white/20"></div>
             </div>
           ) : filteredRecentTransactions.length > 0 ? filteredRecentTransactions.map((transaction, index) => (
-            <div key={transaction.id} className="flex items-center justify-between p-4 hover:bg-white/[0.02] rounded-xl transition-all duration-200 border border-white/[0.05]">
+            <div key={transaction.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-white/[0.02] rounded-xl transition-all duration-200 border border-white/[0.05] space-y-2 sm:space-y-0">
               <div className="flex items-center space-x-3">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   transaction.type === 'income' 
@@ -312,13 +312,13 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
                     <TrendingDownIcon />
                   )}
                 </div>
-                <div>
-                  <p className="text-white font-medium">{transaction.description}</p>
-                  <p className="text-white/60 text-sm">{transaction.categoryName || 'Sem categoria'}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-medium truncate">{transaction.description}</p>
+                  <p className="text-white/60 text-sm truncate">{transaction.categoryName || 'Sem categoria'}</p>
                 </div>
               </div>
               
-              <div className="text-right">
+              <div className="flex justify-between sm:block sm:text-right">
                 <p className={`font-medium ${
                   transaction.type === 'income' ? 'text-green-400' : 'text-red-400'
                 }`}>
@@ -331,8 +331,8 @@ export function DashboardOverview({ stats, recentTransactions, categorySpending,
             <div className="text-center py-8">
               <p className="text-white/60">
                 {currentFilter.type === 'monthly' || currentFilter.type === 'yearly' 
-                              ? 'Nenhuma transação encontrada para este período'
-            : 'Nenhuma transação encontrada'
+                  ? 'Nenhuma transação encontrada para este período'
+                  : 'Nenhuma transação encontrada'
                 }
               </p>
               <p className="text-white/40 text-sm mt-1">

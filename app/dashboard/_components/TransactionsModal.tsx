@@ -95,7 +95,7 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
       {/* Botão para abrir o modal */}
       <button 
         onClick={openModal}
-        className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors duration-200"
+        className="text-blue-400 hover:text-blue-300 text-xs sm:text-sm font-medium transition-colors duration-200"
       >
         Ver todas
       </button>
@@ -111,24 +111,24 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
         {isLoading ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-              <p className="text-gray-400">Carregando transações...</p>
+              <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-400 text-sm sm:text-base">Carregando transações...</p>
             </div>
           </div>
         ) : paginatedData && paginatedData.transactions.length > 0 ? (
           <>
             {/* Lista de Transações */}
-            <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
+            <div className="flex-1 overflow-y-auto space-y-2 sm:space-y-3 pr-1 sm:pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
               {paginatedData.transactions.map((transaction, index) => (
                 <motion.div
                   key={transaction.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="flex flex-col lg:flex-row lg:items-center justify-between p-4 hover:bg-gray-900/50 rounded-xl transition-all duration-200 border border-transparent hover:border-gray-800/50 space-y-3 lg:space-y-0"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 hover:bg-gray-900/50 rounded-lg sm:rounded-xl transition-all duration-200 border border-transparent hover:border-gray-800/50 space-y-2 sm:space-y-0"
                 >
-                  <div className="flex items-center space-x-4 flex-1">
-                    <div className={`w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
                       transaction.type === 'income' 
                         ? 'bg-green-600/20 text-green-400' 
                         : 'bg-red-600/20 text-red-400'
@@ -140,15 +140,15 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-medium mb-1 truncate text-sm lg:text-base">{transaction.description}</p>
-                      <div className="flex flex-col lg:flex-row lg:items-center space-y-1 lg:space-y-0 lg:space-x-4 text-xs lg:text-sm">
+                      <p className="text-white font-medium mb-1 truncate text-sm sm:text-base lg:text-base">{transaction.description}</p>
+                      <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3 lg:space-x-4 text-xs sm:text-sm">
                         <span className="text-gray-400 truncate">
                           {transaction.categoryName || 'Sem categoria'}
                         </span>
-                        <span className="text-gray-500 lg:hidden">
+                        <span className="text-gray-500 sm:hidden">
                           {formatDateIntl(transaction.date)}
                         </span>
-                        <span className="text-gray-500 hidden lg:block">
+                        <span className="text-gray-500 hidden sm:block">
                           {formatDateIntl(transaction.date)}
                         </span>
                         <span className="text-gray-500 hidden lg:block">
@@ -157,15 +157,15 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col lg:items-end space-y-1 lg:space-y-0">
-                    <p className={`text-lg lg:text-xl font-bold ${
+                  <div className="flex flex-col sm:items-end space-y-1 sm:space-y-0">
+                    <p className={`text-base sm:text-lg lg:text-xl font-bold ${
                       transaction.type === 'income'
                         ? 'text-green-400'
                         : 'text-red-400'
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </p>
-                    <p className="text-gray-500 text-xs lg:hidden">
+                    <p className="text-gray-500 text-xs sm:hidden">
                       {formatRelativeDateBR(transaction.date)}
                     </p>
                   </div>
@@ -175,17 +175,17 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
 
             {/* Paginação */}
             {paginatedData.totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-800/50">
-                <div className="text-sm text-gray-400">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-800/50 space-y-3 sm:space-y-0">
+                <div className="text-xs sm:text-sm text-gray-400 text-center sm:text-left">
                   Página {paginatedData.currentPage} de {paginatedData.totalPages}
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-center sm:justify-end space-x-1 sm:space-x-2">
                   <button
                     onClick={() => handlePageChange(paginatedData.currentPage - 1)}
                     disabled={paginatedData.currentPage === 1}
-                    className="p-2 text-gray-400 hover:text-white hover:bg-gray-900/50 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-gray-900/50 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <ChevronLeftIcon className="w-5 h-5" />
+                    <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                   <div className="flex items-center space-x-1">
                     {Array.from({ length: Math.min(5, paginatedData.totalPages) }, (_, i) => {
@@ -194,7 +194,7 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
                         <button
                           key={pageNum}
                           onClick={() => handlePageChange(pageNum)}
-                          className={`px-3 py-1 rounded-lg text-sm transition-all duration-200 ${
+                          className={`px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm transition-all duration-200 ${
                             pageNum === paginatedData.currentPage
                               ? 'bg-blue-600 text-white'
                               : 'text-gray-400 hover:text-white hover:bg-gray-900/50'
@@ -208,9 +208,9 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
                   <button
                     onClick={() => handlePageChange(paginatedData.currentPage + 1)}
                     disabled={paginatedData.currentPage === paginatedData.totalPages}
-                    className="p-2 text-gray-400 hover:text-white hover:bg-gray-900/50 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-gray-900/50 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <ChevronRightIcon className="w-5 h-5" />
+                    <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
               </div>
@@ -219,13 +219,14 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
         ) : (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-16 h-16 bg-gray-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-                          <h3 className="text-lg font-semibold text-white mb-2">Nenhuma transação encontrada</h3>
-            <p className="text-gray-400">Não há transações para o período selecionado.</p>
+              <div className="text-4xl sm:text-6xl mb-4">📋</div>
+              <p className="text-gray-400 text-base sm:text-lg mb-2">Nenhuma transação encontrada</p>
+              <p className="text-gray-500 text-sm">
+                {currentFilter && currentFilter.type !== 'custom' 
+                  ? 'Tente selecionar um período diferente'
+                  : 'Suas transações aparecerão aqui quando adicionadas'
+                }
+              </p>
             </div>
           </div>
         )}

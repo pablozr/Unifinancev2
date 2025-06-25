@@ -18,9 +18,9 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
   
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i)
   const months = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-]
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ]
   
   const getDisplayText = () => {
     if (currentFilter.type === 'yearly' && currentFilter.year) {
@@ -74,16 +74,16 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full sm:w-auto">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 bg-white/[0.05] border border-white/[0.08] rounded-lg px-4 py-2 text-white hover:bg-white/[0.08] transition-all duration-200"
+        className="w-full sm:w-auto flex items-center justify-between sm:justify-center space-x-2 bg-white/[0.05] border border-white/[0.08] rounded-lg px-3 sm:px-4 py-2 text-white hover:bg-white/[0.08] transition-all duration-200"
       >
-        <span className="text-sm font-medium">{getDisplayText()}</span>
+        <span className="text-sm font-medium truncate">{getDisplayText()}</span>
         <motion.svg
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="w-4 h-4"
+          className="w-4 h-4 flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -97,13 +97,13 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="absolute right-0 top-full mt-2 w-80 bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-lg z-50"
+          className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-lg z-50 max-h-96 overflow-y-auto"
         >
-          <div className="p-4">
-                      {/* Seleções Rápidas */}
-          <div className="mb-4">
-            <h4 className="text-sm font-medium text-white/60 mb-2">Seleções Rápidas</h4>
-              <div className="grid grid-cols-2 gap-2">
+          <div className="p-3 sm:p-4">
+            {/* Seleções Rápidas */}
+            <div className="mb-3 sm:mb-4">
+              <h4 className="text-sm font-medium text-white/60 mb-2">Seleções Rápidas</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   onClick={() => handleQuickSelect('current-month')}
                   className="text-left p-2 text-sm text-white/60 hover:bg-white/[0.05] rounded transition-colors"
@@ -118,7 +118,7 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
                 </button>
                 <button
                   onClick={() => handleQuickSelect('last-6-months')}
-                  className="text-left p-2 text-sm text-white/60 hover:bg-white/[0.05] rounded transition-colors col-span-2"
+                  className="text-left p-2 text-sm text-white/60 hover:bg-white/[0.05] rounded transition-colors col-span-1 sm:col-span-2"
                 >
                   Últimos 6 Meses
                 </button>
@@ -126,9 +126,9 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
             </div>
 
             {/* Seleção por Ano */}
-            <div className="mb-4">
+            <div className="mb-3 sm:mb-4">
               <h4 className="text-sm font-medium text-white/60 mb-2">Por Ano</h4>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                 {years.map(year => (
                   <button
                     key={year}
@@ -145,14 +145,14 @@ export function PeriodSelector({ onPeriodChange, currentFilter }: PeriodSelector
               </div>
             </div>
 
-                    {/* Seleção por Mês */}
-        <div>
-          <h4 className="text-sm font-medium text-white/60 mb-2">Por Mês</h4>
-              <div className="max-h-48 overflow-y-auto">
+            {/* Seleção por Mês */}
+            <div>
+              <h4 className="text-sm font-medium text-white/60 mb-2">Por Mês</h4>
+              <div className="max-h-32 sm:max-h-48 overflow-y-auto">
                 {years.slice(0, 2).map(year => (
                   <div key={year} className="mb-3">
                     <div className="text-xs text-white/40 mb-1">{year}</div>
-                    <div className="grid grid-cols-4 gap-1">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-1">
                       {months.map((month, monthIndex) => {
                         if (year === currentYear && monthIndex > currentMonth) {
                           return null

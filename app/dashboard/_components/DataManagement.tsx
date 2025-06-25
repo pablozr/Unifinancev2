@@ -136,29 +136,30 @@ Esta ação NÃO PODE ser desfeita!`,
   const modalConfig = getModalConfig()
 
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 shadow-2xl">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-black/40 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-4 sm:p-6 shadow-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-2 sm:space-y-0">
         <div>
-          <h3 className="text-xl font-semibold text-white mb-2 flex items-center gap-2">
-            <TrashIcon size={20} className="text-gray-400" />
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 flex items-center gap-2">
+            <TrashIcon size={18} className="text-gray-400 sm:hidden" />
+            <TrashIcon size={20} className="text-gray-400 hidden sm:block" />
             Gerenciamento de Dados
           </h3>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-xs sm:text-sm">
             Remova transações e registros de import do sistema
           </p>
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* Seletor de Tipo de Exclusão */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-3">
+          <label className="block text-sm font-medium text-gray-300 mb-2 sm:mb-3">
             Tipo de Exclusão
           </label>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <button
               onClick={() => setSelectedOption('all')}
-              className={`p-4 rounded-xl border-2 transition-all ${
+              className={`p-3 sm:p-4 rounded-xl border-2 transition-all ${
                 selectedOption === 'all'
                   ? 'border-red-500 bg-red-500/10 text-red-300'
                   : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500'
@@ -166,16 +167,17 @@ Esta ação NÃO PODE ser desfeita!`,
             >
               <div className="text-center">
                 <div className="mb-2">
-                  <AlertIcon size={32} className="text-red-400 mx-auto" />
+                  <AlertIcon size={24} className="text-red-400 mx-auto sm:hidden" />
+                  <AlertIcon size={32} className="text-red-400 mx-auto hidden sm:block" />
                 </div>
-                <div className="font-medium">Deletar Tudo</div>
+                <div className="font-medium text-sm sm:text-base">Deletar Tudo</div>
                 <div className="text-xs opacity-75">Todas as transações</div>
               </div>
             </button>
 
             <button
               onClick={() => setSelectedOption('month')}
-              className={`p-4 rounded-xl border-2 transition-all ${
+              className={`p-3 sm:p-4 rounded-xl border-2 transition-all ${
                 selectedOption === 'month'
                   ? 'border-orange-500 bg-orange-500/10 text-orange-300'
                   : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500'
@@ -183,16 +185,17 @@ Esta ação NÃO PODE ser desfeita!`,
             >
               <div className="text-center">
                 <div className="mb-2">
-                  <CalendarIcon size={32} className="text-orange-400 mx-auto" />
+                  <CalendarIcon size={24} className="text-orange-400 mx-auto sm:hidden" />
+                  <CalendarIcon size={32} className="text-orange-400 mx-auto hidden sm:block" />
                 </div>
-                <div className="font-medium">Deletar por Mês</div>
+                <div className="font-medium text-sm sm:text-base">Deletar por Mês</div>
                 <div className="text-xs opacity-75">Período específico</div>
               </div>
             </button>
 
             <button
               onClick={() => setSelectedOption('year')}
-              className={`p-4 rounded-xl border-2 transition-all ${
+              className={`p-3 sm:p-4 rounded-xl border-2 transition-all ${
                 selectedOption === 'year'
                   ? 'border-yellow-500 bg-yellow-500/10 text-yellow-300'
                   : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500'
@@ -200,137 +203,111 @@ Esta ação NÃO PODE ser desfeita!`,
             >
               <div className="text-center">
                 <div className="mb-2">
-                  <CalendarIcon size={32} className="text-yellow-400 mx-auto" />
+                  <CalendarIcon size={24} className="text-yellow-400 mx-auto sm:hidden" />
+                  <CalendarIcon size={32} className="text-yellow-400 mx-auto hidden sm:block" />
                 </div>
-                <div className="font-medium">Deletar por Ano</div>
-                <div className="text-xs opacity-75">Ano completo</div>
+                <div className="font-medium text-sm sm:text-base">Deletar por Ano</div>
+                <div className="text-xs opacity-75">Ano específico</div>
               </div>
             </button>
           </div>
         </div>
 
-        {/* Seletores de Período */}
-        {(selectedOption === 'month' || selectedOption === 'year') && (
-          <div className="bg-gray-800/30 rounded-xl p-4">
-            <div className="flex gap-4">
-              {selectedOption === 'month' && (
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Mês
-                  </label>
-                  <select
-                    value={selectedMonth}
-                    onChange={(e) => setSelectedMonth(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                  >
-                    <option value="">Selecione o mês</option>
-                    {months.map(month => (
-                      <option key={month.value} value={month.value}>
-                        {month.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-              
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Ano
-                </label>
-                <select
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white"
-                >
-                  {years.map(year => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {/* Seletores de Período Condicional */}
+        {selectedOption === 'month' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Mês
+              </label>
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="w-full p-2 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              >
+                <option value="">Selecione um mês</option>
+                {months.map(month => (
+                  <option key={month.value} value={month.value}>
+                    {month.label}
+                  </option>
+                ))}
+              </select>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Ano
+              </label>
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="w-full p-2 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              >
+                {years.map(year => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
+        {selectedOption === 'year' && (
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Ano
+            </label>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+              className="w-full p-2 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            >
+              {years.map(year => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
           </div>
         )}
 
         {/* Botão de Ação */}
-        <div className="flex justify-center">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
+          <div className="flex-1">
+            {errorMessage && (
+              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                {errorMessage}
+              </div>
+            )}
+                         {result && (
+               <div className="p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
+                 ✅ {result.deleted} transações deletadas com sucesso!
+               </div>
+             )}
+          </div>
+          
           <button
             onClick={handleDelete}
-            disabled={isLoading || (selectedOption === 'month' && !selectedMonth)}
-            className={`px-8 py-3 rounded-xl font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-              selectedOption === 'all'
-                ? 'bg-red-600 hover:bg-red-700 text-white border-2 border-red-500'
-                : selectedOption === 'month'
-                ? 'bg-orange-600 hover:bg-orange-700 text-white border-2 border-orange-500'
-                : 'bg-yellow-600 hover:bg-yellow-700 text-white border-2 border-yellow-500'
-            }`}
+            disabled={!selectedOption || isLoading}
+            className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-all duration-200 text-sm sm:text-base"
           >
             {isLoading ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center space-x-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Deletando...
+                <span>Deletando...</span>
               </div>
             ) : (
-              <>
-                {selectedOption === 'all' && 'Deletar Todas as Transações'}
-                {selectedOption === 'month' && `Deletar ${selectedMonth ? months.find(m => m.value === selectedMonth)?.label : 'Mês'} ${selectedYear}`}
-                {selectedOption === 'year' && `Deletar Ano ${selectedYear}`}
-              </>
+              'Deletar Dados'
             )}
           </button>
         </div>
-
-        {/* Resultado */}
-        {result && (
-          <div className="bg-green-900/20 border border-green-500/30 rounded-xl p-4">
-            <h4 className="text-green-300 font-medium mb-2">
-              ✅ Exclusão Concluída com Sucesso!
-            </h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-              <div className="text-center">
-                <div className="text-blue-400 font-bold">{result.deleted}</div>
-                <div className="text-gray-400">Removidas</div>
-              </div>
-              <div className="text-center">
-                <div className="text-green-400 font-bold">{result.breakdown.credits}</div>
-                <div className="text-gray-400">Receitas</div>
-              </div>
-              <div className="text-center">
-                <div className="text-red-400 font-bold">{result.breakdown.debits}</div>
-                <div className="text-gray-400">Despesas</div>
-              </div>
-              <div className="text-center">
-                <div className={`font-bold ${result.totalImpact >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {formatCurrency(result.totalImpact)}
-                </div>
-                <div className="text-gray-400">Impacto</div>
-              </div>
-            </div>
-            <p className="text-gray-400 text-xs mt-3 text-center">
-              A página será recarregada automaticamente...
-            </p>
-          </div>
-        )}
-
-        {/* Mensagem de erro */}
-        {errorMessage && (
-          <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-4">
-            <h4 className="text-red-300 font-medium mb-2">
-              🚨 Erro
-            </h4>
-            <p className="text-gray-300 text-sm">{errorMessage}</p>
-          </div>
-        )}
       </div>
 
       {/* Modal de Confirmação */}
-      {modalId && modalConfig && (
+      {modalConfig && (
         <ConfirmationModal
           {...modalConfig}
           modalId={modalId}
-          isLoading={isLoading}
-          onCancel={closeModal}
         />
       )}
     </div>
