@@ -374,6 +374,68 @@ export default function ResultsView({ result, onNewUpload }: ResultsViewProps) {
           Importar Outro Arquivo
         </button>
       </div>
+
+      {/* Estatísticas da IA */}
+      {result.data?.aiStats && (
+        <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6 mb-6">
+          <h3 className="text-lg font-medium text-blue-400 mb-4 flex items-center gap-2">
+            🤖 Estatísticas da IA ({result.data.aiStats.apiProvider.toUpperCase()})
+          </h3>
+          
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-light text-white">
+                {result.data.aiStats.aiProcessed}
+              </div>
+              <div className="text-sm text-white/60">Processadas</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-2xl font-light text-white">
+                {result.data.aiStats.averageConfidence}%
+              </div>
+              <div className="text-sm text-white/60">Confiança</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-2xl font-light text-white">
+                {(result.data.aiStats.processingTime / 1000).toFixed(1)}s
+              </div>
+              <div className="text-sm text-white/60">Tempo IA</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-2xl font-light text-white">
+                {result.data.aiStats.failedTransactions}
+              </div>
+              <div className="text-sm text-white/60">Falhas</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-2xl font-light text-white">
+                {Math.round((result.data.aiStats.aiProcessed / result.data.aiStats.totalTransactions) * 100)}%
+              </div>
+              <div className="text-sm text-white/60">Taxa Sucesso</div>
+            </div>
+          </div>
+          
+          {result.data.aiStats.failedTransactions > 0 && (
+            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+              <p className="text-yellow-400 text-sm flex items-center gap-2">
+                ⚠️ {result.data.aiStats.failedTransactions} transações usaram categoria padrão por falha na IA
+              </p>
+            </div>
+          )}
+          
+          {result.data.aiStats.averageConfidence > 80 && (
+            <div className="mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <p className="text-green-400 text-sm flex items-center gap-2">
+                ✅ Excelente precisão! Confiança média acima de 80%
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 } 

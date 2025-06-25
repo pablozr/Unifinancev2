@@ -11,6 +11,7 @@ import processAutoCategorization from '../_utils/categorizationProcessor'
 import createImportRecord from '../_data/createImportRecord'
 import saveTransactions from '../_data/saveTransactions'
 import calculateCategoryStats from '../_utils/statsCalculator'
+import { AIStats } from '../../_ai/types/aiTypes'
 
 export interface UploadResult {
   success: boolean
@@ -24,6 +25,7 @@ export interface UploadResult {
     monthlyData: any[]
     categorizedTransactions?: number
     categoryStats?: Record<string, { count: number; avgConfidence: number }>
+    aiStats?: AIStats
   }
 }
 
@@ -113,7 +115,8 @@ export default async function uploadAndProcess(formData: FormData): Promise<Uplo
         validRows: validRows!,
         monthlyData: monthlyData,
         categorizedTransactions: stats.categorizedCount,
-        categoryStats: stats.categoryStats
+        categoryStats: stats.categoryStats,
+        aiStats: categorizationResult.aiStats
       }
     }
 
