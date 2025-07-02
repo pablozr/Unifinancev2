@@ -28,6 +28,7 @@ export default async function DashboardLayout({
         {/* Modais globais */}
         <AddTransactionModal />
         <DeleteTransactionModal userId={user.id} />
+        
       </div>
     </NuqsAdapter>
   )

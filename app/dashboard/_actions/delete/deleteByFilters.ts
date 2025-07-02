@@ -52,6 +52,69 @@ export default async function deleteByFilters(
     throw new Error(`Erro ao deletar transações: ${deleteError.message}`)
   }
 
+  // Limpar despesas recorrentes órfãs após deletar transações
+  console.log('🗑️ [deleteByFilters] Limpando despesas recorrentes órfãs...')
+  
+  try {
+    const { data: allRecurring } = await supabase
+      .from('recurringexpenses')
+      .select('id')
+      .eq('user_id', userId)
+
+    if (allRecurring) {
+      for (const recurring of allRecurring) {
+        const { data: linkedTransactions } = await supabase
+          .from('transactions')
+          .select('id')
+          .eq('user_id', userId)
+          .eq('recurring_expense_id', recurring.id)
+          .limit(1)
+
+        if (!linkedTransactions || linkedTransactions.length === 0) {
+          await supabase
+            .from('recurringexpenses')
+            .delete()
+            .eq('id', recurring.id)
+          console.log(`🗑️ [deleteByFilters] Despesa recorrente órfã removida: ${recurring.id}`)
+        }
+      }
+    }
+  } catch (error) {
+    console.error('❌ [deleteByFilters] Erro ao limpar despesas órfãs:', error)
+  }
+
+  // Limpar registros de import órfãos (que não têm mais transações)
+  console.log('🗑️ [deleteByFilters] Limpando registros de import órfãos...')
+  
+  try {
+    const { data: allImports } = await supabase
+      .from('csv_imports')
+      .select('id')
+      .eq('user_id', userId)
+
+    if (allImports) {
+      for (const importRecord of allImports) {
+        const { data: linkedTransactions } = await supabase
+          .from('transactions')
+          .select('id')
+          .eq('user_id', userId)
+          .eq('csv_import_id', importRecord.id)
+          .limit(1)
+
+        if (!linkedTransactions || linkedTransactions.length === 0) {
+          console.log(`🗑️ [deleteByFilters] Removendo import órfão: ${importRecord.id}`)
+          await supabase
+            .from('csv_imports')
+            .delete()
+            .eq('id', importRecord.id)
+            .eq('user_id', userId)
+        }
+      }
+    }
+  } catch (error) {
+    console.error('❌ [deleteByFilters] Erro ao limpar imports órfãos:', error)
+  }
+
   revalidateDashboardPaths()
 
   const result = {

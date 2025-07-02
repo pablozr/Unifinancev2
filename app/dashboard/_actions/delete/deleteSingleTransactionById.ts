@@ -24,7 +24,7 @@ export default async function deleteSingleTransactionById(
 
     const { data: transaction, error: findError } = await supabase
       .from('transactions')
-      .select('id, description, amount, type')
+      .select('id, description, amount, type, recurring_expense_id, csv_import_id')
       .eq('id', transactionId)
       .eq('user_id', user.id)
       .single()
@@ -45,6 +45,50 @@ export default async function deleteSingleTransactionById(
 
     if (deleteError) {
       return { success: false, error: `Erro ao deletar transação: ${deleteError.message}` }
+    }
+
+    // Se a transação estava vinculada a uma despesa recorrente, verificar se deve ser removida
+    if (transaction.recurring_expense_id) {
+      console.log('🔍 [deleteSingleTransaction] Verificando se despesa recorrente ficou órfã...')
+      
+      const { data: remainingTransactions } = await supabase
+        .from('transactions')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('recurring_expense_id', transaction.recurring_expense_id)
+        .limit(1)
+
+      if (!remainingTransactions || remainingTransactions.length === 0) {
+        console.log('🗑️ [deleteSingleTransaction] Removendo despesa recorrente órfã...')
+        await supabase
+          .from('recurringexpenses')
+          .delete()
+          .eq('id', transaction.recurring_expense_id)
+          .eq('user_id', user.id)
+        console.log('✅ [deleteSingleTransaction] Despesa recorrente órfã removida')
+      }
+    }
+
+    // Se a transação estava vinculada a um import, verificar se deve ser removido
+    if (transaction.csv_import_id) {
+      console.log('🔍 [deleteSingleTransaction] Verificando se import ficou órfão...')
+      
+      const { data: remainingTransactions } = await supabase
+        .from('transactions')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('csv_import_id', transaction.csv_import_id)
+        .limit(1)
+
+      if (!remainingTransactions || remainingTransactions.length === 0) {
+        console.log('🗑️ [deleteSingleTransaction] Removendo import órfão...')
+        await supabase
+          .from('csv_imports')
+          .delete()
+          .eq('id', transaction.csv_import_id)
+          .eq('user_id', user.id)
+        console.log('✅ [deleteSingleTransaction] Import órfão removido')
+      }
     }
 
     revalidateDashboardPaths()

@@ -42,6 +42,48 @@ export default async function deleteAllTransactions(userId: string): Promise<Del
     throw new Error(`Erro ao deletar transações: ${deleteError.message}`)
   }
 
+  // Deletar todas as despesas recorrentes do usuário também
+  console.log('🗑️ [deleteAllTransactions] Deletando despesas recorrentes...')
+  const { error: recurringDeleteError } = await supabase
+    .from('recurringexpenses')
+    .delete()
+    .eq('user_id', userId)
+
+  if (recurringDeleteError) {
+    console.error('❌ [deleteAllTransactions] Erro ao deletar despesas recorrentes:', recurringDeleteError)
+    // Não falhar a operação, apenas log do erro
+  } else {
+    console.log('✅ [deleteAllTransactions] Despesas recorrentes deletadas com sucesso')
+  }
+
+  // Deletar sugestões de despesas recorrentes também
+  console.log('🗑️ [deleteAllTransactions] Deletando sugestões recorrentes...')
+  const { error: suggestionsDeleteError } = await supabase
+    .from('recurringsuggestions')
+    .delete()
+    .eq('user_id', userId)
+
+  if (suggestionsDeleteError) {
+    console.error('❌ [deleteAllTransactions] Erro ao deletar sugestões recorrentes:', suggestionsDeleteError)
+    // Não falhar a operação, apenas log do erro
+  } else {
+    console.log('✅ [deleteAllTransactions] Sugestões recorrentes deletadas com sucesso')
+  }
+
+  // Deletar todos os registros de import do usuário também
+  console.log('🗑️ [deleteAllTransactions] Deletando registros de import...')
+  const { error: importsDeleteError } = await supabase
+    .from('csv_imports')
+    .delete()
+    .eq('user_id', userId)
+
+  if (importsDeleteError) {
+    console.error('❌ [deleteAllTransactions] Erro ao deletar imports:', importsDeleteError)
+    // Não falhar a operação, apenas log do erro
+  } else {
+    console.log('✅ [deleteAllTransactions] Registros de import deletados com sucesso')
+  }
+
   revalidateDashboardPaths()
 
   const result = {
