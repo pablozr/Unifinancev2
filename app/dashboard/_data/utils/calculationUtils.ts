@@ -87,7 +87,8 @@ export const transformTransaction = (transaction: any): RecentTransaction => ({
   type: transaction.type === 'credit' ? 'income' : 'expense',
   date: transaction.date,
   categoryName: transaction.categories?.name,
-  categoryColor: transaction.categories?.color
+  categoryColor: transaction.categories?.color,
+  is_recurring: transaction.is_recurring,
 })
 
 /**

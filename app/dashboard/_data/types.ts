@@ -30,6 +30,7 @@ export interface RecentTransaction {
   date: Date
   categoryName?: string
   categoryColor?: string
+  is_recurring?: boolean | null
 }
 
 /** 

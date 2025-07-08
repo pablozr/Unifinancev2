@@ -50,6 +50,26 @@ export function AlertIcon({ size = 24, className, ...props }: IconProps) {
   )
 }
 
+// Ícone de Crédito
+export function CreditCardIcon({ size = 24, className, ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...props}
+    >
+      <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+    </svg>
+  )
+}
+
 // Ícone de Calendário (substitui 📅)
 export function CalendarIcon({ size = 24, className, ...props }: IconProps) {
   return (
@@ -153,9 +173,7 @@ export function ChartBarIcon({ size = 24, className, ...props }: IconProps) {
       className={className}
       {...props}
     >
-      <line x1="12" x2="12" y1="20" y2="10" />
-      <line x1="18" x2="18" y1="20" y2="4" />
-      <line x1="6" x2="6" y1="20" y2="16" />
+      <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
     </svg>
   )
 }
@@ -322,7 +340,7 @@ export function BellIcon({ size = 24, className, ...props }: IconProps) {
   )
 }
 
-// Ícone de Gráfico Crescente (substitui 📈)
+// Ícone de Tendência de Alta
 export function TrendingUpIcon({ size = 24, className, ...props }: IconProps) {
   return (
     <svg
@@ -337,13 +355,32 @@ export function TrendingUpIcon({ size = 24, className, ...props }: IconProps) {
       className={className}
       {...props}
     >
-      <polyline points="22,7 13.5,15.5 8.5,10.5 2,17" />
-      <polyline points="16,7 22,7 22,13" />
+      <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
     </svg>
   )
 }
 
-// Ícone de Robô (substitui 🤖)
+// Ícone de Tendência de Queda
+export function TrendingDownIcon({ size = 24, className, ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...props}
+    >
+      <path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+    </svg>
+  )
+}
+
+// Ícone de Bot (substitui 🤖)
 export function BotIcon({ size = 24, className, ...props }: IconProps) {
   return (
     <svg

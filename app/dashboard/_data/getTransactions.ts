@@ -1,4 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
+import { type Database } from '@/lib/types/database'
+
+type TransactionFromRpc = Database['public']['Tables']['transactions']['Row']
+type CategoryFromRpc = Database['public']['Tables']['categories']['Row']
+
+export type Transaction = TransactionFromRpc & {
+  categories?: CategoryFromRpc
+}
 
 interface TransactionQuery {
   userId: string
@@ -11,7 +19,9 @@ interface TransactionQuery {
   offset?: number
 }
 
-export default async function getTransactions(config: TransactionQuery) {
+export default async function getTransactions(
+  config: TransactionQuery
+): Promise<Transaction[]> {
   const supabase = await createClient()
   
   let query = supabase
@@ -45,6 +55,8 @@ export default async function getTransactions(config: TransactionQuery) {
 
   const { data, error } = await query
 
-  if (error) {throw new Error(`Erro ao buscar transações: ${error.message}`)}
-  return data || []
+  if (error) {
+    throw new Error(`Erro ao buscar transações: ${error.message}`)
+  }
+  return (data as unknown as Transaction[]) || []
 } 

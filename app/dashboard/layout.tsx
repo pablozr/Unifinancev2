@@ -2,6 +2,7 @@ import { requireAuthServer } from '@/lib/auth'
 import { DashboardNavigation } from './_components/DashboardNavigation'
 import AddTransactionModal from './_components/AddTransactionModal'
 import DeleteTransactionModal from './_components/DeleteTransactionModal'
+import ManageRecurringModal from './_components/ManageRecurringModal'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 export default async function DashboardLayout({
@@ -28,6 +29,7 @@ export default async function DashboardLayout({
         {/* Modais globais */}
         <AddTransactionModal />
         <DeleteTransactionModal userId={user.id} />
+        <ManageRecurringModal userId={user.id} />
         
       </div>
     </NuqsAdapter>

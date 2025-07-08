@@ -20,6 +20,7 @@ export interface Database {
           month: number | null
           year: number | null
           created_at: string
+          is_recurring: boolean | null
         }
         Insert: {
           id?: string
@@ -34,6 +35,7 @@ export interface Database {
           month?: number | null
           year?: number | null
           created_at?: string
+          is_recurring?: boolean | null
         }
         Update: {
           id?: string
@@ -48,6 +50,7 @@ export interface Database {
           month?: number | null
           year?: number | null
           created_at?: string
+          is_recurring?: boolean | null
         }
       }
       categories: {

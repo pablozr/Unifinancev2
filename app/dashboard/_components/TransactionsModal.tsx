@@ -127,46 +127,34 @@ export function TransactionsModal({ userId, currentFilter }: TransactionsModalPr
                   transition={{ delay: index * 0.05 }}
                   className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 hover:bg-gray-900/50 rounded-lg sm:rounded-xl transition-all duration-200 border border-transparent hover:border-gray-800/50 space-y-2 sm:space-y-0"
                 >
-                  <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
+                  {/* Left side: Icon + Description */}
+                  <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
                     <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
                       transaction.type === 'income' 
                         ? 'bg-green-600/20 text-green-400' 
                         : 'bg-red-600/20 text-red-400'
                     }`}>
-                      {transaction.type === 'income' ? (
-                        <TrendingUpIcon />
-                      ) : (
-                        <TrendingDownIcon />
-                      )}
+                      {transaction.type === 'income' ? <TrendingUpIcon /> : <TrendingDownIcon />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-medium mb-1 truncate text-sm sm:text-base lg:text-base">{transaction.description}</p>
+                      <p className="text-white font-medium mb-1 truncate text-sm sm:text-base lg:text-base" title={transaction.description}>
+                        {transaction.description}
+                      </p>
                       <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3 lg:space-x-4 text-xs sm:text-sm">
                         <span className="text-gray-400 truncate">
                           {transaction.categoryName || 'Sem categoria'}
                         </span>
-                        <span className="text-gray-500 sm:hidden">
-                          {formatDateIntl(transaction.date)}
-                        </span>
-                        <span className="text-gray-500 hidden sm:block">
-                          {formatDateIntl(transaction.date)}
-                        </span>
-                        <span className="text-gray-500 hidden lg:block">
-                          {formatRelativeDateBR(transaction.date)}
-                        </span>
+                        <span className="text-gray-500">{formatDateIntl(transaction.date)}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col sm:items-end space-y-1 sm:space-y-0">
+
+                  {/* Right side: Amount */}
+                  <div className="self-end sm:self-center">
                     <p className={`text-base sm:text-lg lg:text-xl font-bold ${
-                      transaction.type === 'income'
-                        ? 'text-green-400'
-                        : 'text-red-400'
+                      transaction.type === 'income' ? 'text-green-400' : 'text-red-400'
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                    </p>
-                    <p className="text-gray-500 text-xs sm:hidden">
-                      {formatRelativeDateBR(transaction.date)}
                     </p>
                   </div>
                 </motion.div>

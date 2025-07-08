@@ -15,6 +15,7 @@ export { default as getDashboardStats } from './getDashboardStats'
 export { default as getFilteredDashboardStats } from './getFilteredDashboardStats'
 export { default as getRecentTransactions } from './getRecentTransactions'
 export { default as getAllTransactions } from './getAllTransactions'
+export { default as getRecurringVsVariableData } from './getRecurringVsVariableData'
 
 export { default as getTransactions } from './getTransactions'
 export { default as getTransactionCount } from './getTransactionCount'
