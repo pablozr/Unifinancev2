@@ -5,8 +5,6 @@ import FixedVariableChart from './_components/FixedVariableChart'
 import RecurringTransactionsList from './_components/RecurringTransactionsList'
 import { getExpenseBreakdown } from './_data/getExpenseBreakdown'
 import type { PeriodFilter } from '@/app/dashboard/_data/types'
-import { getCashFlowProjection } from './_data/getCashFlowProjection'
-import CashFlowProjectionChart from './_components/CashFlowProjectionChart'
 
 // Componente para carregar e exibir os dados
 async function InsightsContent({
@@ -16,26 +14,10 @@ async function InsightsContent({
   userId: string
   filter: PeriodFilter
 }) {
-  const [expenseData, projectionData] = await Promise.all([
-    getExpenseBreakdown(userId, filter),
-    getCashFlowProjection(userId, filter),
-  ])
+  const expenseData = await getExpenseBreakdown(userId, filter)
 
   return (
     <div className="space-y-6">
-      {/* Card de Projeção de Fluxo de Caixa */}
-      <div className="group bg-black border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition-colors">
-        <div className="relative z-10">
-          <h2 className="text-xl font-semibold text-white mb-2">
-            Projeção de Fluxo de Caixa (Próximos 30 dias)
-          </h2>
-          <p className="text-gray-400 text-sm mb-6">
-            Baseada nos padrões de receitas e despesas detectados automaticamente
-          </p>
-          <CashFlowProjectionChart data={projectionData.projection} />
-        </div>
-      </div>
-
       {/* Card do Gráfico */}
       <div className="group bg-black border border-gray-800 rounded-2xl p-6 hover:border-gray-700 transition-colors">
         <div className="relative z-10">
